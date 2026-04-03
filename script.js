@@ -1,0 +1,217 @@
+// XP tables: cumulative XP required to reach each level (index 0 = level 1)
+const XP_TABLES = {
+  bedwars: [
+    0, 150, 450, 900, 1500, 2250, 3150, 4200, 5400, 6750,
+    8250, 9900, 11700, 13650, 15750, 18000, 20400, 22950, 25650, 28500,
+    31500, 34650, 37950, 41400, 45000, 48750, 52650, 56700, 60900, 65250,
+    69750, 74400, 79200, 84150, 89250, 94500, 99900, 105450, 111150, 117000,
+    123000, 129150, 135450, 141900, 148500, 155250, 162150, 169200, 176400, 183750,
+    191250, 198900, 206550, 214200, 221850, 229500, 237150, 244800, 252450, 260100,
+    267750, 275400, 283050, 290700, 298350, 306000, 313650, 321300, 328950, 336600,
+    344250, 351900, 359550, 367200, 374850, 382500, 390150, 397800, 405450, 413100,
+    420750, 428400, 436050, 443700, 451350, 459000, 466650, 474300, 481950, 489600,
+    497250, 504900, 512550, 520200, 527850, 535500, 543150, 550800, 558450, 566100
+  ],
+  skywars: [
+    0, 150, 450, 900, 1500, 2250, 3150, 4200, 5400, 6750,
+    8250, 9900, 11700, 13650, 15750, 18000, 20400, 22950, 25650, 28500,
+    31500, 34650, 37950, 41400, 45000, 48750, 52650, 56700, 60900, 65250,
+    69750, 74400, 79200, 84150, 89250, 94500, 99900, 105450, 111150, 117000,
+    123000, 129150, 135450, 141900, 148500, 155250, 162150, 169200, 176400, 183750,
+    191250, 198900, 206550, 214200, 221850, 229500, 237150, 244800, 252450, 260100,
+    267750, 275400, 283050, 290700, 298350, 306000, 313650, 321300, 328950, 336600,
+    344250, 351900, 359550, 367200, 374850, 382500, 390150, 397800, 405450, 413100,
+    420750, 428400, 436050, 443700, 451350, 459000, 466650, 474300, 481950, 489600,
+    497250, 504900, 512550, 520200, 527850, 535500, 543150, 550800, 558450, 566100
+  ],
+  blockdrop: [
+    0, 150, 450, 900, 1500, 2250, 3150, 4200, 5400, 6750,
+    8250, 9900, 11700, 13650, 15750, 18000, 20400, 22950, 25650, 28500,
+    31500, 34650, 37800, 40950, 44100
+  ],
+  blockparty: [
+    0, 150, 450, 900, 1500, 2250, 3150, 4200, 5400, 6750,
+    8250, 9900, 11700, 13650, 15750, 18000, 20400, 22950, 25650, 28500,
+    31500, 34650, 37950, 41400, 45000
+  ],
+  bridge: [
+    0, 300, 924, 1897, 3246, 5001, 7194, 9860, 13036, 16762,
+    21082, 26043, 31696, 38096, 45302, 53378, 62393, 72422, 83546, 95852
+  ],
+  buildbattle: [
+    0, 100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500,
+    5500, 6600, 7800, 9100, 10500, 12000, 13600, 15300, 17100, 19000,
+    21000, 23000, 25300, 27600, 30000, 32500, 35500, 37800, 40600, 43500
+  ],
+  ctf: [
+    0, 150, 450, 900, 1500, 2250, 3150, 4200, 5400, 6750,
+    8250, 9900, 11700, 13650, 15750, 18000, 20400, 22950, 25650, 28500,
+    31500, 34650, 37950, 41400, 45000, 48750, 52650, 56700, 60900, 65250,
+    69750, 74400, 79200, 84150, 89250, 94500, 99900, 105450, 111150, 117000,
+    123000, 129150, 135450, 141900, 148500, 155250, 162150, 169200, 176400, 183750
+  ],
+  deathrun: [
+    0, 200, 600, 1200, 2000, 3000, 4200, 5600, 7200, 9000,
+    11000, 13200, 15600, 18200, 21000, 24000, 27200, 30600, 34200, 38000,
+    42000, 46200, 50600, 55200, 60000, 65000, 70200, 75600, 81200, 87000,
+    93000, 99200, 105600, 112200, 119000, 126000, 133200, 140600, 148200, 156000,
+    164000, 172200, 180400, 188600, 196800, 205000, 213200, 221400, 229600, 237800,
+    246000, 254200, 262400, 270600, 278800, 287000, 295200, 303400, 311600, 319800,
+    328000, 336200, 344400, 352600, 360800, 369000, 377200, 385400, 393600, 401800,
+    410000, 418200, 426400, 434600, 442800
+  ],
+  gravity: [
+    0, 150, 450, 900, 1500, 2250, 3150, 4200, 5400, 6750,
+    8250, 9900, 11700, 13650, 15750, 18000, 20400, 22950, 25650, 28500,
+    31500, 34650, 37950, 41400, 45000
+  ],
+  groundwars: [
+    0, 150, 450, 900, 1500, 2250, 3150, 4200, 5400, 6750,
+    8250, 9900, 11700, 13650, 15750, 18000, 20400, 22950, 25650, 28500
+  ],
+  hideandseek: [
+    0, 100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500,
+    5500, 6600, 7800, 9100, 10500, 12000, 13600, 15300, 17100, 19000,
+    21000, 23100, 25300, 27600, 30000, 32500, 35100, 37800, 40600, 43500,
+    46500, 49600, 52800, 56100, 59500, 63000, 66600, 70300, 74100, 78000,
+    82000, 86100, 90300, 94600, 99000, 103500, 108100, 112800, 117600, 122500,
+    127500, 132600, 137800, 143100, 148500, 154000, 159600, 165300, 171100, 177000,
+    183000, 189100, 195300, 201600, 208000, 214500, 221100, 227800, 234600, 241500,
+    248500, 255600, 262800, 270100, 277500
+  ],
+  murdermystery: [
+    0, 100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500,
+    5500, 6600, 7800, 9100, 10500, 12000, 13600, 15300, 17100, 19000,
+    21000, 23100, 25300, 27600, 30000, 32500, 35100, 37800, 40600, 43500,
+    46500, 49600, 52800, 56100, 59500, 63000, 66600, 70300, 74100, 78000,
+    82000, 86100, 90300, 94600, 99000, 103500, 108100, 112800, 117600, 122500,
+    127500, 132600, 137800, 143100, 148500, 154000, 159600, 165300, 171100, 177000,
+    183000, 189100, 195300, 201600, 208000, 214500, 221100, 227800, 234600, 241500,
+    248500, 255600, 262800, 270100, 277500, 285000, 292600, 300300, 308100, 316000,
+    324000, 332100, 340200, 348300, 356400, 364500, 372600, 380700, 388800, 396900,
+    405000, 413100, 421200, 429300, 437400, 445500, 453600, 461700, 469800, 477900
+  ],
+  survivalgames: [
+    0, 150, 450, 900, 1500, 2250, 3150, 4200, 5400, 6750,
+    8250, 9900, 11700, 13650, 15750, 18000, 20400, 22950, 25650, 28500,
+    31500, 34650, 37950, 41400, 45000, 48750, 52650, 56700, 60900, 65250,
+    69750, 74400, 79200, 84150, 89250, 94500, 99900, 105450, 111150, 117000,
+    123000, 129150, 135450, 141900, 148500, 155250, 162150, 169200, 176400, 183750
+  ]
+};
+
+// Find current level and next level XP
+function getLevelInfo(mode, xp) {
+  const table = XP_TABLES[mode];
+  if (!table) return null;
+
+  let level = 1;
+  for (let i = 0; i < table.length; i++) {
+    if (xp >= table[i]) level = i + 1;
+    else break;
+  }
+
+  const maxLevel = table.length;
+  const currentLevelXp = table[level - 1];
+  const nextLevel = level < maxLevel ? level + 1 : level;
+  const nextLevelXp = table[nextLevel - 1];
+  const xpToNext = level === maxLevel ? 0 : Math.max(0, nextLevelXp - xp);
+  const progressToNext =
+    level === maxLevel ? 1 : (xp - currentLevelXp) / (nextLevelXp - currentLevelXp);
+
+  return {
+    level,
+    maxLevel,
+    currentLevelXp,
+    nextLevel,
+    nextLevelXp,
+    xpToNext,
+    progressToNext: Math.max(0, Math.min(1, progressToNext))
+  };
+}
+
+function formatPercent(value) {
+  return (value * 100).toFixed(2) + "%";
+}
+
+function formatNumber(n) {
+  return n.toLocaleString("en-US", { maximumFractionDigits: 2 });
+}
+
+document.getElementById("calcBtn").addEventListener("click", () => {
+  const mode = document.getElementById("modeSelect").value;
+  const xp = Number(document.getElementById("xpInput").value) || 0;
+  const games = Number(document.getElementById("gamesInput").value) || 0;
+  const wins = Number(document.getElementById("winsInput").value) || 0;
+  const targetLevelInput = document.getElementById("targetLevelInput").value;
+  const targetLevel = targetLevelInput ? Number(targetLevelInput) : null;
+
+  const resultsDiv = document.getElementById("results");
+
+  const table = XP_TABLES[mode];
+  if (!table) {
+    resultsDiv.innerHTML = "<p>Unknown gamemode.</p>";
+    return;
+  }
+
+  const info = getLevelInfo(mode, xp);
+  if (!info) {
+    resultsDiv.innerHTML = "<p>Could not compute level.</p>";
+    return;
+  }
+
+  const winrate = games > 0 ? wins / games : 0;
+  const xpPerGame = games > 0 ? xp / games : 0;
+
+  // Target: next level by default, or user-specified level
+  let targetLvl = targetLevel && targetLevel >= 1 ? targetLevel : info.nextLevel;
+  if (targetLvl > info.maxLevel) targetLvl = info.maxLevel;
+  const targetXp = table[targetLvl - 1];
+  const xpRemainingToTarget = Math.max(0, targetXp - xp);
+  const gamesNeededToTarget = xpPerGame > 0 ? xpRemainingToTarget / xpPerGame : 0;
+  const winsNeededToTarget = gamesNeededToTarget * winrate;
+
+  resultsDiv.innerHTML = `
+    <div class="result-grid">
+      <div class="result-item">
+        <h3>Current Level</h3>
+        <p>${info.level} / ${info.maxLevel}</p>
+      </div>
+      <div class="result-item">
+        <h3>XP</h3>
+        <p>${formatNumber(xp)} XP</p>
+        <p class="small">Next level at ${formatNumber(info.nextLevelXp)} XP</p>
+      </div>
+      <div class="result-item">
+        <h3>Progress to Next Level</h3>
+        <p>${formatPercent(info.progressToNext)}</p>
+        <p class="small">${formatNumber(info.xpToNext)} XP remaining</p>
+      </div>
+      <div class="result-item">
+        <h3>Winrate</h3>
+        <p>${formatPercent(winrate)}</p>
+        <p class="small">${formatNumber(wins)} wins / ${formatNumber(games)} games</p>
+      </div>
+      <div class="result-item">
+        <h3>XP per Game</h3>
+        <p>${formatNumber(xpPerGame)} XP</p>
+      </div>
+      <div class="result-item">
+        <h3>Target Level</h3>
+        <p>Level ${targetLvl}</p>
+        <p class="small">${formatNumber(xpRemainingToTarget)} XP remaining</p>
+      </div>
+      <div class="result-item">
+        <h3>Games Needed (to Target)</h3>
+        <p>${xpPerGame > 0 ? formatNumber(gamesNeededToTarget) : "N/A"}</p>
+      </div>
+      <div class="result-item">
+        <h3>Wins Needed (to Target)</h3>
+        <p>${xpPerGame > 0 ? formatNumber(winsNeededToTarget) : "N/A"}</p>
+      </div>
+    </div>
+    <p class="small">
+      Note: XP tables are cumulative. Target level defaults to your next level if left empty.
+    </p>
+  `;
+});
