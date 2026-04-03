@@ -10,22 +10,14 @@
 * {
   box-sizing: border-box;
   font-family: "MinecraftTen", sans-serif;
-  text-transform: lowercase; /* default: everything lowercase */
+  text-transform: none; /* everything stays as typed */
+  font-weight: normal;  /* ensure no bold anywhere */
 }
 
 body {
   margin: 0;
   background: #0b0c10;
   color: #f5f5f5;
-}
-
-/* Elements that SHOULD look bold → now UPPERCASE */
-h1, h2, h3,
-strong, b,
-.result-item p,
-button,
-.card h2 {
-  text-transform: uppercase;
 }
 
 /* Layout */
@@ -39,9 +31,9 @@ h1 {
   text-align: center;
   margin-bottom: 24px;
   font-size: 32px;
+  font-weight: normal; /* no bold */
 }
 
-/* Card containers */
 .card {
   background: #15171f;
   border-radius: 12px;
@@ -54,6 +46,7 @@ h1 {
   margin-top: 0;
   margin-bottom: 16px;
   font-size: 22px;
+  font-weight: normal; /* no bold */
 }
 
 /* Form elements */
@@ -61,6 +54,7 @@ label {
   display: block;
   margin-bottom: 12px;
   font-size: 16px;
+  font-weight: normal;
 }
 
 input,
@@ -73,6 +67,7 @@ select {
   background: #0f1118;
   color: #f5f5f5;
   font-size: 16px;
+  font-weight: normal;
 }
 
 input:focus,
@@ -91,6 +86,7 @@ button {
   color: #0b0c10;
   cursor: pointer;
   font-size: 16px;
+  font-weight: normal; /* no bold */
 }
 
 button:hover {
@@ -115,17 +111,18 @@ button:hover {
   margin: 0 0 4px;
   font-size: 14px;
   color: #a0aec0;
-  text-transform: uppercase;
+  font-weight: normal; /* no bold */
 }
 
 .result-item p {
   margin: 0;
   font-size: 16px;
+  font-weight: normal; /* no bold */
 }
 
 .small {
   font-size: 12px;
   color: #a0aec0;
   margin-top: 8px;
-  text-transform: lowercase;
+  font-weight: normal; /* no bold */
 }
