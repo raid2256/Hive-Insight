@@ -1,6 +1,15 @@
+/* Load your custom Minecraft font */
+@font-face {
+  font-family: "Minecraft";
+  src: url("fonts/Minecraft.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Global styling */
 * {
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Minecraft", sans-serif;
 }
 
 body {
@@ -9,6 +18,12 @@ body {
   color: #f5f5f5;
 }
 
+/* Bold text (browser will synthesize bold) */
+strong, b, h1, h2, h3, .bold {
+  font-weight: bold;
+}
+
+/* Layout */
 .app {
   max-width: 900px;
   margin: 40px auto;
@@ -18,8 +33,10 @@ body {
 h1 {
   text-align: center;
   margin-bottom: 24px;
+  font-size: 32px;
 }
 
+/* Card containers */
 .card {
   background: #15171f;
   border-radius: 12px;
@@ -31,16 +48,14 @@ h1 {
 .card h2 {
   margin-top: 0;
   margin-bottom: 16px;
+  font-size: 22px;
 }
 
+/* Form elements */
 label {
   display: block;
   margin-bottom: 12px;
-  font-size: 0.95rem;
-}
-
-label span {
-  display: block;
+  font-size: 16px;
 }
 
 input,
@@ -52,6 +67,7 @@ select {
   border: 1px solid #33384a;
   background: #0f1118;
   color: #f5f5f5;
+  font-size: 16px;
 }
 
 input:focus,
@@ -60,6 +76,7 @@ select:focus {
   border-color: #4fd1c5;
 }
 
+/* Button */
 button {
   margin-top: 10px;
   padding: 10px 18px;
@@ -67,14 +84,16 @@ button {
   border: none;
   background: #4fd1c5;
   color: #0b0c10;
-  font-weight: 600;
+  font-weight: bold;
   cursor: pointer;
+  font-size: 16px;
 }
 
 button:hover {
   background: #38b2ac;
 }
 
+/* Results grid */
 .result-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -90,18 +109,18 @@ button:hover {
 
 .result-item h3 {
   margin: 0 0 4px;
-  font-size: 0.9rem;
+  font-size: 14px;
   color: #a0aec0;
 }
 
 .result-item p {
   margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .small {
-  font-size: 0.85rem;
+  font-size: 12px;
   color: #a0aec0;
   margin-top: 8px;
 }
