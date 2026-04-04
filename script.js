@@ -245,14 +245,18 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     </p>
   `;
 
-  // Progress bar update
-  const progressBarContainer = document.getElementById("progressBarContainer");
-  const progressBar = document.getElementById("progressBar");
+ // Progress bar update
+const progressBarContainer = document.getElementById("progressBarContainer");
+const progressBar = document.getElementById("progressBar");
+const progressText = document.getElementById("progressText");
 
-  if (progressBarContainer && progressBar) {
-    progressBarContainer.style.display = "block";
-    progressBar.style.width = formatPercent(info.progressToNext);
-  }
+if (progressBarContainer && progressBar && progressText) {
+  progressBarContainer.style.display = "block";
 
+  const percentText = formatPercent(info.progressToNext);
+
+  progressBar.style.width = percentText;
+  progressText.textContent = percentText;
+}
 
 });
