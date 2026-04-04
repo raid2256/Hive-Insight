@@ -275,11 +275,16 @@ document.getElementById("grindCalcBtn").addEventListener("click", () => {
     return;
   }
 
-  const xpPerGame = games > 0 ? xp / games : 0;
+  if (!globalTable.length) {
+    grindDiv.innerHTML = "<p>Please calculate your stats first.</p>";
+    return;
+  }
+
+  const xpPerGame = globalGames > 0 ? globalXp / globalGames : 0;
   const xpPerDay = xpPerGame * gpd;
 
-  const maxXp = table[table.length - 1];
-  const xpRemaining = Math.max(0, maxXp - xp);
+  const maxXp = globalTable[globalTable.length - 1];
+  const xpRemaining = Math.max(0, maxXp - globalXp);
 
   const daysToMax = xpPerDay > 0 ? xpRemaining / xpPerDay : Infinity;
   const hoursPerDay = (avgMins * gpd) / 60;
