@@ -328,3 +328,70 @@ document.getElementById("grindCalcBtn").addEventListener("click", () => {
     </div>
   `;
 });
+
+// Goal Date Planner
+document.getElementById("goalCalcBtn").addEventListener("click", () => {
+  const goalLevel = Number(document.getElementById("goalLevel").value);
+  const goalDateInput = document.getElementById("goalDate").value;
+
+  const goalDiv = document.getElementById("goalResults");
+
+  if (!goalLevel || !goalDateInput) {
+    goalDiv.innerHTML = "<p>Please enter a target level and date.</p>";
+    return;
+  }
+
+  if (!globalTable.length) {
+    goalDiv.innerHTML = "<p>Please calculate your stats first.</p>";
+    return;
+  }
+
+  const goalDate = new Date(goalDateInput);
+  const today = new Date();
+
+  const daysLeft = Math.ceil((goalDate - today) / (1000 * 60 * 60 * 24));
+
+  if (daysLeft <= 0) {
+    goalDiv.innerHTML = "<p>The date must be in the future.</p>";
+    return;
+  }
+
+  const maxLevel = globalTable.length;
+  const safeGoalLevel = Math.min(goalLevel, maxLevel);
+
+  const goalXp = globalTable[safeGoalLevel - 1];
+  const xpRemaining = Math.max(0, goalXp - globalXp);
+
+  const xpPerDayNeeded = xpRemaining / daysLeft;
+
+  const xpPerGame = globalGames > 0 ? globalXp / globalGames : 0;
+  const gamesPerDayNeeded = xpPerGame > 0 ? xpPerDayNeeded / xpPerGame : Infinity;
+
+  goalDiv.innerHTML = `
+    <div class="result-grid">
+      <div class="result-item">
+        <h3>Days Left</h3>
+        <p>${daysLeft}</p>
+      </div>
+
+      <div class="result-item">
+        <h3>XP Needed</h3>
+        <p>${formatNumber(xpRemaining)} XP</p>
+      </div>
+
+      <div class="result-item">
+        <h3>XP per Day Required</h3>
+        <p>${formatNumber(xpPerDayNeeded)}</p>
+      </div>
+
+      <div class="result-item">
+        <h3>Games per Day Required</h3>
+        <p>${gamesPerDayNeeded === Infinity ? "N/A" : gamesPerDayNeeded.toFixed(1)}</p>
+      </div>
+    </div>
+
+    <p class="small">
+      Goal: Reach Level ${safeGoalLevel} by ${goalDate.toDateString()}
+    </p>
+  `;
+});
