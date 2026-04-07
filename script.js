@@ -31,13 +31,15 @@ document.getElementById("loadStatsBtn").addEventListener("click", async () => {
 
   status.textContent = "Stats loaded!";
 
-  // Get selected mode
-const mode = document.getElementById("modeSelect").value;
+  // Get the selected mode (matches API keys exactly)
+  const mode = document.getElementById("modeSelect").value;
 
-document.getElementById("xpInput").value = data[mode]?.xp ?? 0;
-document.getElementById("winsInput").value = data[mode]?.victories ?? 0;
-document.getElementById("gamesInput").value = data[mode]?.played ?? 0;
+  // Auto-fill XP, wins, games
+  document.getElementById("xpInput").value = data[mode]?.xp ?? 0;
+  document.getElementById("winsInput").value = data[mode]?.victories ?? 0;
+  document.getElementById("gamesInput").value = data[mode]?.played ?? 0;
 });
+
 
 
 let globalXp = 0;
