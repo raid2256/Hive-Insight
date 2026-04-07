@@ -40,6 +40,22 @@ document.getElementById("loadStatsBtn").addEventListener("click", async () => {
   document.getElementById("gamesInput").value = data[mode]?.played ?? 0;
 });
 
+// Map API gamemode keys → XP table keys
+const XP_MODE_MAP = {
+  bed: "bedwars",
+  sky: "skywars",
+  dr: "deathrun",
+  party: "blockparty",
+  drop: "blockdrop",
+  ctf: "ctf",
+  murder: "murdermystery",
+  sg: "survivalgames",
+  hide: "hideandseek",
+  ground: "groundwars",
+  build: "buildbattle",
+  bridge: "bridge",
+  grav: "gravity"
+};
 
 
 let globalXp = 0;
@@ -141,7 +157,7 @@ const XP_TABLES = {
 
 // Compute level info
 function getLevelInfo(mode, xp) {
-  const table = XP_TABLES[mode];
+  const table = XP_TABLES[XP_MODE_MAP[mode]];
   if (!table) return null;
 
   let level = 1;
@@ -231,7 +247,7 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     return;
   }
 
-  const info = getLevelInfo(mode, xp);
+  const info = getLevelInfo(XP_MODE_MAP[mode], xp);
   if (!info) {
     resultsDiv.innerHTML = "<p>Could not compute level.</p>";
     return;
