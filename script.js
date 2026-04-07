@@ -1,3 +1,45 @@
+// ⭐ Load Hive Stats Automatically
+async function loadHiveStats(username) {
+  const url = `https://api.playhive.com/v0/game/all/all/${username}`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("User not found");
+    return await res.json();
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+document.getElementById("loadStatsBtn").addEventListener("click", async () => {
+  const username = document.getElementById("usernameInput").value.trim();
+  const status = document.getElementById("loadStatus");
+
+  if (!username) {
+    status.textContent = "Please enter a username.";
+    return;
+  }
+
+  status.textContent = "Loading stats...";
+
+  const data = await loadHiveStats(username);
+
+  if (!data) {
+    status.textContent = "User not found.";
+    return;
+  }
+
+  status.textContent = "Stats loaded!";
+
+  // Get selected mode
+  const mode = document.getElementById("modeSelect").value;
+
+  // Auto-fill XP, wins, games
+  document.getElementById("xpInput").value = data[mode]?.xp ?? 0;
+  document.getElementById("winsInput").value = data[mode]?.victories ?? 0;
+  document.getElementById("gamesInput").value = data[mode]?.played ?? 0;
+});
+
 
 let globalXp = 0;
 let globalGames = 0;
