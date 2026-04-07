@@ -2,35 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Hive Progress Analyzer — XP, Level & Grind Calculator</title>
+  <title>Hive Progress Analyser — XP, Level & Grind Calculator</title>
 
-  <!-- SEO -->
-  <meta name="description" content="Hive Progress Analyzer — calculate XP, levels, grind time, and progress for Hive minigames including BedWars, SkyWars, Deathrun, and more.">
-  <meta name="keywords" content="Hive, HiveMC, Hive XP, Hive Level Calculator, Hive Progress, Bedwars XP, Skywars XP, Hive Tools, Hive Stats">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="Raid224">
-
-  <!-- Social Sharing (OpenGraph) -->
-  <meta property="og:title" content="Hive Progress Analyzer">
-  <meta property="og:description" content="Analyze your Hive XP, levels, grind time, and progress with this advanced calculator.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://raid2256.github.io/Hive-Progress-Analyser/">
-  <meta property="og:image" content="https://raid2256.github.io/Hive-Progress-Analyser/preview.png">
-
-  <!-- Mobile -->
+  <meta name="description" content="Hive Progress Analyser — calculate XP, levels, grind time, and progress for Hive minigames including BedWars, SkyWars, Deathrun, and more.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <div class="app">
-    <h1>Hive Progress Analyzer</h1>
+    <h1>Hive Progress Analyser</h1>
 
     <p style="opacity:0.8; margin-top:-10px;">
       A complete XP, level, and grind calculator for Hive minigames. Supports BedWars, SkyWars, Deathrun, Block Drop, and more.
     </p>
+
+    <!-- ⭐ NEW: Username Auto-Fetch Section -->
+    <section class="card">
+      <h2>Load Stats Automatically</h2>
+
+      <label>
+        Hive Username
+        <input type="text" id="usernameInput" placeholder="Enter IGN">
+      </label>
+
+      <button id="loadStatsBtn">Load Stats</button>
+
+      <div id="loadStatus" style="margin-top:10px; opacity:0.8;"></div>
+    </section>
 
     <!-- INPUT CARD -->
     <section class="card">
@@ -39,19 +39,14 @@
       <label>
         Gamemode
         <select id="modeSelect">
-          <option value="bedwars">BedWars</option>
-          <option value="skywars">SkyWars</option>
-          <option value="blockdrop">Block Drop</option>
-          <option value="blockparty">Block Party</option>
-          <option value="bridge">The Bridge</option>
-          <option value="buildbattle">Build Battle</option>
+          <option value="bed">BedWars</option>
+          <option value="sky">SkyWars</option>
+          <option value="dr">Deathrun</option>
+          <option value="bp">Block Party</option>
+          <option value="bd">Block Drop</option>
           <option value="ctf">Capture the Flag</option>
-          <option value="deathrun">Deathrun</option>
-          <option value="gravity">Gravity</option>
-          <option value="groundwars">Ground Wars</option>
-          <option value="hideandseek">Hide and Seek</option>
-          <option value="murdermystery">Murder Mystery</option>
-          <option value="survivalgames">Survival Games</option>
+          <option value="mm">Murder Mystery</option>
+          <option value="sg">Survival Games</option>
         </select>
       </label>
 
@@ -85,7 +80,6 @@
         <p>Fill in your stats and click Calculate.</p>
       </div>
 
-      <!-- PROGRESS BAR -->
       <div id="progressBarContainer" style="
         margin-top:20px;
         display:none;
@@ -137,7 +131,7 @@
       <div id="grindResults" style="margin-top:15px;"></div>
     </section>
 
-    <!-- ⭐ GOAL PLANNER -->
+    <!-- GOAL PLANNER -->
     <section class="card">
       <h2>Goal Planner</h2>
 
