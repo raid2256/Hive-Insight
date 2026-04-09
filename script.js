@@ -495,6 +495,10 @@ function generateOverviewCards(data) {
   for (const mode in data) {
     const stats = data[mode];
     if (!stats || (!stats.xp && !stats.played)) continue; // skip unused modes
+    
+    // Skip modes that don't have XP tables
+if (!XP_MODE_MAP[mode]) continue;
+
 
     const xp = stats.xp ?? 0;
     const played = stats.played ?? 0;
