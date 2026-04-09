@@ -529,3 +529,16 @@ function generateOverviewCards(data) {
     container.appendChild(card);
   }
 }
+
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    const tab = btn.dataset.tab;
+
+    document.querySelectorAll(".tab-content").forEach(sec => sec.style.display = "none");
+
+    document.getElementById(`tab-${tab}`).style.display = "block";
+  });
+});
