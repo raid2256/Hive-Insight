@@ -522,9 +522,14 @@ function generateOverviewCards(data) {
         Max Progress: ${((xp / XP_TABLES[XP_MODE_MAP[mode]][XP_TABLES[XP_MODE_MAP[mode]].length - 1]) * 100).toFixed(1)}%<br>
       </div>
 
-      <div class="mini-progress">
-        <div class="mini-progress-fill" style="width:${percent}%"></div>
-      </div>
+      <div class="mini-progress-label">
+  Level ${info.level} → ${info.nextLevel}
+</div>
+
+<div class="mini-progress">
+  <div class="mini-progress-fill" style="width:${percent}%"></div>
+  <div class="mini-progress-text">${percent}%</div>
+</div>
     `;
 
     container.appendChild(card);
