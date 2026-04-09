@@ -519,6 +519,7 @@ function generateOverviewCards(data) {
         Played: ${played.toLocaleString()}<br>
         Wins: ${wins.toLocaleString()}<br>
         Win %: ${winrate}%<br>
+        Max Progress: ${((xp / XP_TABLES[XP_MODE_MAP[mode]][XP_TABLES[XP_MODE_MAP[mode]].length - 1]) * 100).toFixed(1)}%<br>
       </div>
 
       <div class="mini-progress">
