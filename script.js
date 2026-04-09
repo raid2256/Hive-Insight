@@ -228,7 +228,7 @@ document.getElementById("calcBtn").addEventListener("click", () => {
   const resultsDiv = document.getElementById("results");
 
   // DEFINE TABLE FIRST (fixes your error)
-  const table = XP_TABLES[mode];
+ const table = XP_TABLES[XP_MODE_MAP[mode]];
 
   // Update globals for grind calculator
   globalXp = xp;
@@ -247,7 +247,7 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     return;
   }
 
-  const info = getLevelInfo(XP_MODE_MAP[mode], xp);
+  const info = getLevelInfo(mode, xp);
   if (!info) {
     resultsDiv.innerHTML = "<p>Could not compute level.</p>";
     return;
