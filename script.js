@@ -468,3 +468,62 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
     document.getElementById(`tab-${tab}`).style.display = "block";
   });
 });
+
+// ⭐ OVERVIEW CARD GENERATOR
+function generateOverviewCards(data) {
+  const container = document.getElementById("overviewContainer");
+  container.innerHTML = "";
+
+  const modeNames = {
+    bed: "BedWars",
+    sky: "SkyWars",
+    dr: "Deathrun",
+    party: "Block Party",
+    drop: "Block Drop",
+    ctf: "Capture the Flag",
+    murder: "Murder Mystery",
+    sg: "Survival Games",
+    hide: "Hide and Seek",
+    ground: "Ground Wars",
+    build: "Build Battle",
+    bridge: "The Bridge",
+    grav: "Gravity"
+  };
+
+  for (const mode in data) {
+    const stats = data[mode];
+    if (!stats || (!stats.xp && !stats.played)) continue; // skip unused modes
+
+    const xp = stats.xp ?? 0;
+    const played = stats.played ?? 0;
+    const wins = stats.victories ?? 0;
+    const losses = played - wins;
+    const winrate = played > 0 ? ((wins / played) * 100).toFixed(2) : "0.00";
+
+    // Level calculation
+    const info = getLevelInfo(mode, xp);
+    const percent = (info.progressToNext * 100).toFixed(1);
+
+    // Create card
+    const card = document.createElement("div");
+    card.className = "overview-card";
+
+    card.innerHTML = `
+      <h3>${modeNames[mode]}</h3>
+      <div class="overview-stats">
+        XP: ${xp.toLocaleString()}<br>
+        Level: ${info.level} / ${info.maxLevel}<br>
+        Progress: ${percent}%<br>
+        Played: ${played.toLocaleString()}<br>
+        Wins: ${wins.toLocaleString()}<br>
+        Win %: ${winrate}%<br>
+      </div>
+
+      <div class="mini-progress">
+        <div class="mini-progress-fill" style="width:${percent}%"></div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  }
+}
