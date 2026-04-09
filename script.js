@@ -332,11 +332,21 @@ if (progressBarContainer && progressBar && progressText) {
   const rawPercent = (xp / maxXp) * 100;
   const percentText = rawPercent.toFixed(2) + "%";
 
-  progressBar.style.width = rawPercent + "%";
+  // Reset width instantly (no animation)
+  progressBar.style.transition = "none";
+  progressBar.style.width = "0%";
+
+  // Force browser to apply the reset before animating
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      progressBar.style.transition = "width 0.8s ease-in-out";
+      progressBar.style.width = rawPercent + "%";
+    });
+  });
+
   progressText.textContent = percentText;
 }
 
-});
 
 // Grind Calculator
 document.getElementById("grindCalcBtn").addEventListener("click", () => {
