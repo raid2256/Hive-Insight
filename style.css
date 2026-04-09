@@ -229,3 +229,20 @@ button:hover {
   margin-bottom: 4px;
   opacity: 0.9;
 }
+
+.progress-bar {
+  height: 8px;
+  width: 0%;
+  background: linear-gradient(90deg, #ffcc00, #ff9900);
+  border-radius: 4px;
+  transition: width 0.8s ease-in-out;
+}
+
+.progress-container {
+  width: 100%;
+  background: #222;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 8px;
+  margin-top: 6px;
+}
