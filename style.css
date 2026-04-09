@@ -118,3 +118,32 @@ button:hover {
   color: #a0aec0;
   margin-top: 8px;
 }
+
+/* ⭐ TAB SYSTEM */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+  justify-content: center;
+}
+
+.tab-btn {
+  padding: 10px 18px;
+  background: #1f2330;
+  border: 1px solid #333;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.2s;
+  font-size: 16px;
+}
+
+.tab-btn:hover {
+  background: #2a2f3f;
+}
+
+.tab-btn.active {
+  background: #4fd1c5;
+  color: black;
+  font-weight: bold;
+}
