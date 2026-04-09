@@ -31,7 +31,7 @@ document.getElementById("loadStatsBtn").addEventListener("click", async () => {
 
   status.textContent = "Stats loaded!";
 generateOverviewCards(data);
-
+window.lastLoadedStats = data;
 
   // Get the selected mode (matches API keys exactly)
   const mode = document.getElementById("modeSelect").value;
@@ -547,4 +547,19 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
 
     document.getElementById(`tab-${tab}`).style.display = "block";
   });
+});
+
+/// ⭐ Auto-fill XP/Wins/Games when switching gamemodes
+document.getElementById("modeSelect").addEventListener("change", () => {
+  if (!window.lastLoadedStats) return;
+
+  const mode = document.getElementById("modeSelect").value;
+  const data = window.lastLoadedStats;
+
+  document.getElementById("xpInput").value = data[mode]?.xp ?? 0;
+  document.getElementById("winsInput").value = data[mode]?.victories ?? 0;
+  document.getElementById("gamesInput").value = data[mode]?.played ?? 0;
+
+  // ⭐ Auto-run the calculator
+  document.getElementById("calcBtn").click();
 });
