@@ -578,3 +578,4 @@ document.getElementById("modeSelect").addEventListener("change", () => {
   // ⭐ Auto-run the calculator
   document.getElementById("calcBtn").click();
 });
+}); // ← closes calcBtn click handler
