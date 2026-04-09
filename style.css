@@ -147,3 +147,48 @@ button:hover {
   color: black;
   font-weight: bold;
 }
+
+
+/* ⭐ OVERVIEW GRID */
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 10px;
+}
+
+/* ⭐ OVERVIEW CARDS */
+.overview-card {
+  background: #15171f;
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+}
+
+.overview-card h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: #4fd1c5;
+}
+
+.overview-stats {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #d0d0d0;
+}
+
+/* ⭐ MINI PROGRESS BAR */
+.mini-progress {
+  margin-top: 10px;
+  height: 8px;
+  background: #1a1c24;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mini-progress-fill {
+  height: 100%;
+  background: #4fd1c5;
+  width: 0%;
+  transition: width 0.4s ease;
+}
