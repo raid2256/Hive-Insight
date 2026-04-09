@@ -7,7 +7,7 @@
   <meta name="description" content="Hive Insight - analyse XP, levels, grind time, and progress for Hive minigames including BedWars, SkyWars, Deathrun, and more.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- ✅ Favicon -->
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="hiveinsightlogo.png">
 
   <link rel="stylesheet" href="style.css" />
@@ -15,21 +15,181 @@
 
 <body>
   <div class="app">
-    <h1 style="display:flex; align-items:center; gap:10px;">
+
+    <!-- ⭐ Centered Header -->
+    <h1 style="
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:12px;
+      text-align:center;
+    ">
       Hive Insight
-      <img src="hiveinsightlogo.png" alt="Hive Insight Logo" style="height:40px; width:auto;">
+      <img src="hiveinsightlogo.png" alt="Hive Insight Logo" style="height:42px; width:auto;">
     </h1>
 
-    <p style="opacity:0.8; margin-top:-10px;">
+    <p style="opacity:0.8; margin-top:-10px; text-align:center;">
       A complete XP, level, and grind calculator for Hive minigames. Supports BedWars, SkyWars, Deathrun, Block Drop, and more.
     </p>
 
-    <!-- Tabs and content remain unchanged -->
-    <!-- ... -->
+    <!-- ⭐ ALWAYS VISIBLE: LOAD STATS -->
+    <section class="card">
+      <h2>Load Hive Stats</h2>
+
+      <label>
+        Hive Username
+        <input type="text" id="usernameInput" placeholder="Enter IGN">
+      </label>
+
+      <button id="loadStatsBtn">Load Stats</button>
+
+      <div id="loadStatus" style="margin-top:10px; opacity:0.8;"></div>
+    </section>
+
+    <!-- ⭐ TAB BUTTONS -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="stats">Stats</button>
+      <button class="tab-btn" data-tab="level">Level</button>
+      <button class="tab-btn" data-tab="grind">Grind</button>
+      <button class="tab-btn" data-tab="goals">Goals</button>
+    </div>
+
+    <!-- ⭐ TAB: STATS -->
+    <section class="tab-content" id="tab-stats">
+      <section class="card">
+        <h2>Your Gamemode Stats</h2>
+        <div id="overviewContainer" class="overview-grid"></div>
+      </section>
+    </section>
+
+    <!-- ⭐ TAB: LEVEL -->
+    <section class="tab-content" id="tab-level" style="display:none;">
+      <section class="card">
+        <h2>Level Calculator</h2>
+
+        <label>
+          Gamemode
+          <select id="modeSelect">
+            <option value="bed">BedWars</option>
+            <option value="sky">SkyWars</option>
+            <option value="dr">Deathrun</option>
+            <option value="party">Block Party</option>
+            <option value="drop">Block Drop</option>
+            <option value="ctf">Capture the Flag</option>
+            <option value="murder">Murder Mystery</option>
+            <option value="sg">Survival Games</option>
+            <option value="hide">Hide and Seek</option>
+            <option value="ground">Ground Wars</option>
+            <option value="build">Build Battle</option>
+            <option value="bridge">The Bridge</option>
+            <option value="grav">Gravity</option>
+          </select>
+        </label>
+
+        <label>
+          Total XP
+          <input type="number" id="xpInput" min="0" value="0" />
+        </label>
+
+        <label>
+          Games Played
+          <input type="number" id="gamesInput" min="0" value="0" />
+        </label>
+
+        <label>
+          Games Won
+          <input type="number" id="winsInput" min="0" value="0" />
+        </label>
+
+        <label>
+          Target Level (optional)
+          <input type="number" id="targetLevelInput" min="1" />
+        </label>
+
+        <button id="calcBtn">Calculate</button>
+
+        <div id="results" style="margin-top:15px;">
+          <p>Fill in your stats and click Calculate.</p>
+        </div>
+
+        <div id="progressBarContainer" style="
+          margin-top:20px;
+          display:none;
+          position:relative;
+          height:20px;
+          background:#1a1c24;
+          border-radius:6px;
+        ">
+          <div id="progressBar" style="
+            height:100%;
+            width:0%;
+            background:#4fd1c5;
+            border-radius:6px;
+            transition:width 0.4s ease;
+          "></div>
+
+          <div id="progressText" style="
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:14px;
+            color:white;
+            pointer-events:none;
+          "></div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ⭐ TAB: GRIND -->
+    <section class="tab-content" id="tab-grind" style="display:none;">
+      <section class="card">
+        <h2>Grind Calculator</h2>
+
+        <label>
+          Average Game Length (minutes)
+          <input type="number" id="avgGameLength" min="1" value="4">
+        </label>
+
+        <label>
+          Games Per Day
+          <input type="number" id="gamesPerDay" min="1" value="10">
+        </label>
+
+        <button id="grindCalcBtn">Calculate Grind Time</button>
+
+        <div id="grindResults" style="margin-top:15px;"></div>
+      </section>
+    </section>
+
+    <!-- ⭐ TAB: GOALS -->
+    <section class="tab-content" id="tab-goals" style="display:none;">
+      <section class="card">
+        <h2>Goal Planner</h2>
+
+        <label>
+          Target Level
+          <input type="number" id="goalLevel" min="1" placeholder="e.g. 50">
+        </label>
+
+        <label>
+          Reach By (date)
+          <input type="date" id="goalDate">
+        </label>
+
+        <button id="goalCalcBtn">Calculate Goal Plan</button>
+
+        <div id="goalResults" style="margin-top:15px;"></div>
+      </section>
+    </section>
 
   </div>
 
-  <!-- ✅ Updated Footer -->
+  <!-- ⭐ Clean Footer -->
   <footer style="text-align:center; opacity:0.6; font-size:12px; margin-top:40px; line-height:1.6;">
     <div>Hive Insight is an unofficial tool and is not affiliated with The Hive.</div>
     <div>Hive Insight uses anonymous analytics to understand usage. No personal data is collected or stored.</div>
