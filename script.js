@@ -336,7 +336,7 @@ if (progressBarContainer && progressBar && progressText) {
   progressBar.style.transition = "none";
   progressBar.style.width = "0%";
 
-  // Force browser to apply the reset before animating
+  // Force browser to apply reset before animating
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       progressBar.style.transition = "width 0.8s ease-in-out";
@@ -346,6 +346,7 @@ if (progressBarContainer && progressBar && progressText) {
 
   progressText.textContent = percentText;
 }
+
 
 
 // Grind Calculator
