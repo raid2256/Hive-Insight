@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Hive Progress Analyser - XP, Level & Grind Calculator</title>
 
-  <meta name="description" content="Hive Progress Analyser - calculate XP, levels, grind time, and progress for Hive minigames including BedWars, SkyWars, Deathrun, and more.">
+  <meta name="description" content="Hive Progress Analyser — calculate XP, levels, grind time, and progress for Hive minigames including BedWars, SkyWars, Deathrun, and more.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="style.css" />
@@ -18,37 +18,39 @@
       A complete XP, level, and grind calculator for Hive minigames. Supports BedWars, SkyWars, Deathrun, Block Drop, and more.
     </p>
 
+    <!-- ⭐ ALWAYS VISIBLE: LOAD STATS -->
+    <section class="card">
+      <h2>Load Stats Automatically</h2>
+
+      <label>
+        Hive Username
+        <input type="text" id="usernameInput" placeholder="Enter IGN">
+      </label>
+
+      <button id="loadStatsBtn">Load Stats</button>
+
+      <div id="loadStatus" style="margin-top:10px; opacity:0.8;"></div>
+    </section>
+
     <!-- ⭐ TAB BUTTONS -->
     <div class="tabs">
       <button class="tab-btn active" data-tab="stats">Stats</button>
-      <button class="tab-btn" data-tab="levels">Levels</button>
       <button class="tab-btn" data-tab="grind">Grind</button>
       <button class="tab-btn" data-tab="goals">Goals</button>
-      <button class="tab-btn" data-tab="overview">Overview</button>
     </div>
 
     <!-- ⭐ TAB: STATS -->
     <section class="tab-content" id="tab-stats">
+
+      <!-- ⭐ OVERVIEW CARDS -->
       <section class="card">
-        <h2>Load Stats Automatically</h2>
-
-        <label>
-          Hive Username
-          <input type="text" id="usernameInput" placeholder="Enter IGN">
-        </label>
-
-        <button id="loadStatsBtn">Load Stats</button>
-
-        <div id="loadStatus" style="margin-top:10px; opacity:0.8;"></div>
+        <h2>Your Gamemode Stats</h2>
+        <div id="overviewContainer" class="overview-grid"></div>
       </section>
-    </section>
 
-    <!-- ⭐ TAB: LEVELS -->
-    <section class="tab-content" id="tab-levels" style="display:none;">
-
-      <!-- INPUT CARD -->
+      <!-- ⭐ LEVEL CALCULATOR -->
       <section class="card">
-        <h2>Inputs</h2>
+        <h2>Level Calculator</h2>
 
         <label>
           Gamemode
@@ -90,12 +92,8 @@
         </label>
 
         <button id="calcBtn">Calculate</button>
-      </section>
 
-      <!-- RESULTS CARD -->
-      <section class="card">
-        <h2>Results</h2>
-        <div id="results">
+        <div id="results" style="margin-top:15px;">
           <p>Fill in your stats and click Calculate.</p>
         </div>
 
@@ -172,14 +170,6 @@
         <button id="goalCalcBtn">Calculate Goal Plan</button>
 
         <div id="goalResults" style="margin-top:15px;"></div>
-      </section>
-    </section>
-
-    <!-- ⭐ TAB: OVERVIEW -->
-    <section class="tab-content" id="tab-overview" style="display:none;">
-      <section class="card">
-        <h2>Gamemode Overview</h2>
-        <div id="overviewContainer" class="overview-grid"></div>
       </section>
     </section>
 
