@@ -30,6 +30,8 @@ document.getElementById("loadStatsBtn").addEventListener("click", async () => {
   }
 
   status.textContent = "Stats loaded!";
+generateOverviewCards(data);
+
 
   // Get the selected mode (matches API keys exactly)
   const mode = document.getElementById("modeSelect").value;
