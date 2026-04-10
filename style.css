@@ -255,3 +255,25 @@ button:hover {
   transform: translateY(-6px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.45);
 }
+
+.home-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.home-link {
+  display: block;
+  padding: 12px;
+  background: #1f2330;
+  border-radius: 8px;
+  text-align: center;
+  color: #4fd1c5;
+  font-size: 18px;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.home-link:hover {
+  background: #2a2f3f;
+}
