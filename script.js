@@ -11,37 +11,6 @@ async function loadHiveStats(username) {
   }
 }
 
-document.getElementById("loadStatsBtn").addEventListener("click", async () => {
-  const username = document.getElementById("usernameInput").value.trim();
-  const status = document.getElementById("loadStatus");
-
-  if (!username) {
-    status.textContent = "Please enter a username.";
-    return;
-  }
-
-  status.textContent = "Loading stats...";
-
-  const data = await loadHiveStats(username);
-
-  if (!data) {
-    status.textContent = "User not found.";
-    return;
-  }
-
-  status.textContent = "Stats loaded!";
-generateOverviewCards(data);
-window.lastLoadedStats = data;
-
-  // Get the selected mode (matches API keys exactly)
-  const mode = document.getElementById("modeSelect").value;
-
-  // Auto-fill XP, wins, games
-  document.getElementById("xpInput").value = data[mode]?.xp ?? 0;
-  document.getElementById("winsInput").value = data[mode]?.victories ?? 0;
-  document.getElementById("gamesInput").value = data[mode]?.played ?? 0;
-});
-
 // Map API gamemode keys → XP table keys
 const XP_MODE_MAP = {
   bed: "bedwars",
@@ -59,16 +28,14 @@ const XP_MODE_MAP = {
   grav: "gravity"
 };
 
-
 let globalXp = 0;
 let globalGames = 0;
 let globalWins = 0;
 let globalTable = [];
 
-// XP tables: cumulative XP required to reach each level (index 0 = level 1)
+// ⭐ XP TABLES
 const XP_TABLES = {
-  bedwars: [
-    0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
+  bedwars: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
     20400,22950,25650,28500,31500,34650,37950,41400,45000,48750,52650,56700,60900,
     65250,69750,74400,79200,84150,89250,94500,99900,105450,111150,117000,123000,
     129150,135450,141900,148500,155250,162150,169200,176400,183750,191250,198900,
@@ -76,10 +43,8 @@ const XP_TABLES = {
     290700,298350,306000,313650,321300,328950,336600,344250,351900,359550,367200,
     374850,382500,390150,397800,405450,413100,420750,428400,436050,443700,451350,
     459000,466650,474300,481950,489600,497250,504900,512550,520200,527850,535500,
-    543150,550800,558450,566100
-  ],
-  skywars: [
-    0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
+    543150,550800,558450,566100],
+  skywars: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
     20400,22950,25650,28500,31500,34650,37950,41400,45000,48750,52650,56700,60900,
     65250,69750,74400,79200,84150,89250,94500,99900,105450,111150,117000,123000,
     129150,135450,141900,148500,155250,162150,169200,176400,183750,191250,198900,
@@ -87,58 +52,38 @@ const XP_TABLES = {
     290700,298350,306000,313650,321300,328950,336600,344250,351900,359550,367200,
     374850,382500,390150,397800,405450,413100,420750,428400,436050,443700,451350,
     459000,466650,474300,481950,489600,497250,504900,512550,520200,527850,535500,
-    543150,550800,558450,566100
-  ],
-  blockdrop: [
-    0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
-    20400,22950,25650,28500,31500,34650,37800,40950,44100
-  ],
-  blockparty: [
-    0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
-    20400,22950,25650,28500,31500,34650,37950,41400,45000
-  ],
-  bridge: [
-    0,300,924,1897,3246,5001,7194,9860,13036,16762,21082,26043,31696,38096,45302,
-    53378,62393,72422,83546,95852
-  ],
-  buildbattle: [
-    0,100,300,600,1000,1500,2100,2800,3600,4500,5500,6600,7800,9100,10500,12000,
+    543150,550800,558450,566100],
+  blockdrop: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
+    20400,22950,25650,28500,31500,34650,37800,40950,44100],
+  blockparty: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
+    20400,22950,25650,28500,31500,34650,37950,41400,45000],
+  bridge: [0,300,924,1897,3246,5001,7194,9860,13036,16762,21082,26043,31696,38096,45302,
+    53378,62393,72422,83546,95852],
+  buildbattle: [0,100,300,600,1000,1500,2100,2800,3600,4500,5500,6600,7800,9100,10500,12000,
     13600,15300,17100,19000,21000,23000,25300,27600,30000,32500,35500,37800,40600,
-    43500
-  ],
-  ctf: [
-    0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
+    43500],
+  ctf: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
     20400,22950,25650,28500,31500,34650,37950,41400,45000,48750,52650,56700,60900,
     65250,69750,74400,79200,84150,89250,94500,99900,105450,111150,117000,123000,
-    129150,135450,141900,148500,155250,162150,169200,176400,183750
-  ],
-  deathrun: [
-    0,200,600,1200,2000,3000,4200,5600,7200,9000,11000,13200,15600,18200,21000,
+    129150,135450,141900,148500,155250,162150,169200,176400,183750],
+  deathrun: [0,200,600,1200,2000,3000,4200,5600,7200,9000,11000,13200,15600,18200,21000,
     24000,27200,30600,34200,38000,42000,46200,50600,55200,60000,65000,70200,75600,
     81200,87000,93000,99200,105600,112200,119000,126000,133200,140600,148200,
     156000,164000,172200,180400,188600,196800,205000,213200,221400,229600,237800,
     246000,254200,262400,270600,278800,287000,295200,303400,311600,319800,328000,
     336200,344400,352600,360800,369000,377200,385400,393600,401800,410000,418200,
-    426400,434600,442800
-  ],
-  gravity: [
-    0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
-    20400,22950,25650,28500,31500,34650,37950,41400,45000
-  ],
-  groundwars: [
-    0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
-    20400,22950,25650,28500
-  ],
-  hideandseek: [
-    0,100,300,600,1000,1500,2100,2800,3600,4500,5500,6600,7800,9100,10500,12000,
+    426400,434600,442800],
+  gravity: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
+    20400,22950,25650,28500,31500,34650,37950,41400,45000],
+  groundwars: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
+    20400,22950,25650,28500],
+  hideandseek: [0,100,300,600,1000,1500,2100,2800,3600,4500,5500,6600,7800,9100,10500,12000,
     13600,15300,17100,19000,21000,23100,25300,27600,30000,32500,35100,37800,40600,
     43500,46500,49600,52800,56100,59500,63000,66600,70300,74100,78000,82000,86100,
     90300,94600,99000,103500,108100,112800,117600,122500,127500,132600,137800,
     143100,148500,154000,159600,165300,171100,177000,183000,189100,195300,201600,
-    208000,214500,221100,227800,234600,241500,248500,255600,262800,270100,277500
-  ],
-  murdermystery: [
-    0,100,300,600,1000,1500,2100,2800,3600,4500,5500,6600,7800,9100,10500,12000,
+    208000,214500,221100,227800,234600,241500,248500,255600,262800,270100,277500],
+  murdermystery: [0,100,300,600,1000,1500,2100,2800,3600,4500,5500,6600,7800,9100,10500,12000,
     13600,15300,17100,19000,21000,23100,25300,27600,30000,32500,35100,37800,40600,
     43500,46500,49600,52800,56100,59500,63000,66600,70300,74100,78000,82000,86100,
     90300,94600,99000,103500,108100,112800,117600,122500,127500,132600,137800,
@@ -146,18 +91,77 @@ const XP_TABLES = {
     208000,214500,221100,227800,234600,241500,248500,255600,262800,270100,277500,
     285000,292600,300300,308100,316000,324000,332100,340200,348300,356400,364500,
     372600,380700,388800,396900,405000,413100,421200,429300,437400,445500,453600,
-    461700,469800,477900
-  ],
-  survivalgames: [
-    0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
+    461700,469800,477900],
+  survivalgames: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
     20400,22950,25650,28500,31500,34650,37950,41400,45000,48750,52650,56700,60900,
     65250,69750,74400,79200,84150,89250,94500,99900,105450,111150,117000,123000,
-    129150,135450,141900,148500,155250,162150,169200,176400,183750
-  ]
+    129150,135450,141900,148500,155250,162150,169200,176400,183750]
 };
 
+// ⭐ OVERVIEW CARD GENERATOR (moved up)
+function generateOverviewCards(data) {
+  const container = document.getElementById("overviewContainer");
+  container.innerHTML = "";
 
-// Compute level info
+  const modeNames = {
+    bed: "BedWars",
+    sky: "SkyWars",
+    dr: "Deathrun",
+    party: "Block Party",
+    drop: "Block Drop",
+    ctf: "Capture the Flag",
+    murder: "Murder Mystery",
+    sg: "Survival Games",
+    hide: "Hide and Seek",
+    ground: "Ground Wars",
+    build: "Build Battle",
+    bridge: "The Bridge",
+    grav: "Gravity"
+  };
+
+  for (const mode in data) {
+    const stats = data[mode];
+    if (!stats || (!stats.xp && !stats.played)) continue;
+    if (!XP_MODE_MAP[mode]) continue;
+
+    const xp = stats.xp ?? 0;
+    const played = stats.played ?? 0;
+    const wins = stats.victories ?? 0;
+    const winrate = played > 0 ? ((wins / played) * 100).toFixed(2) : "0.00";
+
+    const info = getLevelInfo(mode, xp);
+    const percent = (info.progressToNext * 100).toFixed(1);
+
+    const card = document.createElement("div");
+    card.className = "overview-card";
+
+    card.innerHTML = `
+      <h3>${modeNames[mode]}</h3>
+      <div class="overview-stats">
+        XP: ${xp.toLocaleString()}<br>
+        Level: ${info.level} / ${info.maxLevel}<br>
+        Progress: ${percent}%<br>
+        Played: ${played.toLocaleString()}<br>
+        Wins: ${wins.toLocaleString()}<br>
+        Win %: ${winrate}%<br>
+        Max Progress: ${((xp / XP_TABLES[XP_MODE_MAP[mode]][XP_TABLES[XP_MODE_MAP[mode]].length - 1]) * 100).toFixed(1)}%<br>
+      </div>
+
+      <div class="mini-progress-label">
+        Level ${info.level} → ${info.nextLevel}
+      </div>
+
+      <div class="mini-progress">
+        <div class="mini-progress-fill" style="width:${percent}%"></div>
+        <div class="mini-progress-text">${percent}%</div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  }
+}
+
+// ⭐ LEVEL INFO
 function getLevelInfo(mode, xp) {
   const table = XP_TABLES[XP_MODE_MAP[mode]];
   if (!table) return null;
@@ -195,7 +199,7 @@ function formatNumber(n) {
   return n.toLocaleString("en-US", { maximumFractionDigits: 2 });
 }
 
-// Load saved values
+// ⭐ Load saved values
 window.addEventListener("load", () => {
   if (localStorage.getItem("mode"))
     document.getElementById("modeSelect").value = localStorage.getItem("mode");
@@ -209,7 +213,7 @@ window.addEventListener("load", () => {
   loadFromURL();
 });
 
-// Load URL parameters
+// ⭐ Load URL parameters
 function loadFromURL() {
   const p = new URLSearchParams(window.location.search);
 
@@ -219,6 +223,37 @@ function loadFromURL() {
   if (p.has("wins")) document.getElementById("winsInput").value = p.get("wins");
 }
 
+// ⭐ Load Stats Button
+document.getElementById("loadStatsBtn").addEventListener("click", async () => {
+  const username = document.getElementById("usernameInput").value.trim();
+  const status = document.getElementById("loadStatus");
+
+  if (!username) {
+    status.textContent = "Please enter a username.";
+    return;
+  }
+
+  status.textContent = "Loading stats...";
+
+  const data = await loadHiveStats(username);
+
+  if (!data) {
+    status.textContent = "User not found.";
+    return;
+  }
+
+  status.textContent = "Stats loaded!";
+  generateOverviewCards(data);
+  window.lastLoadedStats = data;
+
+  const mode = document.getElementById("modeSelect").value;
+
+  document.getElementById("xpInput").value = data[mode]?.xp ?? 0;
+  document.getElementById("winsInput").value = data[mode]?.victories ?? 0;
+  document.getElementById("gamesInput").value = data[mode]?.played ?? 0;
+});
+
+// ⭐ CALCULATE BUTTON
 document.getElementById("calcBtn").addEventListener("click", () => {
   const mode = document.getElementById("modeSelect").value;
   const xp = Number(document.getElementById("xpInput").value) || 0;
@@ -229,16 +264,13 @@ document.getElementById("calcBtn").addEventListener("click", () => {
 
   const resultsDiv = document.getElementById("results");
 
-  // DEFINE TABLE FIRST (fixes your error)
- const table = XP_TABLES[XP_MODE_MAP[mode]];
+  const table = XP_TABLES[XP_MODE_MAP[mode]];
 
-  // Update globals for grind calculator
   globalXp = xp;
   globalGames = games;
   globalWins = wins;
   globalTable = table;
 
-  // Save to localStorage
   localStorage.setItem("mode", mode);
   localStorage.setItem("xp", xp);
   localStorage.setItem("games", games);
@@ -249,7 +281,7 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     return;
   }
 
-  const info = getLevelInfo(mode, xp);
+    const info = getLevelInfo(mode, xp);
   if (!info) {
     resultsDiv.innerHTML = "<p>Could not compute level.</p>";
     return;
@@ -320,36 +352,35 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     </p>
   `;
 
-// Progress bar update
-const progressBarContainer = document.getElementById("progressBarContainer");
-const progressBar = document.getElementById("progressBar");
-const progressText = document.getElementById("progressText");
+  // Progress bar update
+  const progressBarContainer = document.getElementById("progressBarContainer");
+  const progressBar = document.getElementById("progressBar");
+  const progressText = document.getElementById("progressText");
 
-if (progressBarContainer && progressBar && progressText) {
-  progressBarContainer.style.display = "block";
+  if (progressBarContainer && progressBar && progressText) {
+    progressBarContainer.style.display = "block";
 
-  const maxXp = table[table.length - 1];
-  const rawPercent = (xp / maxXp) * 100;
-  const percentText = rawPercent.toFixed(2) + "%";
+    const maxXp = table[table.length - 1];
+    const rawPercent = (xp / maxXp) * 100;
+    const percentText = rawPercent.toFixed(2) + "%";
 
-  // Reset width instantly (no animation)
-  progressBar.style.transition = "none";
-  progressBar.style.width = "0%";
+    // Reset width instantly (no animation)
+    progressBar.style.transition = "none";
+    progressBar.style.width = "0%";
 
-  // Force browser to apply reset before animating
-  requestAnimationFrame(() => {
+    // Force browser to apply reset before animating
     requestAnimationFrame(() => {
-      progressBar.style.transition = "width 0.8s ease-in-out";
-      progressBar.style.width = rawPercent + "%";
+      requestAnimationFrame(() => {
+        progressBar.style.transition = "width 0.8s ease-in-out";
+        progressBar.style.width = rawPercent + "%";
+      });
     });
-  });
 
-  progressText.textContent = percentText;
-}
+    progressText.textContent = percentText;
+  }
+});
 
-
-
-// Grind Calculator
+// ⭐ Grind Calculator
 document.getElementById("grindCalcBtn").addEventListener("click", () => {
   const avgMins = Number(document.getElementById("avgGameLength").value) || 0;
   const gpd = Number(document.getElementById("gamesPerDay").value) || 0;
@@ -401,7 +432,7 @@ document.getElementById("grindCalcBtn").addEventListener("click", () => {
   `;
 });
 
-// Goal Date Planner
+// ⭐ Goal Date Planner
 document.getElementById("goalCalcBtn").addEventListener("click", () => {
   const goalLevel = Number(document.getElementById("goalLevel").value);
   const goalDateInput = document.getElementById("goalDate").value;
@@ -468,7 +499,7 @@ document.getElementById("goalCalcBtn").addEventListener("click", () => {
   `;
 });
 
-// ⭐ TAB SWITCHING SYSTEM
+// ⭐ Tab Switching System
 document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
@@ -476,95 +507,15 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
 
     const tab = btn.dataset.tab;
 
-    document.querySelectorAll(".tab-content").forEach(sec => sec.style.display = "none");
+    document.querySelectorAll(".tab-content").forEach(sec => {
+      sec.style.display = "none";
+    });
 
     document.getElementById(`tab-${tab}`).style.display = "block";
   });
 });
 
-// ⭐ OVERVIEW CARD GENERATOR
-function generateOverviewCards(data) {
-  const container = document.getElementById("overviewContainer");
-  container.innerHTML = "";
-
-  const modeNames = {
-    bed: "BedWars",
-    sky: "SkyWars",
-    dr: "Deathrun",
-    party: "Block Party",
-    drop: "Block Drop",
-    ctf: "Capture the Flag",
-    murder: "Murder Mystery",
-    sg: "Survival Games",
-    hide: "Hide and Seek",
-    ground: "Ground Wars",
-    build: "Build Battle",
-    bridge: "The Bridge",
-    grav: "Gravity"
-  };
-
-  for (const mode in data) {
-    const stats = data[mode];
-    if (!stats || (!stats.xp && !stats.played)) continue; // skip unused modes
-    
-    // Skip modes that don't have XP tables
-if (!XP_MODE_MAP[mode]) continue;
-
-
-    const xp = stats.xp ?? 0;
-    const played = stats.played ?? 0;
-    const wins = stats.victories ?? 0;
-    const losses = played - wins;
-    const winrate = played > 0 ? ((wins / played) * 100).toFixed(2) : "0.00";
-
-    // Level calculation
-    const info = getLevelInfo(mode, xp);
-    const percent = (info.progressToNext * 100).toFixed(1);
-
-    // Create card
-    const card = document.createElement("div");
-    card.className = "overview-card";
-
-    card.innerHTML = `
-      <h3>${modeNames[mode]}</h3>
-      <div class="overview-stats">
-        XP: ${xp.toLocaleString()}<br>
-        Level: ${info.level} / ${info.maxLevel}<br>
-        Progress: ${percent}%<br>
-        Played: ${played.toLocaleString()}<br>
-        Wins: ${wins.toLocaleString()}<br>
-        Win %: ${winrate}%<br>
-        Max Progress: ${((xp / XP_TABLES[XP_MODE_MAP[mode]][XP_TABLES[XP_MODE_MAP[mode]].length - 1]) * 100).toFixed(1)}%<br>
-      </div>
-
-      <div class="mini-progress-label">
-  Level ${info.level} → ${info.nextLevel}
-</div>
-
-<div class="mini-progress">
-  <div class="mini-progress-fill" style="width:${percent}%"></div>
-  <div class="mini-progress-text">${percent}%</div>
-</div>
-    `;
-
-    container.appendChild(card);
-  }
-}
-
-document.querySelectorAll(".tab-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    const tab = btn.dataset.tab;
-
-    document.querySelectorAll(".tab-content").forEach(sec => sec.style.display = "none");
-
-    document.getElementById(`tab-${tab}`).style.display = "block";
-  });
-});
-
-/// ⭐ Auto-fill XP/Wins/Games when switching gamemodes
+// ⭐ Auto-fill XP/Wins/Games when switching gamemodes
 document.getElementById("modeSelect").addEventListener("change", () => {
   if (!window.lastLoadedStats) return;
 
@@ -575,7 +526,6 @@ document.getElementById("modeSelect").addEventListener("change", () => {
   document.getElementById("winsInput").value = data[mode]?.victories ?? 0;
   document.getElementById("gamesInput").value = data[mode]?.played ?? 0;
 
-  // ⭐ Auto-run the calculator
+  // Auto-run the calculator
   document.getElementById("calcBtn").click();
 });
-}); // ← closes calcBtn click handler
