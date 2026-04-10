@@ -325,10 +325,11 @@ button:hover {
 }
 
 .site-logo {
-  height: 26px;
+  height: 1em;
   width: auto;
   opacity: 0.9;
 }
+
 
 .site-title-row {
   display: flex;
