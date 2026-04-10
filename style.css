@@ -246,3 +246,12 @@ button:hover {
   height: 8px;
   margin-top: 6px;
 }
+
+.overview-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.overview-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.45);
+}
