@@ -323,3 +323,9 @@ button:hover {
   opacity: 0.5;
   margin-top: 4px;
 }
+
+.site-logo {
+  height: 26px;
+  width: auto;
+  opacity: 0.9;
+}
