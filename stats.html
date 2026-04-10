@@ -2,54 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Hive Insight - XP, Level & Grind Calculator</title>
+  <title>Hive Insight – Stats & XP Calculator</title>
 
-  <meta name="description" content="Hive Insight - analyse Hive stats, XP, levels, grind time, and progress for Hive minigames including BedWars, SkyWars, Deathrun, and more.">
-
-  <!-- ⭐ Google Search Console Verification -->
-  <meta name="google-site-verification" content="oLZB3uoK7fAx6w11mJlbBZpaDulzfA9yqwoQ9r4s3Kk" />
-
-  <!-- ⭐ SEO Keywords -->
-  <meta name="keywords" content="
-    hive insight, hive stats, hive backpack, hive, the hive, hive stats analyzer, hive xp calculator, hive level calculator,
-    hive grind calculator, hive progress tracker, hive xp per game, hive xp tables,
-    hive level progress, hive winrate calculator, hive games needed calculator,
-    hive goal planner, hive grind time estimator, hive bedwars stats, hive skywars stats,
-    hive deathrun stats, hive block drop stats, hive block party stats, hive ctf stats,
-    hive murder mystery stats, hive survival games stats, hive hide and seek stats,
-    hive ground wars stats, hive build battle stats, hive the bridge stats, hive gravity stats,
-    hive xp analysis, hive level prediction, hive xp efficiency, hive grind optimization,
-    hive performance analytics
-  ">
-
+  <!-- Mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="hiveinsightlogo.png">
 
+  <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <div class="app">
 
-    <!-- ⭐ Centered Header -->
-    <h1 style="
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      gap:12px;
-      text-align:center;
-    ">
-      Hive Insight
-      <img src="hiveinsightlogo.png" alt="Hive Insight Logo" style="height:42px; width:auto;">
-    </h1>
+    <!-- ⭐ Shared Header -->
+    <header class="site-header">
+      <div class="site-title-row">
+        <h1>Hive Insight</h1>
+        <img src="hiveinsightlogo.png" alt="Hive Insight Logo" class="site-logo">
+      </div>
 
-    <p style="opacity:0.8; margin-top:-10px; text-align:center;">
-      A complete XP, level, and grind calculator for Hive minigames. Supports BedWars, SkyWars, Deathrun, Block Drop, and more.
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="stats.html" class="nav-link active">Stats</a>
+        <a href="games.html" class="nav-link">Games</a>
+        <a href="leaderboards.html" class="nav-link">Leaderboards</a>
+      </nav>
+    </header>
+
+    <!-- ⭐ Subtitle -->
+    <p class="page-subtitle">
+      A complete XP, level, and grind calculator for Hive minigames.
     </p>
 
-    <!-- ⭐ ALWAYS VISIBLE: LOAD STATS -->
+    <!-- ⭐ Load Stats -->
     <section class="card">
       <h2>Load Hive Stats</h2>
 
@@ -63,7 +51,7 @@
       <div id="loadStatus" style="margin-top:10px; opacity:0.8;"></div>
     </section>
 
-    <!-- ⭐ TAB BUTTONS -->
+    <!-- ⭐ Tabs -->
     <div class="tabs">
       <button class="tab-btn active" data-tab="stats">Stats</button>
       <button class="tab-btn" data-tab="level">Level</button>
@@ -129,36 +117,12 @@
           <p>Fill in your stats and click Calculate.</p>
         </div>
 
-        <div id="progressBarContainer" style="
-          margin-top:20px;
-          display:none;
-          position:relative;
-          height:20px;
-          background:#1a1c24;
-          border-radius:6px;
-        ">
-          <div id="progressBar" style="
-            height:100%;
-            width:0%;
-            background:#4fd1c5;
-            border-radius:6px;
-            transition:width 0.4s ease;
-          "></div>
-
-          <div id="progressText" style="
-            position:absolute;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:14px;
-            color:white;
-            pointer-events:none;
-          "></div>
+        <!-- ⭐ Progress Bar -->
+        <div id="progressBarContainer" class="progress-container" style="display:none;">
+          <div id="progressBar" class="progress-bar"></div>
+          <div id="progressText" class="progress-text"></div>
         </div>
+
       </section>
     </section>
 
@@ -206,10 +170,9 @@
 
   </div>
 
-  <!-- ⭐ Clean Footer -->
-  <footer style="text-align:center; opacity:0.6; font-size:12px; margin-top:40px; line-height:1.6;">
-    <div>Hive Insight is an unofficial tool and is not affiliated with The Hive.</div>
-    <div>Hive Insight uses anonymous analytics to understand usage. No personal data is collected or stored.</div>
+  <!-- ⭐ Footer -->
+  <footer class="site-footer">
+    Hive Insight is an unofficial tool and is not affiliated with The Hive.
   </footer>
 
   <script src="script.js"></script>
