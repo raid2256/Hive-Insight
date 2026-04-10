@@ -308,3 +308,18 @@ button:hover {
   background: #4fd1c5;
   color: #0b0c10;
 }
+
+.site-footer {
+  text-align: center;
+  opacity: 0.6;
+  font-size: 12px;
+  margin: 40px 0 20px;
+  line-height: 1.6;
+  color: #d0d0d0;
+}
+
+.footer-sub {
+  font-size: 11px;
+  opacity: 0.5;
+  margin-top: 4px;
+}
