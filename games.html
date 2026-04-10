@@ -1,15 +1,23 @@
-<!-- games.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Hive Insight - Games</title>
+  <title>Hive Insight – Games</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="hiveinsightlogo.png">
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <div class="app">
+
+    <!-- Header -->
     <header class="site-header">
-      <h1>Hive Insight</h1>
+      <div class="site-title-row">
+        <h1>Hive Insight</h1>
+        <img src="hiveinsightlogo.png" class="site-logo" alt="Hive Insight Logo">
+      </div>
+
       <nav class="main-nav">
         <a href="index.html" class="nav-link">Home</a>
         <a href="stats.html" class="nav-link">Stats</a>
@@ -18,10 +26,40 @@
       </nav>
     </header>
 
+    <!-- Intro -->
     <section class="card">
-      <h2>Games</h2>
-      <p>Here we’ll break down each gamemode with XP tables, tips, and more.</p>
+      <h2>Gamemodes</h2>
+      <p>
+        Explore all Hive gamemodes. XP tables, level caps, and detailed guides will be added soon.
+      </p>
     </section>
+
+    <!-- Gamemode Grid -->
+    <section class="card">
+      <h2>Supported Gamemodes</h2>
+
+      <div class="games-grid">
+        <div class="game-card">BedWars</div>
+        <div class="game-card">SkyWars</div>
+        <div class="game-card">Deathrun</div>
+        <div class="game-card">Block Party</div>
+        <div class="game-card">Block Drop</div>
+        <div class="game-card">Capture the Flag</div>
+        <div class="game-card">Murder Mystery</div>
+        <div class="game-card">Survival Games</div>
+        <div class="game-card">Hide and Seek</div>
+        <div class="game-card">Ground Wars</div>
+        <div class="game-card">Build Battle</div>
+        <div class="game-card">The Bridge</div>
+        <div class="game-card">Gravity</div>
+      </div>
+    </section>
+
   </div>
+
+  <footer class="site-footer">
+    Hive Insight is an unofficial tool and is not affiliated with The Hive.
+  </footer>
+
 </body>
 </html>
