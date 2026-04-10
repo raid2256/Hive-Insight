@@ -329,3 +329,10 @@ button:hover {
   width: auto;
   opacity: 0.9;
 }
+
+.site-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
