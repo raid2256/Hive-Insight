@@ -29,22 +29,68 @@
     <!-- Intro -->
     <section class="card">
       <h2>Leaderboards</h2>
-      <p>
-        View all‑time and monthly leaderboards for every Hive gamemode.
-        Leaderboard API integration is coming soon.
-      </p>
+      <p>Select a gamemode and leaderboard type to view rankings.</p>
+
+      <label>
+        Gamemode
+        <select id="lbGameSelect">
+          <option value="bed">BedWars</option>
+          <option value="sky">SkyWars</option>
+          <option value="dr">Deathrun</option>
+          <option value="party">Block Party</option>
+          <option value="drop">Block Drop</option>
+          <option value="ctf">Capture the Flag</option>
+          <option value="murder">Murder Mystery</option>
+          <option value="sg">Survival Games</option>
+          <option value="hide">Hide and Seek</option>
+          <option value="ground">Ground Wars</option>
+          <option value="build">Build Battle</option>
+          <option value="bridge">The Bridge</option>
+          <option value="grav">Gravity</option>
+        </select>
+      </label>
+
+      <label>
+        Leaderboard Type
+        <select id="lbTypeSelect">
+          <option value="all">All‑Time</option>
+          <option value="monthly">Monthly</option>
+        </select>
+      </label>
+
+      <div id="monthlySelectors" style="display:none;">
+        <label>
+          Year
+          <input type="number" id="lbYear" min="2020" max="2100" value="2025">
+        </label>
+
+        <label>
+          Month
+          <input type="number" id="lbMonth" min="1" max="12" value="1">
+        </label>
+      </div>
+
+      <button id="loadLeaderboardBtn">Load Leaderboard</button>
+
+      <div id="lbStatus" style="margin-top:10px; opacity:0.8;"></div>
     </section>
 
-    <!-- Placeholder -->
+    <!-- Results -->
     <section class="card">
-      <h3>Coming Soon</h3>
-      <ul class="home-list">
-        <li>All‑time leaderboards</li>
-        <li>Monthly leaderboards</li>
-        <li>Gamemode‑specific rankings</li>
-        <li>Player search inside leaderboards</li>
-        <li>Quick links to view player stats</li>
-      </ul>
+      <h3>Results</h3>
+
+      <table id="lbTable" class="lb-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Player</th>
+            <th>XP</th>
+            <th>Games</th>
+            <th>Wins</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </section>
 
   </div>
@@ -55,5 +101,7 @@
     <div class="footer-sub">Hive Insight uses anonymous analytics to understand usage. No personal data is collected or stored.</div>
   </footer>
 
+  <!-- Leaderboard Script -->
+  <script src="leaderboards.js"></script>
 </body>
 </html>
