@@ -1,16 +1,31 @@
 const API = "https://api.playhive.com/v0";
 
-// Handle dropdown clicks
+// Correct level caps + prestiges for every gamemode
+const levelCaps = {
+  bed: { cap: 100, prestiges: 1 },
+  sky: { cap: 100, prestiges: 5 },
+  dr: { cap: 75, prestiges: 0 },
+  party: { cap: 25, prestiges: 0 },
+  drop: { cap: 25, prestiges: 0 },
+  ctf: { cap: 50, prestiges: 0 },
+  murder: { cap: 100, prestiges: 5 },
+  sg: { cap: 30, prestiges: 0 },
+  hide: { cap: 75, prestiges: 0 },
+  ground: { cap: 20, prestiges: 0 },
+  bridge: { cap: 20, prestiges: 0 },
+  grav: { cap: 25, prestiges: 0 }
+};
+
+// Dropdown logic
 document.querySelectorAll(".dropdown-card").forEach(card => {
   const header = card.querySelector(".dropdown-header");
   const content = card.querySelector(".dropdown-content");
   const game = card.dataset.game;
 
   header.addEventListener("click", async () => {
-    // Toggle open/close
     card.classList.toggle("active");
 
-    // If already loaded once, don't fetch again
+    // Already loaded? Don't fetch again
     if (content.dataset.loaded === "true") return;
 
     content.innerHTML = "<p>Loading...</p>";
@@ -25,7 +40,10 @@ document.querySelectorAll(".dropdown-card").forEach(card => {
       const maps = await mapsRes.json();
       const meta = await metaRes.json();
 
-      // Build XP rewards list
+      // Get correct level cap + prestiges
+      const lc = levelCaps[game] || { cap: "Unknown", prestiges: 0 };
+
+      // Build XP actions list
       const xpList = meta.xp_rewards
         ? Object.entries(meta.xp_rewards)
             .map(([action, xp]) => `<li>${action}: ${xp} XP</li>`)
@@ -34,15 +52,14 @@ document.querySelectorAll(".dropdown-card").forEach(card => {
 
       // Build maps list
       const mapList = Array.isArray(maps)
-        ? maps
-            .map(m => `<li>${m.name ?? m}</li>`)
-            .join("")
+        ? maps.map(m => `<li>${m.name ?? m}</li>`).join("")
         : "<li>No maps available.</li>";
 
-      // Build final content
+      // Final content
       content.innerHTML = `
         <h3>XP & Level Info</h3>
-        <p><strong>Level Cap:</strong> ${meta.level_cap ?? "Unknown"}</p>
+        <p><strong>Level Cap:</strong> ${lc.cap}</p>
+        <p><strong>Prestiges:</strong> ${lc.prestiges}</p>
 
         <h3>XP Actions</h3>
         <ul>${xpList}</ul>
@@ -56,7 +73,6 @@ document.querySelectorAll(".dropdown-card").forEach(card => {
         </a>
       `;
 
-      // Mark as loaded
       content.dataset.loaded = "true";
 
     } catch (err) {
