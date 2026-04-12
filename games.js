@@ -1,7 +1,32 @@
+// ===============================
+//  HIVE GAMES PAGE – STANDALONE JS
+// ===============================
+
 const API = "https://api.playhive.com/v0";
 
-// Correct level caps + prestiges for every gamemode
-const levelCaps = {
+// -------------------------------
+// XP MODE MAP
+// -------------------------------
+const XP_MODE_MAP = {
+  bed: "bedwars",
+  sky: "skywars",
+  dr: "deathrun",
+  party: "blockparty",
+  drop: "blockdrop",
+  ctf: "ctf",
+  murder: "murdermystery",
+  sg: "survivalgames",
+  hide: "hideandseek",
+  ground: "groundwars",
+  build: "buildbattle",
+  bridge: "bridge",
+  grav: "gravity"
+};
+
+// -------------------------------
+// LEVEL CAPS + PRESTIGES
+// -------------------------------
+const LEVEL_CAPS = {
   bed: { cap: 100, prestiges: 1 },
   sky: { cap: 100, prestiges: 5 },
   dr: { cap: 75, prestiges: 0 },
@@ -12,11 +37,113 @@ const levelCaps = {
   sg: { cap: 30, prestiges: 0 },
   hide: { cap: 75, prestiges: 0 },
   ground: { cap: 20, prestiges: 0 },
+  build: { cap: 30, prestiges: 0 },
   bridge: { cap: 20, prestiges: 0 },
   grav: { cap: 25, prestiges: 0 }
 };
 
-// Dropdown logic
+// -------------------------------
+// XP TABLES (copied from your stats JS)
+// -------------------------------
+const XP_TABLES = {
+  bedwars: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
+    20400,22950,25650,28500,31500,34650,37950,41400,45000,48750,52650,56700,60900,
+    65250,69750,74400,79200,84150,89250,94500,99900,105450,111150,117000,123000,
+    129150,135450,141900,148500,155250,162150,169200,176400,183750,191250,198900,
+    206550,214200,221850,229500,237150,244800,252450,260100,267750,275400,283050,
+    290700,298350,306000,313650,321300,328950,336600,344250,351900,359550,367200,
+    374850,382500,390150,397800,405450,413100,420750,428400,436050,443700,451350,
+    459000,466650,474300,481950,489600,497250,504900,512550,520200,527850,535500,
+    543150,550800,558450,566100],
+  skywars: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
+    20400,22950,25650,28500,31500,34650,37950,41400,45000,48750,52650,56700,60900,
+    65250,69750,74400,79200,84150,89250,94500,99900,105450,111150,117000,123000,
+    129150,135450,141900,148500,155250,162150,169200,176400,183750,191250,198900,
+    206550,214200,221850,229500,237150,244800,252450,260100,267750,275400,283050,
+    290700,298350,306000,313650,321300,328950,336600,344250,351900,359550,367200,
+    374850,382500,390150,397800,405450,413100,420750,428400,436050,443700,451350,
+    459000,466650,474300,481950,489600,497250,504900,512550,520200,527850,535500,
+    543150,550800,558450,566100],
+  blockdrop: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
+    20400,22950,25650,28500,31500,34650,37800,40950,44100],
+  blockparty: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
+    20400,22950,25650,28500,31500,34650,37950,41400,45000],
+  bridge: [0,300,924,1897,3246,5001,7194,9860,13036,16762,21082,26043,31696,38096,45302,
+    53378,62393,72422,83546,95852],
+  buildbattle: [0,100,300,600,1000,1500,2100,2800,3600,4500,5500,6600,7800,9100,10500,12000,
+    13600,15300,17100,19000,21000,23000,25300,27600,30000,32500,35500,37800,40600,
+    43500],
+  ctf: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
+    20400,22950,25650,28500,31500,34650,37950,41400,45000,48750,52650,56700,60900,
+    65250,69750,74400,79200,84150,89250,94500,99900,105450,111150,117000,123000,
+    129150,135450,141900,148500,155250,162150,169200,176400,183750],
+  deathrun: [0,200,600,1200,2000,3000,4200,5600,7200,9000,11000,13200,15600,18200,21000,
+    24000,27200,30600,34200,38000,42000,46200,50600,55200,60000,65000,70200,75600,
+    81200,87000,93000,99200,105600,112200,119000,126000,133200,140600,148200,
+    156000,164000,172200,180400,188600,196800,205000,213200,221400,229600,237800,
+    246000,254200,262400,270600,278800,287000,295200,303400,311600,319800,328000,
+    336200,344400,352600,360800,369000,377200,385400,393600,401800,410000,418200,
+    426400,434600,442800],
+  gravity: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
+    20400,22950,25650,28500,31500,34650,37950,41400,45000],
+  groundwars: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
+    20400,22950,25650,28500],
+  hideandseek: [0,100,300,600,1000,1500,2100,2800,3600,4500,5500,6600,7800,9100,10500,12000,
+    13600,15300,17100,19000,21000,23100,25300,27600,30000,32500,35100,37800,40600,
+    43500,46500,49600,52800,56100,59500,63000,66600,70300,74100,78000,82000,86100,
+    90300,94600,99000,103500,108100,112800,117600,122500,127500,132600,137800,
+    143100,148500,154000,159600,165300,171100,177000,183000,189100,195300,201600,
+    208000,214500,221100,227800,234600,241500,248500,255600,262800,270100,277500],
+  murdermystery: [0,100,300,600,1000,1500,2100,2800,3600,4500,5500,6600,7800,9100,10500,12000,
+    13600,15300,17100,19000,21000,23100,25300,27600,30000,32500,35100,37800,40600,
+    43500,46500,49600,52800,56100,59500,63000,66600,70300,74100,78000,82000,86100,
+    90300,94600,99000,103500,108100,112800,117600,122500,127500,132600,137800,
+    143100,148500,154000,159600,165300,171100,177000,183000,189100,195300,201600,
+    208000,214500,221100,227800,234600,241500,248500,255600,262800,270100,277500,
+    285000,292600,300300,308100,316000,324000,332100,340200,348300,356400,364500,
+    372600,380700,388800,396900,405000,413100,421200,429300,437400,445500,453600,
+    461700,469800,477900],
+  survivalgames: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
+    20400,22950,25650,28500,31500,34650,37950,41400,45000,48750,52650,56700,60900,
+    65250,69750,74400,79200,84150,89250,94500,99900,105450,111150,117000,123000,
+    129150,135450,141900,148500,155250,162150,169200,176400,183750]
+};
+
+// -------------------------------
+// LEVEL CALCULATOR
+// -------------------------------
+function getLevelInfo(mode, xp) {
+  const table = XP_TABLES[XP_MODE_MAP[mode]];
+  if (!table) return null;
+
+  let level = 1;
+  for (let i = 0; i < table.length; i++) {
+    if (xp >= table[i]) level = i + 1;
+    else break;
+  }
+
+  const maxLevel = table.length;
+  const currentLevelXp = table[level - 1];
+  const nextLevel = level < maxLevel ? level + 1 : level;
+  const nextLevelXp = table[nextLevel - 1];
+  const xpToNext = level === maxLevel ? 0 : nextLevelXp - xp;
+  const progressToNext =
+    level === maxLevel ? 1 : (xp - currentLevelXp) / (nextLevelXp - currentLevelXp);
+
+  return {
+    level,
+    maxLevel,
+    currentLevelXp,
+    nextLevel,
+    nextLevelXp,
+    xpToNext,
+    progressToNext: Math.max(0, Math.min(1, progressToNext))
+  };
+}
+
+// -------------------------------
+// DROPDOWN LOGIC
+// -------------------------------
 document.querySelectorAll(".dropdown-card").forEach(card => {
   const header = card.querySelector(".dropdown-header");
   const content = card.querySelector(".dropdown-content");
@@ -25,13 +152,11 @@ document.querySelectorAll(".dropdown-card").forEach(card => {
   header.addEventListener("click", async () => {
     card.classList.toggle("active");
 
-    // Already loaded? Don't fetch again
     if (content.dataset.loaded === "true") return;
 
     content.innerHTML = "<p>Loading...</p>";
 
     try {
-      // Fetch maps + metadata at the same time
       const [mapsRes, metaRes] = await Promise.all([
         fetch(`${API}/game/map/${game}`),
         fetch(`${API}/game/meta/${game}`)
@@ -40,28 +165,32 @@ document.querySelectorAll(".dropdown-card").forEach(card => {
       const maps = await mapsRes.json();
       const meta = await metaRes.json();
 
-      // Get correct level cap + prestiges
-      const lc = levelCaps[game] || { cap: "Unknown", prestiges: 0 };
+      const lc = LEVEL_CAPS[game];
+      const xpTable = XP_TABLES[XP_MODE_MAP[game]];
 
-      // Build XP actions list
-      const xpList = meta.xp_rewards
+      const xpList = xpTable
+        .map((xp, i) => `<li>Level ${i + 1}: ${xp.toLocaleString()} XP</li>`)
+        .join("");
+
+      const mapList = maps
+        .map(m => `<li>${m.name ?? m}</li>`)
+        .join("");
+
+      const xpActions = meta.xp_rewards
         ? Object.entries(meta.xp_rewards)
-            .map(([action, xp]) => `<li>${action}: ${xp} XP</li>`)
+            .map(([a, v]) => `<li>${a}: ${v} XP</li>`)
             .join("")
-        : "<li>No XP data available.</li>";
+        : "<li>No XP action data.</li>";
 
-      // Build maps list
-      const mapList = Array.isArray(maps)
-        ? maps.map(m => `<li>${m.name ?? m}</li>`).join("")
-        : "<li>No maps available.</li>";
-
-      // Final content
       content.innerHTML = `
-        <h3>XP & Level Info</h3>
+        <h3>Level Info</h3>
         <p><strong>Level Cap:</strong> ${lc.cap}</p>
         <p><strong>Prestiges:</strong> ${lc.prestiges}</p>
 
         <h3>XP Actions</h3>
+        <ul>${xpActions}</ul>
+
+        <h3>XP Chart</h3>
         <ul>${xpList}</ul>
 
         <h3>Maps</h3>
@@ -77,7 +206,7 @@ document.querySelectorAll(".dropdown-card").forEach(card => {
 
     } catch (err) {
       console.error(err);
-      content.innerHTML = "<p>Error loading data. Try again later.</p>";
+      content.innerHTML = "<p>Error loading data.</p>";
     }
   });
 });
