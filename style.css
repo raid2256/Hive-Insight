@@ -352,6 +352,38 @@ button:hover {
   text-align: left;
 }
 
+/* Dropdown Cards */
+.dropdown-card {
+  border: 1px solid #2a2d36;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  background: #1e2230;
+}
+
+.dropdown-header {
+  padding: 14px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #242837;
+  transition: background 0.15s;
+}
+
+.dropdown-header:hover {
+  background: #2b3042;
+}
+
+.dropdown-content {
+  display: none;
+  padding: 14px;
+  border-top: 1px solid #2a2d36;
+}
+
+.dropdown-card.active .dropdown-content {
+  display: block;
+}
+
 .lb-table tr:hover {
   background: #1f2330;
 }
