@@ -191,10 +191,10 @@ document.querySelectorAll(".dropdown-card").forEach(card => {
         <ul>${xpActions}</ul>
 
         <h3>XP Chart</h3>
-        <ul>${xpList}</ul>
+        <ul class="grid-3col">${xpList}</ul>
 
         <h3>Maps</h3>
-        <ul>${mapList}</ul>
+        <ul class="grid-3col">${mapList}</ul>
 
         <h3>Leaderboards</h3>
         <a class="home-link" href="leaderboards.html?game=${game}">
