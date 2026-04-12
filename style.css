@@ -387,3 +387,17 @@ button:hover {
 .lb-table tr:hover {
   background: #1f2330;
 }
+.grid-3col {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px 16px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.grid-3col li {
+  background: #1f2330;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #2a2d36;
+}
