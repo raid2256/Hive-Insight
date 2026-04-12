@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="hiveinsightlogo.png">
   <link rel="stylesheet" href="style.css" />
+  <script defer src="games.js"></script>
 </head>
 
 <body>
@@ -29,39 +30,87 @@
     <!-- Intro -->
     <section class="card">
       <h2>Gamemodes</h2>
-      <p>
-        Explore all Hive gamemodes. XP tables, level caps, and detailed guides will be added soon.
-      </p>
+      <p>Click a gamemode to view XP info, maps, metadata, and leaderboard shortcuts.</p>
     </section>
 
-    <!-- Gamemode Grid -->
+    <!-- Dropdown Cards -->
     <section class="card">
-      <h2>Supported Gamemodes</h2>
+      <h2>All Gamemodes</h2>
 
-      <div class="games-grid">
-        <div class="game-card">BedWars</div>
-        <div class="game-card">SkyWars</div>
-        <div class="game-card">Deathrun</div>
-        <div class="game-card">Block Party</div>
-        <div class="game-card">Block Drop</div>
-        <div class="game-card">Capture the Flag</div>
-        <div class="game-card">Murder Mystery</div>
-        <div class="game-card">Survival Games</div>
-        <div class="game-card">Hide and Seek</div>
-        <div class="game-card">Ground Wars</div>
-        <div class="game-card">Build Battle</div>
-        <div class="game-card">The Bridge</div>
-        <div class="game-card">Gravity</div>
+      <div class="dropdown-card" data-game="bed">
+        <div class="dropdown-header">BedWars</div>
+        <div class="dropdown-content"></div>
       </div>
+
+      <div class="dropdown-card" data-game="sky">
+        <div class="dropdown-header">SkyWars</div>
+        <div class="dropdown-content"></div>
+      </div>
+
+      <div class="dropdown-card" data-game="dr">
+        <div class="dropdown-header">Deathrun</div>
+        <div class="dropdown-content"></div>
+      </div>
+
+      <div class="dropdown-card" data-game="party">
+        <div class="dropdown-header">Block Party</div>
+        <div class="dropdown-content"></div>
+      </div>
+
+      <div class="dropdown-card" data-game="drop">
+        <div class="dropdown-header">Block Drop</div>
+        <div class="dropdown-content"></div>
+      </div>
+
+      <div class="dropdown-card" data-game="ctf">
+        <div class="dropdown-header">Capture the Flag</div>
+        <div class="dropdown-content"></div>
+      </div>
+
+      <div class="dropdown-card" data-game="murder">
+        <div class="dropdown-header">Murder Mystery</div>
+        <div class="dropdown-content"></div>
+      </div>
+
+      <div class="dropdown-card" data-game="sg">
+        <div class="dropdown-header">Survival Games</div>
+        <div class="dropdown-content"></div>
+      </div>
+
+      <div class="dropdown-card" data-game="hide">
+        <div class="dropdown-header">Hide and Seek</div>
+        <div class="dropdown-content"></div>
+      </div>
+
+      <div class="dropdown-card" data-game="ground">
+        <div class="dropdown-header">Ground Wars</div>
+        <div class="dropdown-content"></div>
+      </div>
+
+      <div class="dropdown-card" data-game="build">
+        <div class="dropdown-header">Build Battle</div>
+        <div class="dropdown-content"></div>
+      </div>
+
+      <div class="dropdown-card" data-game="bridge">
+        <div class="dropdown-header">The Bridge</div>
+        <div class="dropdown-content"></div>
+      </div>
+
+      <div class="dropdown-card" data-game="grav">
+        <div class="dropdown-header">Gravity</div>
+        <div class="dropdown-content"></div>
+      </div>
+
     </section>
 
   </div>
 
+  <!-- Footer -->
   <footer class="site-footer">
-  <div>Hive Insight is an unofficial tool and is not affiliated with The Hive.</div>
-  <div class="footer-sub">Hive Insight uses anonymous analytics to understand usage. No personal data is collected or stored.</div>
-</footer>
-
+    <div>Hive Insight is an unofficial tool and is not affiliated with The Hive.</div>
+    <div class="footer-sub">Hive Insight uses anonymous analytics to understand usage. No personal data is collected or stored.</div>
+  </footer>
 
 </body>
 </html>
