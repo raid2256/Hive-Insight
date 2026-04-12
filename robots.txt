@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://raid2256.github.io/Hive-Progress-Analyser/sitemap.xml
+Sitemap: https://raid2256.github.io/Hive-Insight/sitemap.xml
