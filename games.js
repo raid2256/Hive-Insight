@@ -43,7 +43,102 @@ const LEVEL_CAPS = {
 };
 
 // -------------------------------
-// XP TABLES (copied from your stats JS)
+// OFFICIAL XP ACTIONS (Hive Support)
+// -------------------------------
+const XP_ACTIONS_SUPPORT = {
+  bed: [
+    "Kill – 2 XP",
+    "Final Kill – 13 XP",
+    "Destroying a Bed – 15 XP",
+    "Win – 40 XP"
+  ],
+  drop: [
+    "Stand on 150 blocks – 10 XP",
+    "Collect a powerup – 10 XP",
+    "Win – 30 XP",
+    "5 XP per player eliminated"
+  ],
+  party: [
+    "Survive a round – 2 XP",
+    "Collect a powerup – 1 XP",
+    "Win – 10 XP",
+    "2 XP per player eliminated"
+  ],
+  bridge: [
+    "Kill – 2 XP",
+    "Score a point – 10 XP",
+    "Win – 25 XP",
+    "5 XP per teammate point (Duos)"
+  ],
+  build: [
+    "1st place – 25 XP",
+    "2nd place – 20 XP",
+    "3rd place – 15 XP",
+    "4th place – 10 XP",
+    "5th place – 5 XP",
+    "Ratings: Meh 1 XP, Okay 2 XP, Good 3 XP, Great 4 XP, Love 5 XP"
+  ],
+  ctf: [
+    "Kill – 3 XP",
+    "Assist – 1 XP",
+    "Capture Flag – 50 XP",
+    "Return Flag – 15 XP",
+    "Win – 100 XP",
+    "Draw – 50 XP"
+  ],
+  dr: [
+    "Top 3 finish – 30 XP",
+    "Trap kill – 2 XP",
+    "Double kill – 6 XP",
+    "Triple kill – 8 XP",
+    "Quad kill – 10 XP",
+    "Mega kill – 12 XP",
+    "Ultra kill – 14 XP",
+    "Monster kill – 16 XP",
+    "XP per checkpoint (varies)"
+  ],
+  grav: [
+    "Complete map – 10 XP",
+    "No‑death bonus – 5 XP",
+    "1st place – 12 XP",
+    "2nd place – 8 XP",
+    "3rd place – 5 XP"
+  ],
+  ground: [
+    "Kill – 5 XP",
+    "Win – 30 XP"
+  ],
+  hide: [
+    "Taunts – 3 to 18 XP",
+    "Kill seeker – 10 XP",
+    "Kill hider – 20 XP",
+    "Win as hider – 200 XP",
+    "Win as seeker – 50 XP",
+    "15 XP per 60 seconds survived"
+  ],
+  murder: [
+    "Collect coin – 2 XP",
+    "Kill murderer – 30 XP",
+    "Murderer kill – 15 XP",
+    "5 XP per 30 seconds survived (doubled if survive round)"
+  ],
+  sky: [
+    "Kill – 12 XP",
+    "Team elimination – 8 XP",
+    "Kill leader bonus – 10 XP",
+    "Mystery chest – 15 XP",
+    "Win – 50 XP"
+  ],
+  sg: [
+    "Kill – 10 XP",
+    "Reach deathmatch – 15 XP",
+    "Cache cow – 5 XP",
+    "Win – 30 XP"
+  ]
+};
+
+// -------------------------------
+// XP TABLES (from your stats JS)
 // -------------------------------
 const XP_TABLES = {
   bedwars: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
@@ -176,25 +271,38 @@ document.querySelectorAll(".dropdown-card").forEach(card => {
         .map(m => `<li>${m.name ?? m}</li>`)
         .join("");
 
-      const xpActions = meta.xp_rewards
+      const xpActionsAPI = meta.xp_rewards
         ? Object.entries(meta.xp_rewards)
             .map(([a, v]) => `<li>${a}: ${v} XP</li>`)
             .join("")
         : "<li>No XP action data.</li>";
+
+      const xpActionsSupport = XP_ACTIONS_SUPPORT[game]
+        ?.map(x => `<li>${x}</li>`)
+        .join("") || "<li>No official XP data.</li>";
 
       content.innerHTML = `
         <h3>Level Info</h3>
         <p><strong>Level Cap:</strong> ${lc.cap}</p>
         <p><strong>Prestiges:</strong> ${lc.prestiges}</p>
 
-        <h3>XP Actions</h3>
-        <ul>${xpActions}</ul>
+        <h3>XP (API Actions)</h3>
+        <ul>${xpActionsAPI}</ul>
+
+                <h3>XP (Official Actions)</h3>
+        <ul class="grid-3col">
+          ${xpActionsSupport}
+        </ul>
 
         <h3>XP Chart</h3>
-        <ul class="grid-3col">${xpList}</ul>
+        <ul class="grid-3col">
+          ${xpList}
+        </ul>
 
         <h3>Maps</h3>
-        <ul class="grid-3col">${mapList}</ul>
+        <ul class="grid-3col">
+          ${mapList}
+        </ul>
 
         <h3>Leaderboards</h3>
         <a class="home-link" href="leaderboards.html?game=${game}">
@@ -210,3 +318,4 @@ document.querySelectorAll(".dropdown-card").forEach(card => {
     }
   });
 });
+
