@@ -1,11 +1,14 @@
 async function loadPlayerCard(username) {
   const card = document.getElementById("playerCard");
 
-  // Make sure username is lowercase for MCProfile
+  // Force lowercase for MCProfile
   username = username.trim().toLowerCase();
 
-  // Fetch Bedrock skin from MCProfile
-  const res = await fetch(`https://mcprofile.io/api/v1/bedrock/gamertag/${username}`);
+  // Use proxy to bypass MCProfile blocking
+  const mcprofileURL = `https://mcprofile.io/api/v1/bedrock/gamertag/${username}`;
+  const proxyURL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(mcprofileURL);
+
+  const res = await fetch(proxyURL);
   if (!res.ok) {
     console.warn("MCProfile: Player not found.");
     card.style.display = "none";
