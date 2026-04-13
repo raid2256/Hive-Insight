@@ -1,8 +1,10 @@
 async function loadPlayerCard(username) {
   const card = document.getElementById("playerCard");
-  card.style.display = "block";
 
-  // Fetch Bedrock skin
+  // Make sure username is lowercase for MCProfile
+  username = username.trim().toLowerCase();
+
+  // Fetch Bedrock skin from MCProfile
   const res = await fetch(`https://mcprofile.io/api/v1/bedrock/gamertag/${username}`);
   if (!res.ok) {
     console.warn("MCProfile: Player not found.");
@@ -13,10 +15,15 @@ async function loadPlayerCard(username) {
   const data = await res.json();
   const skinURL = data.skin;
 
-  document.getElementById("pcName").textContent = username;
+  // Set username
+  document.getElementById("pcName").textContent = data.gamertag;
 
   // Hive stats (already loaded in script.js)
   const hive = window.lastLoadedStats;
+  if (!hive) {
+    console.warn("Hive stats missing.");
+    return;
+  }
 
   let totalGames = 0;
   let totalWins = 0;
@@ -31,6 +38,9 @@ async function loadPlayerCard(username) {
   document.getElementById("pcGames").textContent = totalGames.toLocaleString();
   document.getElementById("pcWins").textContent = totalWins.toLocaleString();
   document.getElementById("pcLevel").textContent = totalLevel;
+
+  // Show card
+  card.style.display = "flex";
 
   // 3D Skin Viewer
   const viewer = new skinview3d.SkinViewer({
