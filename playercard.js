@@ -1,44 +1,36 @@
-// ===============================
-//  INSANE 3D PLAYER CARD SYSTEM
-// ===============================
-
 async function loadPlayerCard(username) {
   const card = document.getElementById("playerCard");
   card.style.display = "block";
 
-  // Fetch Bedrock skin + Xbox icon
+  // Fetch Bedrock skin
   const res = await fetch(`https://mcprofile.io/api/v1/bedrock/gamertag/${username}`);
-  const data = await res.json();
-
-  const skinURL = data.skin;
-  const iconURL = data.icon;
-
-  document.getElementById("pcName").textContent = username;
-  document.getElementById("pcIcon").src = iconURL;
-
-  // Load Hive stats (already fetched in script.js)
-  const hive = window.lastLoadedStats;
-
-  let totalXP = 0;
-  let totalWins = 0;
-  let totalGames = 0;
-
-  for (const mode in hive) {
-    totalXP += hive[mode]?.xp ?? 0;
-    totalWins += hive[mode]?.victories ?? 0;
-    totalGames += hive[mode]?.played ?? 0;
+  if (!res.ok) {
+    console.warn("MCProfile: Player not found.");
+    card.style.display = "none";
+    return;
   }
 
-  document.getElementById("pcXP").textContent = `XP: ${totalXP.toLocaleString()}`;
-  document.getElementById("pcWins").textContent = `Wins: ${totalWins.toLocaleString()}`;
-  document.getElementById("pcGames").textContent = `Games: ${totalGames.toLocaleString()}`;
+  const data = await res.json();
+  const skinURL = data.skin;
 
-  // Prestige ring animation
-  const maxXP = 500000; // arbitrary scale
-  const percent = Math.min(totalXP / maxXP, 1);
-  const offset = 440 - 440 * percent;
-  document.getElementById("pcRing").style.strokeDashoffset = offset;
-  document.getElementById("pcLevelText").textContent = `LVL ${Math.floor(percent * 100)}`;
+  document.getElementById("pcName").textContent = username;
+
+  // Hive stats (already loaded in script.js)
+  const hive = window.lastLoadedStats;
+
+  let totalGames = 0;
+  let totalWins = 0;
+  let totalLevel = 0;
+
+  for (const mode in hive) {
+    totalGames += hive[mode]?.played ?? 0;
+    totalWins += hive[mode]?.victories ?? 0;
+    totalLevel += hive[mode]?.level ?? 0;
+  }
+
+  document.getElementById("pcGames").textContent = totalGames.toLocaleString();
+  document.getElementById("pcWins").textContent = totalWins.toLocaleString();
+  document.getElementById("pcLevel").textContent = totalLevel;
 
   // 3D Skin Viewer
   const viewer = new skinview3d.SkinViewer({
