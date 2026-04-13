@@ -245,6 +245,8 @@ document.getElementById("loadStatsBtn").addEventListener("click", async () => {
   status.textContent = "Stats loaded!";
   generateOverviewCards(data);
   window.lastLoadedStats = data;
+  await loadPlayerCard(username);
+
 
   const mode = document.getElementById("modeSelect").value;
 
