@@ -9,13 +9,16 @@ async function loadPlayerCard(username) {
   const proxyURL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(mcprofileURL);
 
   const res = await fetch(proxyURL);
-  if (!res.ok) {
-    console.warn("MCProfile: Player not found.");
-    card.style.display = "none";
-    return;
-  }
+const text = await res.text();
 
-  const data = await res.json();
+let data;
+try {
+  data = JSON.parse(text);
+} catch (err) {
+  console.warn("MCProfile returned non‑JSON:", text);
+  card.style.display = "none";
+  return;
+}
   const skinURL = data.skin;
 
   // Set username
