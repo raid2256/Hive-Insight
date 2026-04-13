@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Hive Insight – Stats & XP Calculator</title>
+  <title>Hive Insight - Stats & XP Calculator</title>
 
   <!-- Mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,6 +61,34 @@
 
     <!-- ⭐ TAB: STATS -->
     <section class="tab-content" id="tab-stats">
+
+      <!-- ⭐ NEW: INSANE WIDE 3D PLAYER CARD -->
+      <section class="card player-card-wide" id="playerCard" style="display:none;">
+        <div class="pc-left">
+          <canvas id="skinCanvas" width="350" height="450"></canvas>
+        </div>
+
+        <div class="pc-right">
+          <h2 id="pcName">Player</h2>
+          <img id="pcIcon" class="pc-icon" src="" alt="Xbox Icon">
+
+          <div class="pc-prestige-ring">
+            <svg width="160" height="160">
+              <circle cx="80" cy="80" r="70" class="pc-ring-bg"/>
+              <circle cx="80" cy="80" r="70" class="pc-ring-fg" id="pcRing"/>
+            </svg>
+            <div class="pc-level-text" id="pcLevelText">Level 0</div>
+          </div>
+
+          <div class="pc-holo">
+            <div class="pc-holo-item" id="pcXP">XP: 0</div>
+            <div class="pc-holo-item" id="pcWins">Wins: 0</div>
+            <div class="pc-holo-item" id="pcGames">Games: 0</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ⭐ Your Gamemode Stats -->
       <section class="card">
         <h2>Your Gamemode Stats</h2>
         <div id="overviewContainer" class="overview-grid"></div>
@@ -172,11 +200,14 @@
 
   <!-- ⭐ Footer -->
   <footer class="site-footer">
-  <div>Hive Insight is an unofficial tool and is not affiliated with The Hive.</div>
-  <div class="footer-sub">Hive Insight uses anonymous analytics to understand usage. No personal data is collected or stored.</div>
-</footer>
+    <div>Hive Insight is an unofficial tool and is not affiliated with The Hive.</div>
+    <div class="footer-sub">Hive Insight uses anonymous analytics to understand usage. No personal data is collected or stored.</div>
+  </footer>
 
-
+  <!-- ⭐ Scripts -->
   <script src="script.js"></script>
+  <script src="skinview3d.bundle.js"></script>
+  <script src="playercard.js"></script>
+
 </body>
 </html>
