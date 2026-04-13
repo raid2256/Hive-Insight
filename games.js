@@ -244,6 +244,9 @@ document.querySelectorAll(".dropdown-card").forEach(card => {
   const content = card.querySelector(".dropdown-content");
   const game = card.dataset.game;
 
+  // Gamemodes that actually have maps in the Hive API
+  const HAS_MAPS = ["bed", "sky", "dr", "hide", "murder", "sg"];
+
   header.addEventListener("click", async () => {
     card.classList.toggle("active");
 
@@ -252,13 +255,16 @@ document.querySelectorAll(".dropdown-card").forEach(card => {
     content.innerHTML = "<p>Loading...</p>";
 
     try {
-      const [mapsRes, metaRes] = await Promise.all([
-        fetch(`${API}/game/map/${game}`),
-        fetch(`${API}/game/meta/${game}`)
-      ]);
+      // Fetch meta (XP rewards etc.)
+      const metaRes = await fetch(`${API}/game/meta/${game}`);
+      const meta = metaRes.ok ? await metaRes.json() : {};
 
-      const maps = await mapsRes.json();
-      const meta = await metaRes.json();
+      // Fetch maps ONLY if the game supports maps
+      let maps = null;
+      if (HAS_MAPS.includes(game)) {
+        const mapsRes = await fetch(`${API}/game/map/${game}`);
+        maps = mapsRes.ok ? await mapsRes.json() : [];
+      }
 
       const lc = LEVEL_CAPS[game];
       const xpTable = XP_TABLES[XP_MODE_MAP[game]];
@@ -268,28 +274,19 @@ document.querySelectorAll(".dropdown-card").forEach(card => {
         .join("");
 
       const mapList = maps
-        .map(m => `<li>${m.name ?? m}</li>`)
-        .join("");
-
-      const xpActionsAPI = meta.xp_rewards
-        ? Object.entries(meta.xp_rewards)
-            .map(([a, v]) => `<li>${a}: ${v} XP</li>`)
-            .join("")
-        : "<li>No XP action data.</li>";
+        ? maps.map(m => `<li>${m.name ?? m}</li>`).join("")
+        : null;
 
       const xpActionsSupport = XP_ACTIONS_SUPPORT[game]
         ?.map(x => `<li>${x}</li>`)
-        .join("") || "<li>No official XP data.</li>";
+        .join("") || "<li>No XP data available.</li>";
 
       content.innerHTML = `
         <h3>Level Info</h3>
         <p><strong>Level Cap:</strong> ${lc.cap}</p>
         <p><strong>Prestiges:</strong> ${lc.prestiges}</p>
 
-        <h3>XP (API Actions)</h3>
-        <ul>${xpActionsAPI}</ul>
-
-                <h3>XP (Official Actions)</h3>
+        <h3>XP Actions</h3>
         <ul class="grid-3col">
           ${xpActionsSupport}
         </ul>
@@ -300,9 +297,11 @@ document.querySelectorAll(".dropdown-card").forEach(card => {
         </ul>
 
         <h3>Maps</h3>
-        <ul class="grid-3col">
-          ${mapList}
-        </ul>
+        ${
+          maps === null
+            ? "<p>This gamemode has no maps.</p>"
+            : `<ul class="grid-3col">${mapList}</ul>`
+        }
 
         <h3>Leaderboards</h3>
         <a class="home-link" href="leaderboards.html?game=${game}">
@@ -318,4 +317,3 @@ document.querySelectorAll(".dropdown-card").forEach(card => {
     }
   });
 });
-
