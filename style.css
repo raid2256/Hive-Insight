@@ -405,12 +405,13 @@ button:hover {
 /* Clean Wide Player Card */
 .player-card-wide {
   display: flex;
-  gap: 20px;
+  flex-direction: row;
+  gap: 24px;
   align-items: center;
-  background: #15171f;
-  border: 2px solid #2a2d36;
-  padding: 25px;
+  background: #1a1c24;
   border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #2a2d36;
 }
 
 .pc-left {
@@ -421,7 +422,7 @@ button:hover {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .pc-stat {
