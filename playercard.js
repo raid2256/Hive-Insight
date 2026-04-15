@@ -21,14 +21,15 @@ async function loadPlayerCard(username) {
   const hive = window.lastLoadedStats;
   if (!hive) return;
 
+  // Correct totals (all modes have levels)
   let totalGames = 0;
   let totalWins = 0;
   let totalLevel = 0;
 
   for (const mode in hive) {
-    totalGames += hive[mode]?.played ?? 0;
-    totalWins += hive[mode]?.victories ?? 0;
-    totalLevel += hive[mode]?.level ?? 0;
+    totalGames += hive[mode].played;
+    totalWins += hive[mode].victories;
+    totalLevel += hive[mode].level;
   }
 
   document.getElementById("pcGames").textContent = totalGames.toLocaleString();
