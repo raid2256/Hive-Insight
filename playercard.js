@@ -6,7 +6,7 @@ async function loadPlayerCard(username) {
 
   // Use proxy to bypass MCProfile blocking
   const mcprofileURL = `https://mcprofile.io/api/v1/bedrock/gamertag/${username}`;
-  const proxyURL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(mcprofileURL);
+  const proxyURL = "https://thingproxy.freeboard.io/fetch/" + mcprofileURL;
 
   const res = await fetch(proxyURL);
 const text = await res.text();
