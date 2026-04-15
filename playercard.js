@@ -3,33 +3,15 @@ async function loadPlayerCard(username) {
 
   username = username.trim().toLowerCase();
 
-  // MCProfile URL
-  const mcprofileURL = `https://mcprofile.io/api/v1/bedrock/gamertag/${username}`;
-
-  // Working proxy (JSON wrapper)
-  const proxyURL = "https://api.allorigins.win/get?url=" + encodeURIComponent(mcprofileURL);
-
-  // Fetch through proxy
-  const res = await fetch(proxyURL);
+  // Fetch from your Vercel proxy
+  const res = await fetch(`/api/mcprofile?user=${username}`);
   if (!res.ok) {
-    console.warn("Proxy failed:", res.status);
+    console.warn("MCProfile proxy error:", res.status);
     card.style.display = "none";
     return;
   }
 
-  // AllOrigins wraps the response in { contents: "..." }
-  const wrapper = await res.json();
-
-  let data;
-  try {
-    data = JSON.parse(wrapper.contents);
-  } catch (err) {
-    console.warn("MCProfile returned non‑JSON:", wrapper.contents);
-    card.style.display = "none";
-    return;
-  }
-
-  // Skin URL
+  const data = await res.json();
   const skinURL = data.skin;
 
   // Set username
