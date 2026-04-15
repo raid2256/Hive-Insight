@@ -1,35 +1,38 @@
 async function loadPlayerCard(username) {
   const card = document.getElementById("playerCard");
 
-  // Force lowercase for MCProfile
-  username = username.trim().toLowerCase();
+  username = username.trim();
 
-  // Use proxy to bypass MCProfile blocking
-  const mcprofileURL = `https://mcprofile.io/api/v1/bedrock/gamertag/${username}`;
-  const proxyURL = "https://corsproxy.io/?" + mcprofileURL;
+  // STEP 1 — Get XUID from PlayerDB
+  const xuidRes = await fetch(`https://playerdb.co/api/player/xbox/${username}`);
+  const xuidJson = await xuidRes.json();
 
-  const res = await fetch(proxyURL);
-const text = await res.text();
-
-let data;
-try {
-  data = JSON.parse(text);
-} catch (err) {
-  console.warn("MCProfile returned non‑JSON:", text);
-  card.style.display = "none";
-  return;
-}
-  const skinURL = data.skin;
-
-  // Set username
-  document.getElementById("pcName").textContent = data.gamertag;
-
-  // Hive stats (already loaded in script.js)
-  const hive = window.lastLoadedStats;
-  if (!hive) {
-    console.warn("Hive stats missing.");
+  if (!xuidJson.success) {
+    console.warn("PlayerDB: Player not found.");
+    card.style.display = "none";
     return;
   }
+
+  const xuid = xuidJson.data.player.id;
+
+  // STEP 2 — Get Bedrock skin from Geyser API
+  const skinRes = await fetch(`https://api.geysermc.org/v2/skin/${xuid}`);
+  const skinJson = await skinRes.json();
+
+  if (!skinJson.skin_url) {
+    console.warn("Geyser: Skin not found.");
+    card.style.display = "none";
+    return;
+  }
+
+  const skinURL = skinJson.skin_url;
+
+  // STEP 3 — Set username
+  document.getElementById("pcName").textContent = username;
+
+  // STEP 4 — Hive stats (already loaded)
+  const hive = window.lastLoadedStats;
+  if (!hive) return;
 
   let totalGames = 0;
   let totalWins = 0;
@@ -45,10 +48,10 @@ try {
   document.getElementById("pcWins").textContent = totalWins.toLocaleString();
   document.getElementById("pcLevel").textContent = totalLevel;
 
-  // Show card
+  // STEP 5 — Show card
   card.style.display = "flex";
 
-  // 3D Skin Viewer
+  // STEP 6 — Render skin
   const viewer = new skinview3d.SkinViewer({
     canvas: document.getElementById("skinCanvas"),
     width: 350,
