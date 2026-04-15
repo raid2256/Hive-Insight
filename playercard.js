@@ -21,15 +21,25 @@ async function loadPlayerCard(username) {
   const hive = window.lastLoadedStats;
   if (!hive) return;
 
-  // Correct totals (all modes have levels)
+  // Correct totals (filters out non‑gamemode keys)
   let totalGames = 0;
   let totalWins = 0;
   let totalLevel = 0;
 
   for (const mode in hive) {
-    totalGames += hive[mode].played;
-    totalWins += hive[mode].victories;
-    totalLevel += hive[mode].level;
+    const m = hive[mode];
+
+    // Only count real gamemodes with numeric stats
+    if (
+      m &&
+      typeof m.played === "number" &&
+      typeof m.victories === "number" &&
+      typeof m.level === "number"
+    ) {
+      totalGames += m.played;
+      totalWins += m.victories;
+      totalLevel += m.level;
+    }
   }
 
   document.getElementById("pcGames").textContent = totalGames.toLocaleString();
