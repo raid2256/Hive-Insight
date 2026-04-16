@@ -532,4 +532,50 @@ document.getElementById("modeSelect").addEventListener("change", () => {
   document.getElementById("calcBtn").click();
 });
 
+// ⭐ AUTOCOMPLETE SYSTEM (Hive player search)
+const usernameInput = document.getElementById("usernameInput");
+const autocompleteList = document.getElementById("autocompleteList");
+let autocompleteTimeout = null;
+
+usernameInput.addEventListener("input", () => {
+  const query = usernameInput.value.trim();
+
+  if (autocompleteTimeout) clearTimeout(autocompleteTimeout);
+
+  if (query.length < 2) {
+    autocompleteList.style.display = "none";
+    return;
+  }
+
+  autocompleteTimeout = setTimeout(() => {
+    fetch(`https://api.playhive.com/v0/player/search/${query}`)
+      .then(res => res.json())
+      .then(names => {
+        autocompleteList.innerHTML = "";
+
+        if (!names || names.length === 0) {
+          autocompleteList.style.display = "none";
+          return;
+        }
+
+        names.forEach(name => {
+          const item = document.createElement("div");
+          item.className = "autocomplete-item";
+          item.textContent = name;
+
+          item.addEventListener("click", () => {
+            usernameInput.value = name;
+            autocompleteList.style.display = "none";
+          });
+
+          autocompleteList.appendChild(item);
+        });
+
+        autocompleteList.style.display = "block";
+      })
+      .catch(() => {
+        autocompleteList.style.display = "none";
+      });
+  }, 200);
+});
 
