@@ -4,7 +4,7 @@ async function loadPlayerCard(username) {
 
   username = username.trim().toLowerCase();
 
-  // Fetch from your Vercel proxy
+  // Fetch profile from your proxy
   const res = await fetch(`/api/mcprofile?user=${username}`);
   if (!res.ok) {
     console.warn("MCProfile proxy error:", res.status);
@@ -18,11 +18,14 @@ async function loadPlayerCard(username) {
   // Set username
   document.getElementById("pcName").textContent = data.gamertag;
 
-  // Hive stats
+  // ⭐ GET HIVE STATS (this is where totals come from)
   const hive = window.lastLoadedStats;
-  if (!hive) return;
+  if (!hive) {
+    console.warn("Hive stats missing");
+    return;
+  }
 
-  // ⭐ Calculate totals safely
+  // ⭐ CALCULATE TOTALS
   let totalGames = 0;
   let totalWins = 0;
   let totalLevel = 0;
@@ -42,6 +45,7 @@ async function loadPlayerCard(username) {
     }
   }
 
+  // ⭐ UPDATE UI
   document.getElementById("pcGames").textContent = totalGames.toLocaleString();
   document.getElementById("pcWins").textContent = totalWins.toLocaleString();
   document.getElementById("pcLevel").textContent = totalLevel;
@@ -49,11 +53,10 @@ async function loadPlayerCard(username) {
   // Show card
   card.style.display = "flex";
 
-  // ⭐ Skin viewer + fallback
+  // ⭐ SKIN VIEWER + FALLBACK
   const canvas = document.getElementById("skinCanvas");
   const fallback = document.getElementById("skinFallback");
 
-  // Reset visibility
   canvas.style.display = "block";
   fallback.style.display = "none";
 
@@ -68,7 +71,7 @@ async function loadPlayerCard(username) {
     viewer.controls.enablePan = false;
     viewer.animation = new skinview3d.IdleAnimation();
 
-    // Load skin only once (prevents WebGL warnings)
+    // Load skin once (prevents WebGL warnings)
     viewer.loadSkin(skinURL).catch(() => {
       canvas.style.display = "none";
       fallback.style.display = "flex";
