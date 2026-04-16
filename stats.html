@@ -4,23 +4,15 @@
   <meta charset="UTF-8" />
   <title>Hive Insight - Stats & XP Calculator</title>
 
-  <!-- ⭐ Canonical URL -->
   <link rel="canonical" href="https://hive-insight.vercel.app/stats.html">
-
-  <!-- Mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="hiveinsightlogo.png">
-
-  <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <div class="app">
 
-    <!-- ⭐ Shared Header -->
     <header class="site-header">
       <div class="site-title-row">
         <h1>Hive Insight</h1>
@@ -35,12 +27,10 @@
       </nav>
     </header>
 
-    <!-- ⭐ Subtitle -->
     <p class="page-subtitle">
       A complete XP, level, and grind calculator for Hive minigames.
     </p>
 
-    <!-- ⭐ Load Stats -->
     <section class="card">
       <h2>Load Hive Stats</h2>
 
@@ -55,7 +45,6 @@
       <div id="loadStatus" style="margin-top:10px; opacity:0.8;"></div>
     </section>
 
-    <!-- ⭐ Tabs -->
     <div class="tabs">
       <button class="tab-btn active" data-tab="stats">Stats</button>
       <button class="tab-btn" data-tab="level">Level</button>
@@ -63,15 +52,12 @@
       <button class="tab-btn" data-tab="goals">Goals</button>
     </div>
 
-    <!-- ⭐ TAB: STATS -->
     <section class="tab-content" id="tab-stats">
 
-      <!-- ⭐ NEW: INSANE WIDE 3D PLAYER CARD -->
       <section class="card player-card-wide" id="playerCard" style="display:none;">
         <div class="pc-left">
           <canvas id="skinCanvas" width="350" height="450"></canvas>
 
-          <!-- ⭐ Skin fallback -->
           <div id="skinFallback" class="skin-fallback" style="display:none;">
             Skin not found
           </div>
@@ -86,14 +72,12 @@
         </div>
       </section>
 
-      <!-- ⭐ Your Gamemode Stats -->
       <section class="card">
         <h2>Your Gamemode Stats</h2>
         <div id="overviewContainer" class="overview-grid"></div>
       </section>
     </section>
 
-    <!-- ⭐ TAB: LEVEL -->
     <section class="tab-content" id="tab-level" style="display:none;">
       <section class="card">
         <h2>Level Calculator</h2>
@@ -143,7 +127,6 @@
           <p>Fill in your stats and click Calculate.</p>
         </div>
 
-        <!-- ⭐ Progress Bar -->
         <div id="progressBarContainer" class="progress-container" style="display:none;">
           <div id="progressBar" class="progress-bar"></div>
           <div id="progressText" class="progress-text"></div>
@@ -152,7 +135,6 @@
       </section>
     </section>
 
-    <!-- ⭐ TAB: GRIND -->
     <section class="tab-content" id="tab-grind" style="display:none;">
       <section class="card">
         <h2>Grind Calculator</h2>
@@ -173,7 +155,6 @@
       </section>
     </section>
 
-    <!-- ⭐ TAB: GOALS -->
     <section class="tab-content" id="tab-goals" style="display:none;">
       <section class="card">
         <h2>Goal Planner</h2>
@@ -196,13 +177,11 @@
 
   </div>
 
-  <!-- ⭐ Footer -->
   <footer class="site-footer">
     <div>Hive Insight is an unofficial tool and is not affiliated with The Hive.</div>
     <div class="footer-sub">Hive Insight uses anonymous analytics to understand usage. No personal data is collected or stored.</div>
   </footer>
 
-  <!-- ⭐ Scripts -->
   <script src="script.js"></script>
   <script src="https://unpkg.com/skinview3d/bundles/skinview3d.bundle.js"></script>
   <script src="playercard.js"></script>
