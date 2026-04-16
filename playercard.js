@@ -22,23 +22,23 @@ async function loadPlayerCard(username) {
   const hive = window.lastLoadedStats;
   if (!hive) return;
 
-  // Correct totals (filters out non‑gamemode keys)
+  // ⭐ Calculate totals safely
   let totalGames = 0;
   let totalWins = 0;
   let totalLevel = 0;
 
-  for (const mode in hive) {
-    const m = hive[mode];
+  for (const key in hive) {
+    const mode = hive[key];
 
     if (
-      m &&
-      typeof m.played === "number" &&
-      typeof m.victories === "number" &&
-      typeof m.level === "number"
+      mode &&
+      typeof mode.played === "number" &&
+      typeof mode.victories === "number" &&
+      typeof mode.level === "number"
     ) {
-      totalGames += m.played;
-      totalWins += m.victories;
-      totalLevel += m.level;
+      totalGames += mode.played;
+      totalWins += mode.victories;
+      totalLevel += mode.level;
     }
   }
 
@@ -61,15 +61,14 @@ async function loadPlayerCard(username) {
     const viewer = new skinview3d.SkinViewer({
       canvas: canvas,
       width: 350,
-      height: 450,
-      skin: skinURL
+      height: 450
     });
 
     viewer.controls.enableZoom = false;
     viewer.controls.enablePan = false;
     viewer.animation = new skinview3d.IdleAnimation();
 
-    // Detect if skin fails to load
+    // Load skin only once (prevents WebGL warnings)
     viewer.loadSkin(skinURL).catch(() => {
       canvas.style.display = "none";
       fallback.style.display = "flex";
