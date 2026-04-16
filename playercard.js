@@ -1,3 +1,4 @@
+// ⭐ Load Player Card
 async function loadPlayerCard(username) {
   const card = document.getElementById("playerCard");
 
@@ -29,7 +30,6 @@ async function loadPlayerCard(username) {
   for (const mode in hive) {
     const m = hive[mode];
 
-    // Only count real gamemodes with numeric stats
     if (
       m &&
       typeof m.played === "number" &&
@@ -49,15 +49,34 @@ async function loadPlayerCard(username) {
   // Show card
   card.style.display = "flex";
 
-  // Skin viewer
-  const viewer = new skinview3d.SkinViewer({
-    canvas: document.getElementById("skinCanvas"),
-    width: 350,
-    height: 450,
-    skin: skinURL
-  });
+  // ⭐ Skin viewer + fallback
+  const canvas = document.getElementById("skinCanvas");
+  const fallback = document.getElementById("skinFallback");
 
-  viewer.controls.enableZoom = false;
-  viewer.controls.enablePan = false;
-  viewer.animation = new skinview3d.IdleAnimation();
+  // Reset visibility
+  canvas.style.display = "block";
+  fallback.style.display = "none";
+
+  try {
+    const viewer = new skinview3d.SkinViewer({
+      canvas: canvas,
+      width: 350,
+      height: 450,
+      skin: skinURL
+    });
+
+    viewer.controls.enableZoom = false;
+    viewer.controls.enablePan = false;
+    viewer.animation = new skinview3d.IdleAnimation();
+
+    // Detect if skin fails to load
+    viewer.loadSkin(skinURL).catch(() => {
+      canvas.style.display = "none";
+      fallback.style.display = "flex";
+    });
+
+  } catch (err) {
+    canvas.style.display = "none";
+    fallback.style.display = "flex";
+  }
 }
