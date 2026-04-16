@@ -18,7 +18,7 @@ async function loadPlayerCard(username) {
   // Set username
   document.getElementById("pcName").textContent = data.gamertag;
 
-  // ⭐ GET HIVE STATS (this is where totals come from)
+  // ⭐ GET HIVE STATS
   const hive = window.lastLoadedStats;
   if (!hive) {
     console.warn("Hive stats missing");
@@ -30,18 +30,23 @@ async function loadPlayerCard(username) {
   let totalWins = 0;
   let totalLevel = 0;
 
-  for (const key in hive) {
-    const mode = hive[key];
+  for (const modeKey in hive) {
+    const modeStats = hive[modeKey];
+    if (!modeStats) continue;
 
-    if (
-      mode &&
-      typeof mode.played === "number" &&
-      typeof mode.victories === "number" &&
-      typeof mode.level === "number"
-    ) {
-      totalGames += mode.played;
-      totalWins += mode.victories;
-      totalLevel += mode.level;
+    const played = typeof modeStats.played === "number" ? modeStats.played : 0;
+    const wins = typeof modeStats.victories === "number" ? modeStats.victories : 0;
+    const xp = typeof modeStats.xp === "number" ? modeStats.xp : 0;
+
+    totalGames += played;
+    totalWins += wins;
+
+    // use global getLevelInfo from script.js
+    if (typeof getLevelInfo === "function" && XP_MODE_MAP[modeKey]) {
+      const info = getLevelInfo(modeKey, xp);
+      if (info && typeof info.level === "number") {
+        totalLevel += info.level;
+      }
     }
   }
 
@@ -71,13 +76,13 @@ async function loadPlayerCard(username) {
     viewer.controls.enablePan = false;
     viewer.animation = new skinview3d.IdleAnimation();
 
-    // Load skin once (prevents WebGL warnings)
     viewer.loadSkin(skinURL).catch(() => {
       canvas.style.display = "none";
       fallback.style.display = "flex";
     });
 
   } catch (err) {
+    console.error(err);
     canvas.style.display = "none";
     fallback.style.display = "flex";
   }
