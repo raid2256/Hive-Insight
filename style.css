@@ -429,3 +429,23 @@ button:hover {
   font-size: 18px;
   color: #d0d0d0;
 }
+
+.autocomplete-list {
+  position: absolute;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  width: 250px;
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+  z-index: 20;
+}
+
+.autocomplete-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.autocomplete-item:hover {
+  background: #333;
+}
