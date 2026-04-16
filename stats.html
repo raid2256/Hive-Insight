@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <title>Hive Insight - Stats & XP Calculator</title>
 
+  <!-- ⭐ Canonical URL -->
+  <link rel="canonical" href="https://hive-insight.vercel.app/stats.html">
+
   <!-- Mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -64,19 +67,18 @@
 
       <!-- ⭐ NEW: INSANE WIDE 3D PLAYER CARD -->
       <section class="card player-card-wide" id="playerCard" style="display:none;">
-  <div class="pc-left">
-    <canvas id="skinCanvas" width="350" height="450"></canvas>
-  </div>
+        <div class="pc-left">
+          <canvas id="skinCanvas" width="350" height="450"></canvas>
+        </div>
 
-  <div class="pc-right">
-    <h2 id="pcName">Player</h2>
+        <div class="pc-right">
+          <h2 id="pcName">Player</h2>
 
-    <div class="pc-stat">Total Hive Level: <span id="pcLevel">0</span></div>
-    <div class="pc-stat">Games Played: <span id="pcGames">0</span></div>
-    <div class="pc-stat">Games Won: <span id="pcWins">0</span></div>
-  </div>
-</section>
-
+          <div class="pc-stat">Total Hive Level: <span id="pcLevel">0</span></div>
+          <div class="pc-stat">Games Played: <span id="pcGames">0</span></div>
+          <div class="pc-stat">Games Won: <span id="pcWins">0</span></div>
+        </div>
+      </section>
 
       <!-- ⭐ Your Gamemode Stats -->
       <section class="card">
@@ -196,7 +198,7 @@
 
   <!-- ⭐ Scripts -->
   <script src="script.js"></script>
-<script src="https://unpkg.com/skinview3d/bundles/skinview3d.bundle.js"></script>
-<script src="playercard.js"></script>
+  <script src="https://unpkg.com/skinview3d/bundles/skinview3d.bundle.js"></script>
+  <script src="playercard.js"></script>
 </body>
 </html>
