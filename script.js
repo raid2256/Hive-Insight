@@ -564,10 +564,10 @@ usernameInput.addEventListener("input", () => {
         names.forEach(name => {
           const item = document.createElement("div");
           item.className = "autocomplete-item";
-          item.textContent = name;
+          item.textContent = name.username_cc;
 
           item.addEventListener("click", () => {
-            usernameInput.value = name;
+            usernameInput.value = name.username;
             autocompleteList.style.display = "none";
           });
 
@@ -579,5 +579,5 @@ usernameInput.addEventListener("input", () => {
       .catch(() => {
         autocompleteList.style.display = "none";
       });
-  }, 200); // <-- closes setTimeout
-}); // <-- closes addEventListener
+  }, 200);
+});
