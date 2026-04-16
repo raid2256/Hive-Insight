@@ -549,34 +549,35 @@ usernameInput.addEventListener("input", () => {
 
   autocompleteTimeout = setTimeout(() => {
     fetch(`https://api.playhive.com/v0/player/search/${query}`)
-  .then(res => {
-    if (res.status === 422) return []; // No matches
-    return res.json();
-  })
-  .then(names => {
-    autocompleteList.innerHTML = "";
+      .then(res => {
+        if (res.status === 422) return []; // No matches
+        return res.json();
+      })
+      .then(names => {
+        autocompleteList.innerHTML = "";
 
-    if (!names || names.length === 0) {
-      autocompleteList.style.display = "none";
-      return;
-    }
+        if (!names || names.length === 0) {
+          autocompleteList.style.display = "none";
+          return;
+        }
 
-    names.forEach(name => {
-      const item = document.createElement("div");
-      item.className = "autocomplete-item";
-      item.textContent = name;
+        names.forEach(name => {
+          const item = document.createElement("div");
+          item.className = "autocomplete-item";
+          item.textContent = name;
 
-      item.addEventListener("click", () => {
-        usernameInput.value = name;
+          item.addEventListener("click", () => {
+            usernameInput.value = name;
+            autocompleteList.style.display = "none";
+          });
+
+          autocompleteList.appendChild(item);
+        });
+
+        autocompleteList.style.display = "block";
+      })
+      .catch(() => {
         autocompleteList.style.display = "none";
       });
-
-      autocompleteList.appendChild(item);
-    });
-
-    autocompleteList.style.display = "block";
-  })
-  .catch(() => {
-    autocompleteList.style.display = "none";
-  });
-    
+  }, 200); // <-- closes setTimeout
+}); // <-- closes addEventListener
