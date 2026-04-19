@@ -28,6 +28,22 @@ const XP_MODE_MAP = {
   grav: "gravity"
 };
 
+const MODE_ICONS = {
+  bed: "https://cdn.playhive.com/avatars/bed-bedwars.png",
+  sky: "https://cdn.playhive.com/avatars/sky-island.png",
+  dr: "https://cdn.playhive.com/avatars/dr-deathrun.png",
+  party: "https://cdn.playhive.com/avatars/party-neon-night.png",
+  drop: "https://cdn.playhive.com/avatars/drop-blue-blur.png",
+  ctf: "https://cdn.playhive.com/avatars/ctf-red-flag.png",
+  murder: "https://cdn.playhive.com/avatars/murder-mystery.png",
+  sg: "https://cdn.playhive.com/avatars/sg-survival-games.png",
+  hide: "https://cdn.playhive.com/avatars/hide-hiding-doggo.png",
+  ground: "https://cdn.playhive.com/avatars/ground-egg.png",
+  build: "https://cdn.playhive.com/avatars/build-builder.png",
+  bridge: "https://cdn.playhive.com/avatars/bridge-hatch.png",
+  grav: "https://cdn.playhive.com/avatars/grav-zoomies.png"
+};
+
 let globalXp = 0;
 let globalGames = 0;
 let globalWins = 0;
