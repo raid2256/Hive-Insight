@@ -469,28 +469,4 @@ button:hover {
   margin-right: 8px;
   border-radius: 6px;
 }
-.ov-row {
-  display: flex;
-  justify-content: space-between;
-  margin: 3px 0;
-}
-.ov-row span:first-child {
-  font-weight: bold;
-}
-.mini-progress {
-  position: relative;
-  height: 10px;
-  background: #ddd;
-  border-radius: 5px;
-  margin-top: 6px;
-}
-.mini-progress-fill {
-  height: 100%;
-  background: #4caf50;
-  border-radius: 5px;
-}
-.mini-progress-text {
-  font-size: 12px;
-  margin-top: 4px;
-  opacity: 0.8;
-}
+
