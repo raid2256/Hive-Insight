@@ -136,31 +136,113 @@ function generateOverviewCards(data) {
   };
 
   for (const mode in data) {
-    const stats = data[mode];
-    if (!stats || (!stats.xp && !stats.played)) continue;
+    const s = data[mode];
+    if (!s || (!s.xp && !s.played)) continue;
     if (!XP_MODE_MAP[mode]) continue;
 
-    const xp = stats.xp ?? 0;
-    const played = stats.played ?? 0;
-    const wins = stats.victories ?? 0;
+    const xp = s.xp ?? 0;
+    const played = s.played ?? 0;
+    const wins = s.victories ?? 0;
+    const losses = played - wins;
     const winrate = played > 0 ? ((wins / played) * 100).toFixed(2) : "0.00";
 
     const info = getLevelInfo(mode, xp);
-    const percent = (info.progressToNext * 100).toFixed(1);
+    const percentToNext = (info.progressToNext * 100).toFixed(2);
+
+    const maxXp = XP_TABLES[XP_MODE_MAP[mode]][XP_TABLES[XP_MODE_MAP[mode]].length - 1];
+    const percentComplete = ((xp / maxXp) * 100).toFixed(2);
+
+    const firstPlayed = s.first_played
+      ? new Date(s.first_played * 1000).toDateString()
+      : "Unknown";
+
+    const kd = (s.kills && s.deaths)
+      ? (s.deaths === 0 ? s.kills : (s.kills / s.deaths).toFixed(2))
+      : null;
+
+    const fkdr = (s.final_kills && s.deaths)
+      ? (s.deaths === 0 ? s.final_kills : (s.final_kills / s.deaths).toFixed(2))
+      : null;
+
+    const ed = (mode === "murder" && s.deaths)
+      ? (s.deaths / played).toFixed(2)
+      : null;
+
+    const kpg = (mode === "hide" && s.hider_kills)
+      ? (s.hider_kills / played).toFixed(2)
+      : null;
+
+    const prestige = s.prestige ?? 0;
+
+    const rows = [];
+
+    const add = (label, value) => {
+      if (value !== null && value !== undefined) {
+        rows.push(`<div class="ov-row"><span>${label}:</span> <span>${value}</span></div>`);
+      }
+    };
+
+    add("First Played", firstPlayed);
+    add("Experience", xp.toLocaleString());
+    add("Played", played.toLocaleString());
+    add("Victories", wins.toLocaleString());
+    add("Losses", losses.toLocaleString());
+    add("Win Percentage", winrate + "%");
+
+    add("Kills", s.kills);
+    add("Final Kills", s.final_kills);
+    add("Deaths", s.deaths);
+    add("K/D Ratio", kd);
+    add("Final K/D", fkdr);
+
+    add("E/D Ratio", ed);
+    add("Kills Per Game", kpg);
+
+    add("Beds Destroyed", s.beds_destroyed);
+    add("Coins Collected", s.coins);
+    add("Murders", s.murders);
+    add("Murderers Killed", s.murderer_eliminations);
+    add("Mystery Chests Opened", s.mystery_chests_destroyed);
+    add("Ores Mined", s.ores_mined);
+    add("Spells Used", s.spells_used);
+    add("Powerups Collected", s.powerups_collected);
+    add("Rounds Survived", s.rounds_survived);
+    add("Checkpoints Passed", s.checkpoints);
+    add("Traps Activated", s.activated);
+    add("Hiders Killed", s.hider_kills);
+    add("Seekers Killed", s.seeker_kills);
+    add("Maps Completed", s.maps_completed);
+    add("Maps Survived", s.maps_completed_without_dying);
+    add("Assists", s.assists);
+    add("Flags Captured", s.flags_captured);
+    add("Flags Returned", s.flags_returned);
+    add("Blocks Destroyed", s.blocks_destroyed);
+    add("Vaults Used", s.vaults_used);
+    add("Crates Looted", s.crates);
+    add("Cows Looted", s.cows);
+    add("Deathmatches", s.deathmatches);
+    add("Teleporters Used", s.teleporters_used);
+    add("Launchpads Used", s.launchpads_used);
+    add("Flares Used", s.flares_used);
+    add("Goals Scored", s.goals);
+    add("Blocks Placed", s.blocks_placed);
+    add("Projectiles Fired", s.projectiles_fired);
+
+    if (prestige > 0) add("Prestige", prestige);
 
     const card = document.createElement("div");
     card.className = "overview-card";
 
     card.innerHTML = `
-      <h3>${modeNames[mode]}</h3>
+      <h3>
+        <img src="${MODE_ICONS[mode]}" class="gm-icon">
+        ${modeNames[mode]}
+      </h3>
+
       <div class="overview-stats">
-        XP: ${xp.toLocaleString()}<br>
-        Level: ${info.level} / ${info.maxLevel}<br>
-        Progress: ${percent}%<br>
-        Played: ${played.toLocaleString()}<br>
-        Wins: ${wins.toLocaleString()}<br>
-        Win %: ${winrate}%<br>
-        Max Progress: ${((xp / XP_TABLES[XP_MODE_MAP[mode]][XP_TABLES[XP_MODE_MAP[mode]].length - 1]) * 100).toFixed(1)}%<br>
+        <div class="ov-row"><span>Total Complete:</span> <span>${percentComplete}%</span></div>
+        <div class="ov-row"><span>To Next Level:</span> <span>${percentToNext}%</span></div>
+        ${rows.join("")}
       </div>
 
       <div class="mini-progress-label">
@@ -168,14 +250,15 @@ function generateOverviewCards(data) {
       </div>
 
       <div class="mini-progress">
-        <div class="mini-progress-fill" style="width:${percent}%"></div>
-        <div class="mini-progress-text">${percent}%</div>
+        <div class="mini-progress-fill" style="width:${percentToNext}%"></div>
+        <div class="mini-progress-text">${percentToNext}%</div>
       </div>
     `;
 
     container.appendChild(card);
   }
 }
+
 
 // ⭐ LEVEL INFO
 function getLevelInfo(mode, xp) {
