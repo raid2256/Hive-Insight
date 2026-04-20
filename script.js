@@ -29,19 +29,19 @@ const XP_MODE_MAP = {
 };
 
 const MODE_ICONS = {
-  bed: "https://cdn.playhive.com/avatars/bed-bedwars.png",
-  sky: "https://cdn.playhive.com/avatars/sky-island.png",
-  dr: "https://cdn.playhive.com/avatars/dr-deathrun.png",
-  party: "https://cdn.playhive.com/avatars/party-neon-night.png",
-  drop: "https://cdn.playhive.com/avatars/drop-blue-blur.png",
-  ctf: "https://cdn.playhive.com/avatars/ctf-red-flag.png",
-  murder: "https://cdn.playhive.com/avatars/murder-mystery.png",
-  sg: "https://cdn.playhive.com/avatars/sg-survival-games.png",
-  hide: "https://cdn.playhive.com/avatars/hide-hiding-doggo.png",
-  ground: "https://cdn.playhive.com/avatars/ground-egg.png",
-  build: "https://cdn.playhive.com/avatars/build-builder.png",
-  bridge: "https://cdn.playhive.com/avatars/bridge-hatch.png",
-  grav: "https://cdn.playhive.com/avatars/grav-zoomies.png"
+  bed: "icons/bed-icon.webp",          // BedWars
+  party: "icons/bp-icon.webp",         // Block Party
+  bridge: "icons/bridge-icon.webp",    // The Bridge
+  build: "icons/build-icon.webp",      // Build Battle
+  ctf: "icons/ctf-icon.webp",          // Capture the Flag
+  dr: "icons/dr-icon.webp",            // Deathrun
+  drop: "icons/drop-icon.webp",        // Block Drop
+  grav: "icons/grav-icon.webp",        // Gravity
+  ground: "icons/ground-icon.webp",    // Ground Wars
+  hide: "icons/hide-icon.webp",        // Hide and Seek
+  murder: "icons/mm-icon.webp",        // Murder Mystery
+  sg: "icons/sg-icon.webp",            // Survival Games
+  sky: "icons/sky-icon.webp"           // SkyWars
 };
 
 let globalXp = 0;
