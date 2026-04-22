@@ -736,3 +736,14 @@ document.getElementById("sortSelect").addEventListener("change", () => {
     generateOverviewCards(window.lastLoadedStats);
   }
 });
+
+document.getElementById("hideUnplayed").addEventListener("change", e => {
+  hideUnplayed = e.target.checked;
+  if (window.lastLoadedStats) generateOverviewCards(window.lastLoadedStats);
+});
+
+document.getElementById("sortDirBtn").addEventListener("click", () => {
+  sortDirection = sortDirection === "desc" ? "asc" : "desc";
+  document.getElementById("sortDirBtn").textContent = sortDirection === "desc" ? "▼" : "▲";
+  if (window.lastLoadedStats) generateOverviewCards(window.lastLoadedStats);
+});
