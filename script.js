@@ -210,6 +210,7 @@ function generateHighlights(data) {
 
 // ⭐ OVERVIEW CARD GENERATOR (moved up)
 function generateOverviewCards(data) {
+  generateHighlights(data);
   const container = document.getElementById("overviewContainer");
   container.innerHTML = "";
 
