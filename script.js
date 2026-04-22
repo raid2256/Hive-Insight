@@ -48,6 +48,9 @@ let globalXp = 0;
 let globalGames = 0;
 let globalWins = 0;
 let globalTable = [];
+let hideUnplayed = false;
+let sortDirection = "desc";
+
 
 // ⭐ XP TABLES
 const XP_TABLES = {
