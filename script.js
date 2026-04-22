@@ -114,6 +114,49 @@ const XP_TABLES = {
     129150,135450,141900,148500,155250,162150,169200,176400,183750]
 };
 
+function sortModes(data, sortType) {
+  return Object.entries(data).sort((a, b) => {
+    const A = a[1];
+    const B = b[1];
+
+    const xpA = A?.xp ?? 0;
+    const xpB = B?.xp ?? 0;
+
+    const gamesA = A?.played ?? 0;
+    const gamesB = B?.played ?? 0;
+
+    const winsA = A?.victories ?? 0;
+    const winsB = B?.victories ?? 0;
+
+    const kdA = (A?.kills ?? 0) / ((A?.deaths ?? 1) || 1);
+    const kdB = (B?.kills ?? 0) / ((B?.deaths ?? 1) || 1);
+
+    const maxA = XP_TABLES[XP_MODE_MAP[a[0]]]?.slice(-1)[0] ?? 1;
+    const maxB = XP_TABLES[XP_MODE_MAP[b[0]]]?.slice(-1)[0] ?? 1;
+
+    const completeA = xpA / maxA;
+    const completeB = xpB / maxB;
+
+    switch (sortType) {
+      case "xp":
+        return xpB - xpA;
+
+      case "winrate":
+        return (winsB / (gamesB || 1)) - (winsA / (gamesA || 1));
+
+      case "kd":
+        return kdB - kdA;
+
+      case "complete":
+        return completeB - completeA;
+
+      case "games":
+      default:
+        return gamesB - gamesA;
+    }
+  });
+}
+
 // ⭐ OVERVIEW CARD GENERATOR (moved up)
 function generateOverviewCards(data) {
   const container = document.getElementById("overviewContainer");
