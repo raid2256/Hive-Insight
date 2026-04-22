@@ -118,7 +118,7 @@ const XP_TABLES = {
 };
 
 function sortModes(data, sortType) {
-  return Object.entries(data).sort((a, b) => {
+  const result = Object.entries(data).sort((a, b) => {
     const A = a[1];
     const B = b[1];
 
@@ -143,22 +143,22 @@ function sortModes(data, sortType) {
     switch (sortType) {
       case "xp":
         return xpB - xpA;
-
       case "winrate":
         return (winsB / (gamesB || 1)) - (winsA / (gamesA || 1));
-
       case "kd":
         return kdB - kdA;
-
       case "complete":
         return completeB - completeA;
-
       case "games":
       default:
         return gamesB - gamesA;
     }
   });
+
+  // ⭐ Apply ascending/descending here
+  return sortDirection === "asc" ? result.reverse() : result;
 }
+
 
 function generateHighlights(data) {
   const container = document.getElementById("highlightsCard");
