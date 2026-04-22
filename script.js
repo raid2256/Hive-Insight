@@ -160,6 +160,54 @@ function sortModes(data, sortType) {
   });
 }
 
+function generateHighlights(data) {
+  const container = document.getElementById("highlightsCard");
+  const content = document.getElementById("highlightsContent");
+
+  const modes = Object.entries(data).filter(([m, s]) => s && (s.xp || s.played));
+
+  if (modes.length === 0) {
+    container.style.display = "none";
+    return;
+  }
+
+  const highestLevel = modes.reduce((a, b) =>
+    getLevelInfo(a[0], a[1].xp).level > getLevelInfo(b[0], b[1].xp).level ? a : b
+  );
+
+  const bestWinrate = modes.reduce((a, b) =>
+    (a[1].victories / (a[1].played || 1)) > (b[1].victories / (b[1].played || 1)) ? a : b
+  );
+
+  const mostGames = modes.reduce((a, b) =>
+    a[1].played > b[1].played ? a : b
+  );
+
+  const bestKD = modes.reduce((a, b) =>
+    ((a[1].kills || 0) / ((a[1].deaths || 1))) >
+    ((b[1].kills || 0) / ((b[1].deaths || 1))) ? a : b
+  );
+
+  const oldest = modes.reduce((a, b) =>
+    (a[1].first_played || Infinity) < (b[1].first_played || Infinity) ? a : b
+  );
+
+  const mostXP = modes.reduce((a, b) =>
+    a[1].xp > b[1].xp ? a : b
+  );
+
+  content.innerHTML = `
+    <div><strong>Highest Level:</strong> ${highestLevel[0]}</div>
+    <div><strong>Best Winrate:</strong> ${bestWinrate[0]}</div>
+    <div><strong>Most Games:</strong> ${mostGames[0]}</div>
+    <div><strong>Best K/D:</strong> ${bestKD[0]}</div>
+    <div><strong>Oldest Mode:</strong> ${oldest[0]}</div>
+    <div><strong>Most XP:</strong> ${mostXP[0]}</div>
+  `;
+
+  container.style.display = "block";
+}
+
 // ⭐ OVERVIEW CARD GENERATOR (moved up)
 function generateOverviewCards(data) {
   const container = document.getElementById("overviewContainer");
