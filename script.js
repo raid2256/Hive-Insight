@@ -128,7 +128,7 @@ const XP_TABLES = {
     129150,135450,141900,148500,155250,162150,169200,176400,183750]
 };
 
-};
+
 
 // ⭐ Sorting Function (with asc/desc support)
 function sortModes(data, sortType) {
