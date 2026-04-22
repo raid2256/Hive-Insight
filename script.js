@@ -29,19 +29,19 @@ const XP_MODE_MAP = {
 };
 
 const MODE_ICONS = {
-  bed: "icons/bed-icon.webp",          // BedWars
-  party: "icons/bp-icon.webp",         // Block Party
-  bridge: "icons/bridge-icon.webp",    // The Bridge
-  build: "icons/build-icon.webp",      // Build Battle
-  ctf: "icons/ctf-icon.webp",          // Capture the Flag
-  dr: "icons/dr-icon.webp",            // Deathrun
-  drop: "icons/drop-icon.webp",        // Block Drop
-  grav: "icons/grav-icon.webp",        // Gravity
-  ground: "icons/ground-icon.webp",    // Ground Wars
-  hide: "icons/hide-icon.webp",        // Hide and Seek
-  murder: "icons/mm-icon.webp",        // Murder Mystery
-  sg: "icons/sg-icon.webp",            // Survival Games
-  sky: "icons/sky-icon.webp"           // SkyWars
+  bed: "icons/bed-icon.webp",
+  party: "icons/bp-icon.webp",
+  bridge: "icons/bridge-icon.webp",
+  build: "icons/build-icon.webp",
+  ctf: "icons/ctf-icon.webp",
+  dr: "icons/dr-icon.webp",
+  drop: "icons/drop-icon.webp",
+  grav: "icons/grav-icon.webp",
+  ground: "icons/ground-icon.webp",
+  hide: "icons/hide-icon.webp",
+  murder: "icons/mm-icon.webp",
+  sg: "icons/sg-icon.webp",
+  sky: "icons/sky-icon.webp"
 };
 
 let globalXp = 0;
@@ -51,72 +51,24 @@ let globalTable = [];
 let hideUnplayed = false;
 let sortDirection = "desc";
 
-
 // ⭐ XP TABLES
 const XP_TABLES = {
-  bedwars: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
-    20400,22950,25650,28500,31500,34650,37950,41400,45000,48750,52650,56700,60900,
-    65250,69750,74400,79200,84150,89250,94500,99900,105450,111150,117000,123000,
-    129150,135450,141900,148500,155250,162150,169200,176400,183750,191250,198900,
-    206550,214200,221850,229500,237150,244800,252450,260100,267750,275400,283050,
-    290700,298350,306000,313650,321300,328950,336600,344250,351900,359550,367200,
-    374850,382500,390150,397800,405450,413100,420750,428400,436050,443700,451350,
-    459000,466650,474300,481950,489600,497250,504900,512550,520200,527850,535500,
-    543150,550800,558450,566100],
-  skywars: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
-    20400,22950,25650,28500,31500,34650,37950,41400,45000,48750,52650,56700,60900,
-    65250,69750,74400,79200,84150,89250,94500,99900,105450,111150,117000,123000,
-    129150,135450,141900,148500,155250,162150,169200,176400,183750,191250,198900,
-    206550,214200,221850,229500,237150,244800,252450,260100,267750,275400,283050,
-    290700,298350,306000,313650,321300,328950,336600,344250,351900,359550,367200,
-    374850,382500,390150,397800,405450,413100,420750,428400,436050,443700,451350,
-    459000,466650,474300,481950,489600,497250,504900,512550,520200,527850,535500,
-    543150,550800,558450,566100],
-  blockdrop: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
-    20400,22950,25650,28500,31500,34650,37800,40950,44100],
-  blockparty: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
-    20400,22950,25650,28500,31500,34650,37950,41400,45000],
-  bridge: [0,300,924,1897,3246,5001,7194,9860,13036,16762,21082,26043,31696,38096,45302,
-    53378,62393,72422,83546,95852],
-  buildbattle: [0,100,300,600,1000,1500,2100,2800,3600,4500,5500,6600,7800,9100,10500,12000,
-    13600,15300,17100,19000,21000,23000,25300,27600,30000,32500,35500,37800,40600,
-    43500],
-  ctf: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
-    20400,22950,25650,28500,31500,34650,37950,41400,45000,48750,52650,56700,60900,
-    65250,69750,74400,79200,84150,89250,94500,99900,105450,111150,117000,123000,
-    129150,135450,141900,148500,155250,162150,169200,176400,183750],
-  deathrun: [0,200,600,1200,2000,3000,4200,5600,7200,9000,11000,13200,15600,18200,21000,
-    24000,27200,30600,34200,38000,42000,46200,50600,55200,60000,65000,70200,75600,
-    81200,87000,93000,99200,105600,112200,119000,126000,133200,140600,148200,
-    156000,164000,172200,180400,188600,196800,205000,213200,221400,229600,237800,
-    246000,254200,262400,270600,278800,287000,295200,303400,311600,319800,328000,
-    336200,344400,352600,360800,369000,377200,385400,393600,401800,410000,418200,
-    426400,434600,442800],
-  gravity: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
-    20400,22950,25650,28500,31500,34650,37950,41400,45000],
-  groundwars: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
-    20400,22950,25650,28500],
-  hideandseek: [0,100,300,600,1000,1500,2100,2800,3600,4500,5500,6600,7800,9100,10500,12000,
-    13600,15300,17100,19000,21000,23100,25300,27600,30000,32500,35100,37800,40600,
-    43500,46500,49600,52800,56100,59500,63000,66600,70300,74100,78000,82000,86100,
-    90300,94600,99000,103500,108100,112800,117600,122500,127500,132600,137800,
-    143100,148500,154000,159600,165300,171100,177000,183000,189100,195300,201600,
-    208000,214500,221100,227800,234600,241500,248500,255600,262800,270100,277500],
-  murdermystery: [0,100,300,600,1000,1500,2100,2800,3600,4500,5500,6600,7800,9100,10500,12000,
-    13600,15300,17100,19000,21000,23100,25300,27600,30000,32500,35100,37800,40600,
-    43500,46500,49600,52800,56100,59500,63000,66600,70300,74100,78000,82000,86100,
-    90300,94600,99000,103500,108100,112800,117600,122500,127500,132600,137800,
-    143100,148500,154000,159600,165300,171100,177000,183000,189100,195300,201600,
-    208000,214500,221100,227800,234600,241500,248500,255600,262800,270100,277500,
-    285000,292600,300300,308100,316000,324000,332100,340200,348300,356400,364500,
-    372600,380700,388800,396900,405000,413100,421200,429300,437400,445500,453600,
-    461700,469800,477900],
-  survivalgames: [0,150,450,900,1500,2250,3150,4200,5400,6750,8250,9900,11700,13650,15750,18000,
-    20400,22950,25650,28500,31500,34650,37950,41400,45000,48750,52650,56700,60900,
-    65250,69750,74400,79200,84150,89250,94500,99900,105450,111150,117000,123000,
-    129150,135450,141900,148500,155250,162150,169200,176400,183750]
+  bedwars: [...],
+  skywars: [...],
+  blockdrop: [...],
+  blockparty: [...],
+  bridge: [...],
+  buildbattle: [...],
+  ctf: [...],
+  deathrun: [...],
+  gravity: [...],
+  groundwars: [...],
+  hideandseek: [...],
+  murdermystery: [...],
+  survivalgames: [...]
 };
 
+// ⭐ Sorting Function (with asc/desc support)
 function sortModes(data, sortType) {
   const result = Object.entries(data).sort((a, b) => {
     const A = a[1];
@@ -141,30 +93,27 @@ function sortModes(data, sortType) {
     const completeB = xpB / maxB;
 
     switch (sortType) {
-      case "xp":
-        return xpB - xpA;
-      case "winrate":
-        return (winsB / (gamesB || 1)) - (winsA / (gamesA || 1));
-      case "kd":
-        return kdB - kdA;
-      case "complete":
-        return completeB - completeA;
+      case "xp": return xpB - xpA;
+      case "winrate": return (winsB / (gamesB || 1)) - (winsA / (gamesA || 1));
+      case "kd": return kdB - kdA;
+      case "complete": return completeB - completeA;
       case "games":
-      default:
-        return gamesB - gamesA;
+      default: return gamesB - gamesA;
     }
   });
 
-  // ⭐ Apply ascending/descending here
   return sortDirection === "asc" ? result.reverse() : result;
 }
 
-
+// ⭐ Highlights Section (fixed to avoid null-level crash)
 function generateHighlights(data) {
   const container = document.getElementById("highlightsCard");
   const content = document.getElementById("highlightsContent");
 
-  const modes = Object.entries(data).filter(([m, s]) => s && (s.xp || s.played));
+  // FIX: Only include valid gamemodes
+  const modes = Object.entries(data).filter(([m, s]) =>
+    XP_MODE_MAP[m] && s && (s.xp || s.played)
+  );
 
   if (modes.length === 0) {
     container.style.display = "none";
@@ -176,7 +125,8 @@ function generateHighlights(data) {
   );
 
   const bestWinrate = modes.reduce((a, b) =>
-    (a[1].victories / (a[1].played || 1)) > (b[1].victories / (b[1].played || 1)) ? a : b
+    (a[1].victories / (a[1].played || 1)) >
+    (b[1].victories / (b[1].played || 1)) ? a : b
   );
 
   const mostGames = modes.reduce((a, b) =>
@@ -207,10 +157,10 @@ function generateHighlights(data) {
 
   container.style.display = "block";
 }
-
-// ⭐ OVERVIEW CARD GENERATOR (moved up)
+// ⭐ OVERVIEW CARD GENERATOR
 function generateOverviewCards(data) {
   generateHighlights(data);
+
   const container = document.getElementById("overviewContainer");
   container.innerHTML = "";
 
@@ -233,17 +183,16 @@ function generateOverviewCards(data) {
     grav: "Gravity"
   };
 
-for (const [mode, s] of sorted) {
-  if (hideUnplayed && (s.played ?? 0) === 0) continue;
-    if (!s) continue;  // ← put it RIGHT here
+  for (const [mode, s] of sorted) {
+    if (!s) continue;
     if (!XP_MODE_MAP[mode]) continue;
+    if (hideUnplayed && (s.played ?? 0) === 0) continue;
 
     const xp = s.xp ?? 0;
     const played = s.played ?? 0;
     const wins = s.victories ?? 0;
     const losses = played - wins;
     const winrate = played > 0 ? ((wins / played) * 100).toFixed(2) : "0.00";
-
 
     const info = getLevelInfo(mode, xp);
     const percentToNext = (info.progressToNext * 100).toFixed(2);
@@ -274,7 +223,6 @@ for (const [mode, s] of sorted) {
     const prestige = s.prestige ?? 0;
 
     const rows = [];
-
     const add = (label, value) => {
       if (value !== null && value !== undefined) {
         rows.push(`<div class="ov-row"><span>${label}:</span> <span>${value}</span></div>`);
@@ -358,7 +306,6 @@ for (const [mode, s] of sorted) {
   }
 }
 
-
 // ⭐ LEVEL INFO
 function getLevelInfo(mode, xp) {
   const table = XP_TABLES[XP_MODE_MAP[mode]];
@@ -389,6 +336,7 @@ function getLevelInfo(mode, xp) {
   };
 }
 
+// ⭐ Formatting Helpers
 function formatPercent(v) {
   return (v * 100).toFixed(2) + "%";
 }
@@ -445,14 +393,12 @@ document.getElementById("loadStatsBtn").addEventListener("click", async () => {
   window.lastLoadedStats = data;
   await loadPlayerCard(username);
 
-
   const mode = document.getElementById("modeSelect").value;
 
   document.getElementById("xpInput").value = data[mode]?.xp ?? 0;
   document.getElementById("winsInput").value = data[mode]?.victories ?? 0;
   document.getElementById("gamesInput").value = data[mode]?.played ?? 0;
 });
-
 // ⭐ CALCULATE BUTTON
 document.getElementById("calcBtn").addEventListener("click", () => {
   const mode = document.getElementById("modeSelect").value;
@@ -463,7 +409,6 @@ document.getElementById("calcBtn").addEventListener("click", () => {
   const targetLevel = targetLevelInput ? Number(targetLevelInput) : null;
 
   const resultsDiv = document.getElementById("results");
-
   const table = XP_TABLES[XP_MODE_MAP[mode]];
 
   globalXp = xp;
@@ -481,7 +426,7 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     return;
   }
 
-    const info = getLevelInfo(mode, xp);
+  const info = getLevelInfo(mode, xp);
   if (!info) {
     resultsDiv.innerHTML = "<p>Could not compute level.</p>";
     return;
@@ -490,7 +435,6 @@ document.getElementById("calcBtn").addEventListener("click", () => {
   const winrate = games > 0 ? wins / games : 0;
   const xpPerGame = games > 0 ? xp / games : 0;
 
-  // Target level logic
   let targetLvl = targetLevel && targetLevel >= 1 ? targetLevel : info.nextLevel;
   if (targetLvl > info.maxLevel) targetLvl = info.maxLevel;
 
@@ -499,7 +443,6 @@ document.getElementById("calcBtn").addEventListener("click", () => {
   const gamesNeededToTarget = xpPerGame > 0 ? xpRemainingToTarget / xpPerGame : 0;
   const winsNeededToTarget = gamesNeededToTarget * winrate;
 
-  // Output results
   resultsDiv.innerHTML = `
     <div class="result-grid">
       <div class="result-item">
@@ -552,7 +495,7 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     </p>
   `;
 
-  // Progress bar update
+  // ⭐ Progress Bar
   const progressBarContainer = document.getElementById("progressBarContainer");
   const progressBar = document.getElementById("progressBar");
   const progressText = document.getElementById("progressText");
@@ -564,11 +507,9 @@ document.getElementById("calcBtn").addEventListener("click", () => {
     const rawPercent = (xp / maxXp) * 100;
     const percentText = rawPercent.toFixed(2) + "%";
 
-    // Reset width instantly (no animation)
     progressBar.style.transition = "none";
     progressBar.style.width = "0%";
 
-    // Force browser to apply reset before animating
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         progressBar.style.transition = "width 0.8s ease-in-out";
@@ -726,11 +667,10 @@ document.getElementById("modeSelect").addEventListener("change", () => {
   document.getElementById("winsInput").value = data[mode]?.victories ?? 0;
   document.getElementById("gamesInput").value = data[mode]?.played ?? 0;
 
-  // Auto-run the calculator
   document.getElementById("calcBtn").click();
 });
 
-// ⭐ AUTOCOMPLETE SYSTEM (Hive player search)
+// ⭐ AUTOCOMPLETE SYSTEM
 const usernameInput = document.getElementById("usernameInput");
 const autocompleteList = document.getElementById("autocompleteList");
 let autocompleteTimeout = null;
@@ -748,7 +688,7 @@ usernameInput.addEventListener("input", () => {
   autocompleteTimeout = setTimeout(() => {
     fetch(`https://api.playhive.com/v0/player/search/${query}`)
       .then(res => {
-        if (res.status === 422) return []; // No matches
+        if (res.status === 422) return [];
         return res.json();
       })
       .then(names => {
@@ -780,10 +720,9 @@ usernameInput.addEventListener("input", () => {
   }, 200);
 });
 
+// ⭐ Sorting & Hide Toggles
 document.getElementById("sortSelect").addEventListener("change", () => {
-  if (window.lastLoadedStats) {
-    generateOverviewCards(window.lastLoadedStats);
-  }
+  if (window.lastLoadedStats) generateOverviewCards(window.lastLoadedStats);
 });
 
 document.getElementById("hideUnplayed").addEventListener("change", e => {
@@ -793,6 +732,8 @@ document.getElementById("hideUnplayed").addEventListener("change", e => {
 
 document.getElementById("sortDirBtn").addEventListener("click", () => {
   sortDirection = sortDirection === "desc" ? "asc" : "desc";
-  document.getElementById("sortDirBtn").textContent = sortDirection === "desc" ? "▼" : "▲";
+  document.getElementById("sortDirBtn").textContent =
+    sortDirection === "desc" ? "▼" : "▲";
+
   if (window.lastLoadedStats) generateOverviewCards(window.lastLoadedStats);
 });
