@@ -470,3 +470,17 @@ button:hover {
   border-radius: 6px;
 }
 
+.sort-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.sort-row select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #1a1a1a;
+  color: white;
+  border: 1px solid #333;
+}
