@@ -138,8 +138,8 @@ function generateOverviewCards(data) {
     grav: "Gravity"
   };
 
-  for (const [mode, s] of sorted) {
-    if (!s || (!s.xp && !s.played)) continue;
+for (const [mode, s] of sorted) {
+    if (!s) continue;  // ← put it RIGHT here
     if (!XP_MODE_MAP[mode]) continue;
 
     const xp = s.xp ?? 0;
@@ -147,6 +147,7 @@ function generateOverviewCards(data) {
     const wins = s.victories ?? 0;
     const losses = played - wins;
     const winrate = played > 0 ? ((wins / played) * 100).toFixed(2) : "0.00";
+
 
     const info = getLevelInfo(mode, xp);
     const percentToNext = (info.progressToNext * 100).toFixed(2);
