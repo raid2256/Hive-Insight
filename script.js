@@ -185,6 +185,7 @@ function generateOverviewCards(data) {
   };
 
 for (const [mode, s] of sorted) {
+  if (hideUnplayed && (s.played ?? 0) === 0) continue;
     if (!s) continue;  // ← put it RIGHT here
     if (!XP_MODE_MAP[mode]) continue;
 
