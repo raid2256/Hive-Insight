@@ -52,6 +52,7 @@
       <button class="tab-btn" data-tab="goals">Goals</button>
     </div>
 
+    <!-- ⭐ STATS TAB -->
     <section class="tab-content" id="tab-stats">
 
       <section class="card player-card-wide" id="playerCard" style="display:none;">
@@ -74,10 +75,24 @@
 
       <section class="card">
         <h2>Your Gamemode Stats</h2>
+
+        <!-- ⭐ SORTING DROPDOWN -->
+        <div class="sort-row">
+          <label for="sortSelect"><strong>Sort by:</strong></label>
+          <select id="sortSelect">
+            <option value="games" selected>Games Played</option>
+            <option value="xp">XP</option>
+            <option value="winrate">Win %</option>
+            <option value="kd">K/D</option>
+            <option value="complete">Completion %</option>
+          </select>
+        </div>
+
         <div id="overviewContainer" class="overview-grid"></div>
       </section>
     </section>
 
+    <!-- ⭐ LEVEL TAB -->
     <section class="tab-content" id="tab-level" style="display:none;">
       <section class="card">
         <h2>Level Calculator</h2>
@@ -135,6 +150,7 @@
       </section>
     </section>
 
+    <!-- ⭐ GRIND TAB -->
     <section class="tab-content" id="tab-grind" style="display:none;">
       <section class="card">
         <h2>Grind Calculator</h2>
@@ -155,6 +171,7 @@
       </section>
     </section>
 
+    <!-- ⭐ GOALS TAB -->
     <section class="tab-content" id="tab-goals" style="display:none;">
       <section class="card">
         <h2>Goal Planner</h2>
