@@ -119,6 +119,9 @@ function generateOverviewCards(data) {
   const container = document.getElementById("overviewContainer");
   container.innerHTML = "";
 
+  const sortType = document.getElementById("sortSelect")?.value || "games";
+  const sorted = sortModes(data, sortType);
+
   const modeNames = {
     bed: "BedWars",
     sky: "SkyWars",
@@ -135,8 +138,7 @@ function generateOverviewCards(data) {
     grav: "Gravity"
   };
 
-  for (const mode in data) {
-    const s = data[mode];
+  for (const [mode, s] of sorted) {
     if (!s || (!s.xp && !s.played)) continue;
     if (!XP_MODE_MAP[mode]) continue;
 
@@ -679,4 +681,10 @@ usernameInput.addEventListener("input", () => {
         autocompleteList.style.display = "none";
       });
   }, 200);
+});
+
+document.getElementById("sortSelect").addEventListener("change", () => {
+  if (window.lastLoadedStats) {
+    generateOverviewCards(window.lastLoadedStats);
+  }
 });
