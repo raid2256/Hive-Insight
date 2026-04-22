@@ -484,3 +484,50 @@ button:hover {
   color: white;
   border: 1px solid #333;
 }
+
+.stats-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hide-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sort-dir {
+  padding: 5px 10px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.highlights-card {
+  margin-top: 15px;
+}
+
+.highlights-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 20px;
+  margin-top: 10px;
+}
+
+.highlights-grid div {
+  font-size: 14px;
+  opacity: 0.9;
+}
