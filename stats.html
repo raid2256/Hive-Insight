@@ -76,17 +76,32 @@
       <section class="card">
         <h2>Your Gamemode Stats</h2>
 
-        <!-- ⭐ SORTING DROPDOWN -->
-        <div class="sort-row">
-          <label for="sortSelect"><strong>Sort by:</strong></label>
-          <select id="sortSelect">
-            <option value="games" selected>Games Played</option>
-            <option value="xp">XP</option>
-            <option value="winrate">Win %</option>
-            <option value="kd">K/D</option>
-            <option value="complete">Completion %</option>
-          </select>
+        <!-- ⭐ Controls Row -->
+        <div class="stats-controls">
+          <label class="hide-toggle">
+            <input type="checkbox" id="hideUnplayed">
+            Hide unplayed modes
+          </label>
+
+          <div class="sort-controls">
+            <label for="sortSelect"><strong>Sort by:</strong></label>
+            <select id="sortSelect">
+              <option value="games" selected>Games Played</option>
+              <option value="xp">XP</option>
+              <option value="winrate">Win %</option>
+              <option value="kd">K/D</option>
+              <option value="complete">Completion %</option>
+            </select>
+
+            <button id="sortDirBtn" class="sort-dir">▼</button>
+          </div>
         </div>
+
+        <!-- ⭐ Personal Highlights -->
+        <section class="card highlights-card" id="highlightsCard" style="display:none;">
+          <h3>Personal Highlights</h3>
+          <div id="highlightsContent" class="highlights-grid"></div>
+        </section>
 
         <div id="overviewContainer" class="overview-grid"></div>
       </section>
