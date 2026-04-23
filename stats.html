@@ -13,6 +13,7 @@
 <body>
   <div class="app">
 
+    <!-- ⭐ HEADER -->
     <header class="site-header">
       <div class="site-title-row">
         <h1>Hive Insight</h1>
@@ -31,6 +32,7 @@
       A complete XP, level, and grind calculator for Hive minigames.
     </p>
 
+    <!-- ⭐ LOAD STATS -->
     <section class="card">
       <h2>Load Hive Stats</h2>
 
@@ -45,6 +47,7 @@
       <div id="loadStatus" style="margin-top:10px; opacity:0.8;"></div>
     </section>
 
+    <!-- ⭐ TABS -->
     <div class="tabs">
       <button class="tab-btn active" data-tab="stats">Stats</button>
       <button class="tab-btn" data-tab="level">Level</button>
@@ -55,6 +58,7 @@
     <!-- ⭐ STATS TAB -->
     <section class="tab-content" id="tab-stats">
 
+      <!-- ⭐ PLAYER CARD -->
       <section class="card player-card-wide" id="playerCard" style="display:none;">
         <div class="pc-left">
           <canvas id="skinCanvas" width="350" height="450"></canvas>
@@ -73,6 +77,19 @@
         </div>
       </section>
 
+      <!-- ⭐ GLOBAL PROFILE CARD (NEW FEATURE) -->
+      <section class="card" id="globalStatsCard" style="display:none; margin-top:15px;">
+        <h3>Global Profile</h3>
+        <div class="global-grid">
+          <div><strong>Total XP:</strong> <span id="globalXP">0</span></div>
+          <div><strong>Total Games:</strong> <span id="globalTotalGames">0</span></div>
+          <div><strong>Total Wins:</strong> <span id="globalTotalWins">0</span></div>
+          <div><strong>Average Winrate:</strong> <span id="globalAvgWinrate">0%</span></div>
+          <div><strong>Average K/D:</strong> <span id="globalAvgKD">0</span></div>
+        </div>
+      </section>
+
+      <!-- ⭐ GAMEMODE STATS -->
       <section class="card">
         <h2>Your Gamemode Stats</h2>
 
@@ -97,12 +114,13 @@
           </div>
         </div>
 
-        <!-- ⭐ Personal Highlights -->
+        <!-- ⭐ PERSONAL HIGHLIGHTS (UPDATED FEATURE) -->
         <section class="card highlights-card" id="highlightsCard" style="display:none;">
           <h3>Personal Highlights</h3>
           <div id="highlightsContent" class="highlights-grid"></div>
         </section>
 
+        <!-- ⭐ OVERVIEW GRID -->
         <div id="overviewContainer" class="overview-grid"></div>
       </section>
     </section>
@@ -209,11 +227,13 @@
 
   </div>
 
+  <!-- ⭐ FOOTER -->
   <footer class="site-footer">
     <div>Hive Insight is an unofficial tool and is not affiliated with The Hive.</div>
     <div class="footer-sub">Hive Insight uses anonymous analytics to understand usage. No personal data is collected or stored.</div>
   </footer>
 
+  <!-- ⭐ SCRIPTS -->
   <script src="script.js"></script>
   <script src="https://unpkg.com/skinview3d/bundles/skinview3d.bundle.js"></script>
   <script src="playercard.js"></script>
