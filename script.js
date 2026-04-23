@@ -225,13 +225,25 @@ function generateHighlights(data) {
   );
 
 content.innerHTML = `
-    <div><strong>Highest Level:</strong> ${modeNames[highestLevel[0]]}</div>
-    <div><strong>Best Winrate:</strong> ${modeNames[bestWinrate[0]]}</div>
-    <div><strong>Most Games:</strong> ${modeNames[mostGames[0]]}</div>
-    <div><strong>Best K/D:</strong> ${modeNames[bestKD[0]]}</div>
-    <div><strong>Oldest Mode:</strong> ${modeNames[oldest[0]]}</div>
-    <div><strong>Most XP:</strong> ${modeNames[mostXP[0]]}</div>
+  <div><strong>Highest Level:</strong> ${modeNames[highestLevel[0]]} — Level ${getLevelInfo(highestLevel[0], highestLevel[1].xp).level}</div>
+
+  <div><strong>Best Winrate:</strong> ${modeNames[bestWinrate[0]]} — ${(
+    (bestWinrate[1].victories / (bestWinrate[1].played || 1)) * 100
+  ).toFixed(2)}%</div>
+
+  <div><strong>Most Games:</strong> ${modeNames[mostGames[0]]} — ${mostGames[1].played.toLocaleString()} games</div>
+
+  <div><strong>Best K/D:</strong> ${modeNames[bestKD[0]]} — ${(
+    (bestKD[1].kills || 0) / (bestKD[1].deaths || 1)
+  ).toFixed(2)}</div>
+
+  <div><strong>Oldest Mode:</strong> ${modeNames[oldest[0]]} — since ${
+    oldest[1].first_played ? new Date(oldest[1].first_played * 1000).getFullYear() : "Unknown"
+  }</div>
+
+  <div><strong>Most XP:</strong> ${modeNames[mostXP[0]]} — ${mostXP[1].xp.toLocaleString()} XP</div>
 `;
+
 
   container.style.display = "block";
 }
@@ -270,7 +282,8 @@ function generateGlobalStats(data) {
 
 // ⭐ OVERVIEW CARD GENERATOR
 function generateOverviewCards(data) {
-  generateHighlights(data);
+  generateGlobalStats(data);
+generateHighlights(data);
 
   const container = document.getElementById("overviewContainer");
   container.innerHTML = "";
