@@ -235,6 +235,39 @@ content.innerHTML = `
 
   container.style.display = "block";
 }
+
+function generateGlobalStats(data) {
+  let totalXP = 0;
+  let totalGames = 0;
+  let totalWins = 0;
+  let totalKills = 0;
+  let totalDeaths = 0;
+
+  for (const mode in data) {
+    if (!XP_MODE_MAP[mode]) continue;
+
+    const s = data[mode];
+    if (!s) continue;
+
+    totalXP += s.xp ?? 0;
+    totalGames += s.played ?? 0;
+    totalWins += s.victories ?? 0;
+    totalKills += s.kills ?? 0;
+    totalDeaths += s.deaths ?? 0;
+  }
+
+  const avgWinrate = totalGames > 0 ? ((totalWins / totalGames) * 100).toFixed(2) : "0.00";
+  const avgKD = totalDeaths > 0 ? (totalKills / totalDeaths).toFixed(2) : "0.00";
+
+  document.getElementById("globalXP").textContent = totalXP.toLocaleString();
+  document.getElementById("globalTotalGames").textContent = totalGames.toLocaleString();
+  document.getElementById("globalTotalWins").textContent = totalWins.toLocaleString();
+  document.getElementById("globalAvgWinrate").textContent = avgWinrate + "%";
+  document.getElementById("globalAvgKD").textContent = avgKD;
+
+  document.getElementById("globalStatsCard").style.display = "block";
+}
+
 // ⭐ OVERVIEW CARD GENERATOR
 function generateOverviewCards(data) {
   generateHighlights(data);
