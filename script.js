@@ -168,6 +168,22 @@ function sortModes(data, sortType) {
 }
 
 // ⭐ Highlights Section (fixed to avoid null-level crash)
+const modeNames = {
+  bed: "BedWars",
+  sky: "SkyWars",
+  dr: "Deathrun",
+  party: "Block Party",
+  drop: "Block Drop",
+  ctf: "Capture the Flag",
+  murder: "Murder Mystery",
+  sg: "Survival Games",
+  hide: "Hide and Seek",
+  ground: "Ground Wars",
+  build: "Build Battle",
+  bridge: "The Bridge",
+  grav: "Gravity"
+};
+
 function generateHighlights(data) {
   const container = document.getElementById("highlightsCard");
   const content = document.getElementById("highlightsContent");
@@ -208,14 +224,14 @@ function generateHighlights(data) {
     a[1].xp > b[1].xp ? a : b
   );
 
-  content.innerHTML = `
-    <div><strong>Highest Level:</strong> ${highestLevel[0]}</div>
-    <div><strong>Best Winrate:</strong> ${bestWinrate[0]}</div>
-    <div><strong>Most Games:</strong> ${mostGames[0]}</div>
-    <div><strong>Best K/D:</strong> ${bestKD[0]}</div>
-    <div><strong>Oldest Mode:</strong> ${oldest[0]}</div>
-    <div><strong>Most XP:</strong> ${mostXP[0]}</div>
-  `;
+content.innerHTML = `
+    <div><strong>Highest Level:</strong> ${modeNames[highestLevel[0]]}</div>
+    <div><strong>Best Winrate:</strong> ${modeNames[bestWinrate[0]]}</div>
+    <div><strong>Most Games:</strong> ${modeNames[mostGames[0]]}</div>
+    <div><strong>Best K/D:</strong> ${modeNames[bestKD[0]]}</div>
+    <div><strong>Oldest Mode:</strong> ${modeNames[oldest[0]]}</div>
+    <div><strong>Most XP:</strong> ${modeNames[mostXP[0]]}</div>
+`;
 
   container.style.display = "block";
 }
