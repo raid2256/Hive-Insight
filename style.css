@@ -531,3 +531,10 @@ button:hover {
   font-size: 14px;
   opacity: 0.9;
 }
+
+.global-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px 15px;
+  margin-top: 10px;
+}
