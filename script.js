@@ -353,3 +353,20 @@ document.getElementById("sortDirBtn").addEventListener("click", () => {
     document.getElementById("sortDirBtn").textContent = sortDirection === "desc" ? "▼" : "▲";
     if (window.lastLoadedStats) generateOverviewCards(window.lastLoadedStats);
 });
+
+// ⭐ RESET SESSION LOGIC
+document.getElementById("resetSessionBtn").addEventListener("click", () => {
+    if (confirm("End current session and reset all gains to zero?")) {
+        localStorage.removeItem("hiveSession");
+        sessionData = null;
+        
+        // Hide the active content and show the "No active session" message
+        document.getElementById("sessionActiveContent").style.display = "none";
+        document.getElementById("sessionInactiveContent").style.display = "block";
+        
+        // Change button text back
+        document.getElementById("startSessionBtn").textContent = "Start Session";
+        
+        alert("Session cleared!");
+    }
+});
