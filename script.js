@@ -11,37 +11,18 @@ async function loadHiveStats(username) {
     }
 }
 
-// Map API gamemode keys → XP table keys
 const XP_MODE_MAP = {
-    bed: "bedwars",
-    sky: "skywars",
-    dr: "deathrun",
-    party: "blockparty",
-    drop: "blockdrop",
-    ctf: "ctf",
-    murder: "murdermystery",
-    sg: "survivalgames",
-    hide: "hideandseek",
-    ground: "groundwars",
-    build: "buildbattle",
-    bridge: "bridge",
-    grav: "gravity"
+    bed: "bedwars", sky: "skywars", dr: "deathrun", party: "blockparty",
+    drop: "blockdrop", ctf: "ctf", murder: "murdermystery", sg: "survivalgames",
+    hide: "hideandseek", ground: "groundwars", build: "buildbattle",
+    bridge: "bridge", grav: "gravity"
 };
 
 const MODE_ICONS = {
-    bed: "icons/bed-icon.webp",
-    party: "icons/bp-icon.webp",
-    bridge: "icons/bridge-icon.webp",
-    build: "icons/build-icon.webp",
-    ctf: "icons/ctf-icon.webp",
-    dr: "icons/dr-icon.webp",
-    drop: "icons/drop-icon.webp",
-    grav: "icons/grav-icon.webp",
-    ground: "icons/ground-icon.webp",
-    hide: "icons/hide-icon.webp",
-    murder: "icons/mm-icon.webp",
-    sg: "icons/sg-icon.webp",
-    sky: "icons/sky-icon.webp"
+    bed: "icons/bed-icon.webp", party: "icons/bp-icon.webp", bridge: "icons/bridge-icon.webp",
+    build: "icons/build-icon.webp", ctf: "icons/ctf-icon.webp", dr: "icons/dr-icon.webp",
+    drop: "icons/drop-icon.webp", grav: "icons/grav-icon.webp", ground: "icons/ground-icon.webp",
+    hide: "icons/hide-icon.webp", murder: "icons/mm-icon.webp", sg: "icons/sg-icon.webp", sky: "icons/sky-icon.webp"
 };
 
 let globalXp = 0;
@@ -53,7 +34,6 @@ let sortDirection = "desc";
 let sessionData = JSON.parse(localStorage.getItem("hiveSession")) || null;
 let refreshInterval = null;
 
-// ⭐ XP TABLES
 const XP_TABLES = {
     bedwars: [0, 150, 450, 900, 1500, 2250, 3150, 4200, 5400, 6750, 8250, 9900, 11700, 13650, 15750, 18000, 20400, 22950, 25650, 28500, 31500, 34650, 37950, 41400, 45000, 48750, 52650, 56700, 60900, 65250, 69750, 74400, 79200, 84150, 89250, 94500, 99900, 105450, 111150, 117000, 123000, 129150, 135450, 141900, 148500, 155250, 162150, 169200, 176400, 183750, 191250, 198900, 206550, 214200, 221850, 229500, 237150, 244800, 252450, 260100, 267750, 275400, 283050, 290700, 298350, 306000, 313650, 321300, 328950, 336600, 344250, 351900, 359550, 367200, 374850, 382500, 390150, 397800, 405450, 413100, 420750, 428400, 436050, 443700, 451350, 459000, 466650, 474300, 481950, 489600, 497250, 504900, 512550, 520200, 527850, 535500, 543150, 550800, 558450, 566100],
     skywars: [0, 150, 450, 900, 1500, 2250, 3150, 4200, 5400, 6750, 8250, 9900, 11700, 13650, 15750, 18000, 20400, 22950, 25650, 28500, 31500, 34650, 37950, 41400, 45000, 48750, 52650, 56700, 60900, 65250, 69750, 74400, 79200, 84150, 89250, 94500, 99900, 105450, 111150, 117000, 123000, 129150, 135450, 141900, 148500, 155250, 162150, 169200, 176400, 183750, 191250, 198900, 206550, 214200, 221850, 229500, 237150, 244800, 252450, 260100, 267750, 275400, 283050, 290700, 298350, 306000, 313650, 321300, 328950, 336600, 344250, 351900, 359550, 367200, 374850, 382500, 390150, 397800, 405450, 413100, 420750, 428400, 436050, 443700, 451350, 459000, 466650, 474300, 481950, 489600, 497250, 504900, 512550, 520200, 527850, 535500, 543150, 550800, 558450, 566100],
@@ -73,27 +53,21 @@ const XP_TABLES = {
 // ⭐ Sorting Function
 function sortModes(data, sortType) {
     const result = Object.entries(data).sort((a, b) => {
-        const A = a[1];
-        const B = b[1];
-        const xpA = A?.xp ?? 0;
-        const xpB = B?.xp ?? 0;
-        const gamesA = A?.played ?? 0;
-        const gamesB = B?.played ?? 0;
-        const winsA = A?.victories ?? 0;
-        const winsB = B?.victories ?? 0;
+        const A = a[1]; const B = b[1];
+        const xpA = A?.xp ?? 0; const xpB = B?.xp ?? 0;
+        const gamesA = A?.played ?? 0; const gamesB = B?.played ?? 0;
+        const winsA = A?.victories ?? 0; const winsB = B?.victories ?? 0;
         const kdA = (A?.kills ?? 0) / ((A?.deaths ?? 1) || 1);
         const kdB = (B?.kills ?? 0) / ((B?.deaths ?? 1) || 1);
         const maxA = XP_TABLES[XP_MODE_MAP[a[0]]]?.slice(-1)[0] ?? 1;
         const maxB = XP_TABLES[XP_MODE_MAP[b[0]]]?.slice(-1)[0] ?? 1;
-        const completeA = xpA / maxA;
-        const completeB = xpB / maxB;
+        const completeA = xpA / maxA; const completeB = xpB / maxB;
 
         switch (sortType) {
             case "xp": return xpB - xpA;
             case "winrate": return (winsB / (gamesB || 1)) - (winsA / (gamesA || 1));
             case "kd": return kdB - kdA;
             case "complete": return completeB - completeA;
-            case "games":
             default: return gamesB - gamesA;
         }
     });
@@ -101,29 +75,18 @@ function sortModes(data, sortType) {
 }
 
 // ⭐ Highlights Section
-const modeNames = {
-    bed: "BedWars", sky: "SkyWars", dr: "Deathrun", party: "Block Party", drop: "Block Drop",
-    ctf: "Capture the Flag", murder: "Murder Mystery", sg: "Survival Games", hide: "Hide and Seek",
-    ground: "Ground Wars", build: "Build Battle", bridge: "The Bridge", grav: "Gravity"
-};
-
 function generateHighlights(data) {
     const container = document.getElementById("highlightsCard");
     const content = document.getElementById("highlightsContent");
+    if(!container || !content) return;
     const modes = Object.entries(data).filter(([m, s]) => XP_MODE_MAP[m] && s && (s.xp || s.played));
-
-    if (modes.length === 0) {
-        container.style.display = "none";
-        return;
-    }
-
+    if (modes.length === 0) { container.style.display = "none"; return; }
     const highestLevel = modes.reduce((a, b) => getLevelInfo(a[0], a[1].xp).level > getLevelInfo(b[0], b[1].xp).level ? a : b);
     const bestWinrate = modes.reduce((a, b) => (a[1].victories / (a[1].played || 1)) > (b[1].victories / (b[1].played || 1)) ? a : b);
     const mostGames = modes.reduce((a, b) => a[1].played > b[1].played ? a : b);
     const bestKD = modes.reduce((a, b) => ((a[1].kills || 0) / (a[1].deaths || 1)) > ((b[1].kills || 0) / (b[1].deaths || 1)) ? a : b);
     const oldest = modes.reduce((a, b) => (a[1].first_played || Infinity) < (b[1].first_played || Infinity) ? a : b);
     const mostXP = modes.reduce((a, b) => a[1].xp > b[1].xp ? a : b);
-
     content.innerHTML = `
         <div><strong>Highest Level:</strong> ${modeNames[highestLevel[0]]} — Level ${getLevelInfo(highestLevel[0], highestLevel[1].xp).level}</div>
         <div><strong>Best Winrate:</strong> ${modeNames[bestWinrate[0]]} — ${((bestWinrate[1].victories / (bestWinrate[1].played || 1)) * 100).toFixed(2)}%</div>
@@ -139,46 +102,33 @@ function generateGlobalStats(data) {
     let totalXP = 0, totalGames = 0, totalWins = 0, totalKills = 0, totalDeaths = 0;
     for (const mode in data) {
         if (!XP_MODE_MAP[mode]) continue;
-        const s = data[mode];
-        if (!s) continue;
-        totalXP += s.xp ?? 0;
-        totalGames += s.played ?? 0;
-        totalWins += s.victories ?? 0;
-        totalKills += s.kills ?? 0;
-        totalDeaths += s.deaths ?? 0;
+        const s = data[mode]; if (!s) continue;
+        totalXP += s.xp ?? 0; totalGames += s.played ?? 0; totalWins += s.victories ?? 0;
+        totalKills += s.kills ?? 0; totalDeaths += s.deaths ?? 0;
     }
     const avgWinrate = totalGames > 0 ? ((totalWins / totalGames) * 100).toFixed(2) : "0.00";
     const avgKD = totalDeaths > 0 ? (totalKills / totalDeaths).toFixed(2) : "0.00";
-    document.getElementById("globalXP").textContent = totalXP.toLocaleString();
-    document.getElementById("globalTotalGames").textContent = totalGames.toLocaleString();
-    document.getElementById("globalTotalWins").textContent = totalWins.toLocaleString();
-    document.getElementById("globalAvgWinrate").textContent = avgWinrate + "%";
-    document.getElementById("globalAvgKD").textContent = avgKD;
-    document.getElementById("globalStatsCard").style.display = "block";
+    const elXP = document.getElementById("globalXP"); if(elXP) elXP.textContent = totalXP.toLocaleString();
+    const elTG = document.getElementById("globalTotalGames"); if(elTG) elTG.textContent = totalGames.toLocaleString();
+    const elTW = document.getElementById("globalTotalWins"); if(elTW) elTW.textContent = totalWins.toLocaleString();
+    const elWR = document.getElementById("globalAvgWinrate"); if(elWR) elWR.textContent = avgWinrate + "%";
+    const elKD = document.getElementById("globalAvgKD"); if(elKD) elKD.textContent = avgKD;
+    const card = document.getElementById("globalStatsCard"); if(card) card.style.display = "block";
 }
 
-// ⭐ OVERVIEW CARD GENERATOR
 function generateOverviewCards(data) {
-    generateGlobalStats(data);
-    generateHighlights(data);
-    const container = document.getElementById("overviewContainer");
+    generateGlobalStats(data); generateHighlights(data);
+    const container = document.getElementById("overviewContainer"); if(!container) return;
     container.innerHTML = "";
-    const sortType = document.getElementById("sortSelect")?.value || "games";
-    const sorted = sortModes(data, sortType);
-
+    const sorted = sortModes(data, document.getElementById("sortSelect")?.value || "games");
     for (const [mode, s] of sorted) {
         if (!s || !XP_MODE_MAP[mode]) continue;
         if (hideUnplayed && (s.played ?? 0) === 0) continue;
-
         const xp = s.xp ?? 0, played = s.played ?? 0, wins = s.victories ?? 0;
         const winrate = played > 0 ? ((wins / played) * 100).toFixed(2) : "0.00";
-        const info = getLevelInfo(mode, xp);
-        const percentToNext = (info.progressToNext * 100).toFixed(2);
-        const maxXp = XP_TABLES[XP_MODE_MAP[mode]].slice(-1)[0];
-        const percentComplete = ((xp / maxXp) * 100).toFixed(2);
-
-        const card = document.createElement("div");
-        card.className = "overview-card";
+        const info = getLevelInfo(mode, xp); const percentToNext = (info.progressToNext * 100).toFixed(2);
+        const maxXp = XP_TABLES[XP_MODE_MAP[mode]].slice(-1)[0]; const percentComplete = ((xp / maxXp) * 100).toFixed(2);
+        const card = document.createElement("div"); card.className = "overview-card";
         card.innerHTML = `
             <h3><img src="${MODE_ICONS[mode]}" class="gm-icon">${modeNames[mode]}</h3>
             <div class="overview-stats">
@@ -187,154 +137,176 @@ function generateOverviewCards(data) {
                 <div class="ov-row"><span>Experience:</span> <span>${xp.toLocaleString()}</span></div>
             </div>
             <div class="mini-progress-label">Level ${info.level} → ${info.nextLevel}</div>
-            <div class="mini-progress">
-                <div class="mini-progress-fill" style="width:${percentToNext}%"></div>
-                <div class="mini-progress-text">${percentToNext}%</div>
-            </div>
+            <div class="mini-progress"><div class="mini-progress-fill" style="width:${percentToNext}%"></div><div class="mini-progress-text">${percentToNext}%</div></div>
         `;
         container.appendChild(card);
     }
 }
 
-// ⭐ LEVEL INFO
 function getLevelInfo(mode, xp) {
-    const table = XP_TABLES[XP_MODE_MAP[mode]];
-    if (!table) return null;
-    let level = 1;
-    for (let i = 0; i < table.length; i++) {
-        if (xp >= table[i]) level = i + 1;
-        else break;
-    }
-    const maxLevel = table.length;
-    const currentLevelXp = table[level - 1];
-    const nextLevel = level < maxLevel ? level + 1 : level;
+    const table = XP_TABLES[XP_MODE_MAP[mode]]; if (!table) return null;
+    let level = 1; for (let i = 0; i < table.length; i++) { if (xp >= table[i]) level = i + 1; else break; }
+    const currentLevelXp = table[level - 1]; const nextLevel = level < table.length ? level + 1 : level;
     const nextLevelXp = table[nextLevel - 1];
     return {
-        level, maxLevel, currentLevelXp, nextLevel, nextLevelXp,
-        xpToNext: level === maxLevel ? 0 : nextLevelXp - xp,
-        progressToNext: level === maxLevel ? 1 : Math.max(0, Math.min(1, (xp - currentLevelXp) / (nextLevelXp - currentLevelXp)))
+        level, maxLevel: table.length, currentLevelXp, nextLevel, nextLevelXp,
+        xpToNext: level === table.length ? 0 : nextLevelXp - xp,
+        progressToNext: level === table.length ? 1 : Math.max(0, Math.min(1, (xp - currentLevelXp) / (nextLevelXp - currentLevelXp)))
     };
 }
 
-// ⭐ Formatting Helpers
 function formatPercent(v) { return (v * 100).toFixed(2) + "%"; }
 function formatNumber(n) { return n.toLocaleString("en-US", { maximumFractionDigits: 2 }); }
 
 // ⭐ INITIAL LOAD & DEEP LINKING
 window.addEventListener("load", () => {
-    if (localStorage.getItem("mode")) document.getElementById("modeSelect").value = localStorage.getItem("mode");
-    if (localStorage.getItem("xp")) document.getElementById("xpInput").value = localStorage.getItem("xp");
-    if (localStorage.getItem("games")) document.getElementById("gamesInput").value = localStorage.getItem("games");
-    if (localStorage.getItem("wins")) document.getElementById("winsInput").value = localStorage.getItem("wins");
+    const elMode = document.getElementById("modeSelect"); if(elMode && localStorage.getItem("mode")) elMode.value = localStorage.getItem("mode");
+    const elXP = document.getElementById("xpInput"); if(elXP && localStorage.getItem("xp")) elXP.value = localStorage.getItem("xp");
+    const elG = document.getElementById("gamesInput"); if(elG && localStorage.getItem("games")) elG.value = localStorage.getItem("games");
+    const elW = document.getElementById("winsInput"); if(elW && localStorage.getItem("wins")) elW.value = localStorage.getItem("wins");
 
     const params = new URLSearchParams(window.location.search);
     const playerParam = params.get("player") || params.get("user");
-    if (playerParam) {
-        document.getElementById("usernameInput").value = playerParam;
-        setTimeout(() => document.getElementById("loadStatsBtn").click(), 100);
+    const usernameInput = document.getElementById("usernameInput");
+    if (playerParam && usernameInput) {
+        usernameInput.value = playerParam;
+        setTimeout(() => { const btn = document.getElementById("loadStatsBtn"); if(btn) btn.click(); }, 100);
     }
 });
 
 // ⭐ Load Stats Button
-document.getElementById("loadStatsBtn").addEventListener("click", async () => {
-    const usernameInput = document.getElementById("usernameInput");
-    const username = usernameInput.value.trim();
-    const status = document.getElementById("loadStatus");
+const loadStatsBtn = document.getElementById("loadStatsBtn");
+if (loadStatsBtn) {
+    loadStatsBtn.addEventListener("click", async () => {
+        const usernameInput = document.getElementById("usernameInput");
+        const username = usernameInput ? usernameInput.value.trim() : "";
+        const status = document.getElementById("loadStatus");
+        if (!username) { if(status) status.textContent = "Please enter a username."; return; }
 
-    if (!username) { status.textContent = "Please enter a username."; return; }
+        const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?player=${encodeURIComponent(username)}`;
+        window.history.pushState({ path: newUrl }, '', newUrl);
 
-    // Update URL without refreshing
-    const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?player=${encodeURIComponent(username)}`;
-    window.history.pushState({ path: newUrl }, '', newUrl);
+        if(status) status.textContent = "Loading stats...";
+        const data = await loadHiveStats(username);
+        if (!data) { if(status) status.textContent = "User not found."; return; }
 
-    status.textContent = "Loading stats...";
-    const data = await loadHiveStats(username);
-    if (!data) { status.textContent = "User not found."; return; }
+        if(status) status.textContent = "Stats loaded!";
+        window.lastLoadedStats = data;
+        generateOverviewCards(data);
+        if (typeof loadPlayerCard === "function") await loadPlayerCard(username);
+        if (sessionData) updateSessionUI(data);
 
-    status.textContent = "Stats loaded!";
-    window.lastLoadedStats = data;
-    generateOverviewCards(data);
-    await loadPlayerCard(username);
-    if (sessionData) updateSessionUI(data);
-
-    const mode = document.getElementById("modeSelect").value;
-    document.getElementById("xpInput").value = data[mode]?.xp ?? 0;
-    document.getElementById("winsInput").value = data[mode]?.victories ?? 0;
-    document.getElementById("gamesInput").value = data[mode]?.played ?? 0;
-});
+        const elMode = document.getElementById("modeSelect");
+        if(elMode && data[elMode.value]) {
+            const mode = elMode.value;
+            const elXP = document.getElementById("xpInput"); if(elXP) elXP.value = data[mode].xp ?? 0;
+            const elW = document.getElementById("winsInput"); if(elW) elW.value = data[mode].victories ?? 0;
+            const elG = document.getElementById("gamesInput"); if(elG) elG.value = data[mode].played ?? 0;
+        }
+    });
+}
 
 // ⭐ CALCULATE BUTTON
-document.getElementById("calcBtn").addEventListener("click", () => {
-    const mode = document.getElementById("modeSelect").value;
-    const xp = Number(document.getElementById("xpInput").value) || 0;
-    const games = Number(document.getElementById("gamesInput").value) || 0;
-    const wins = Number(document.getElementById("winsInput").value) || 0;
-    const targetLevelInput = document.getElementById("targetLevelInput").value;
-    const targetLevel = targetLevelInput ? Number(targetLevelInput) : null;
-    const resultsDiv = document.getElementById("results");
-    const table = XP_TABLES[XP_MODE_MAP[mode]];
-
-    globalXp = xp; globalGames = games; globalWins = wins; globalTable = table;
-    localStorage.setItem("mode", mode); localStorage.setItem("xp", xp); localStorage.setItem("games", games); localStorage.setItem("wins", wins);
-
-    if (!table) { resultsDiv.innerHTML = "<p>Unknown gamemode.</p>"; return; }
-    const info = getLevelInfo(mode, xp);
-    const winrate = games > 0 ? wins / games : 0;
-    const xpPerGame = games > 0 ? xp / games : 0;
-    let targetLvl = targetLevel && targetLevel >= 1 ? targetLevel : info.nextLevel;
-    if (targetLvl > info.maxLevel) targetLvl = info.maxLevel;
-    const xpRemainingToTarget = Math.max(0, table[targetLvl - 1] - xp);
-
-    resultsDiv.innerHTML = `
-        <div class="result-grid">
-            <div class="result-item"><h3>Current Level</h3><p>${info.level} / ${info.maxLevel}</p></div>
-            <div class="result-item"><h3>XP</h3><p>${formatNumber(xp)} XP</p></div>
-            <div class="result-item"><h3>Progress</h3><p>${formatPercent(info.progressToNext)}</p></div>
-            <div class="result-item"><h3>Winrate</h3><p>${formatPercent(winrate)}</p></div>
-            <div class="result-item"><h3>XP/Game</h3><p>${formatNumber(xpPerGame)} XP</p></div>
-            <div class="result-item"><h3>Target</h3><p>Lvl ${targetLvl} (${formatNumber(xpRemainingToTarget)} XP left)</p></div>
-        </div>
-    `;
-});
+const calcBtn = document.getElementById("calcBtn");
+if (calcBtn) {
+    calcBtn.addEventListener("click", () => {
+        const mode = document.getElementById("modeSelect").value;
+        const xp = Number(document.getElementById("xpInput").value) || 0;
+        const games = Number(document.getElementById("gamesInput").value) || 0;
+        const wins = Number(document.getElementById("winsInput").value) || 0;
+        const targetLvlInput = document.getElementById("targetLevelInput").value;
+        const resultsDiv = document.getElementById("results");
+        const table = XP_TABLES[XP_MODE_MAP[mode]];
+        if (!table) return;
+        const info = getLevelInfo(mode, xp);
+        let targetLvl = targetLvlInput ? Number(targetLvlInput) : info.nextLevel;
+        if (targetLvl > table.length) targetLvl = table.length;
+        const xpRemaining = Math.max(0, table[targetLvl - 1] - xp);
+        resultsDiv.innerHTML = `
+            <div class="result-grid">
+                <div class="result-item"><h3>Current Level</h3><p>${info.level} / ${table.length}</p></div>
+                <div class="result-item"><h3>XP</h3><p>${formatNumber(xp)} XP</p></div>
+                <div class="result-item"><h3>Winrate</h3><p>${formatPercent(games > 0 ? wins/games : 0)}</p></div>
+                <div class="result-item"><h3>Target</h3><p>Lvl ${targetLvl} (${formatNumber(xpRemaining)} left)</p></div>
+            </div>`;
+    });
+}
 
 // ⭐ SHARE & SESSION LOGIC
-document.getElementById("shareProfileBtn").addEventListener("click", async () => {
-    const username = document.getElementById("pcName").textContent;
-    const shareUrl = `${window.location.origin}${window.location.pathname}?player=${encodeURIComponent(username)}`;
-    if (navigator.share) {
-        try { await navigator.share({ title: `Hive Insight - ${username}`, url: shareUrl }); } catch (err) {}
-    } else {
-        navigator.clipboard.writeText(shareUrl);
-        const btn = document.getElementById("shareProfileBtn");
-        btn.textContent = "Link Copied!";
-        setTimeout(() => btn.textContent = "Share Profile", 2000);
-    }
-});
+const shareBtn = document.getElementById("shareProfileBtn");
+if (shareBtn) {
+    shareBtn.addEventListener("click", async () => {
+        const username = document.getElementById("pcName").textContent;
+        const shareUrl = `${window.location.origin}${window.location.pathname}?player=${encodeURIComponent(username)}`;
+        if (navigator.share) { try { await navigator.share({ title: `Hive Insight - ${username}`, url: shareUrl }); } catch (err) {} }
+        else { navigator.clipboard.writeText(shareUrl); shareBtn.textContent = "Copied!"; setTimeout(() => shareBtn.textContent = "Share Profile", 2000); }
+    });
+}
 
-document.getElementById("startSessionBtn").addEventListener("click", () => {
-    if (!window.lastLoadedStats) { alert("Please load stats first!"); return; }
-    const data = window.lastLoadedStats;
-    let totalXP = 0, totalWins = 0;
-    for (const mode in data) { if (XP_MODE_MAP[mode]) { totalXP += data[mode].xp || 0; totalWins += data[mode].victories || 0; } }
-    sessionData = { startXp: totalXP, startWins: totalWins, startTime: Date.now(), username: document.getElementById("pcName").textContent };
-    localStorage.setItem("hiveSession", JSON.stringify(sessionData));
-    updateSessionUI(data);
-    alert("Session started!");
-});
+const startSessionBtn = document.getElementById("startSessionBtn");
+if (startSessionBtn) {
+    startSessionBtn.addEventListener("click", () => {
+        if (!window.lastLoadedStats) { alert("Please load stats first!"); return; }
+        const data = window.lastLoadedStats; let totalXP = 0, totalWins = 0;
+        for (const mode in data) { if (XP_MODE_MAP[mode]) { totalXP += data[mode].xp || 0; totalWins += data[mode].victories || 0; } }
+        sessionData = { startXp: totalXP, startWins: totalWins, startTime: Date.now(), username: document.getElementById("pcName").textContent };
+        localStorage.setItem("hiveSession", JSON.stringify(sessionData));
+        updateSessionUI(data); alert("Session started!");
+    });
+}
+
+const endSessionBtn = document.getElementById("endSessionBtn");
+if (endSessionBtn) {
+    endSessionBtn.addEventListener("click", () => {
+        if (!sessionData) return;
+        if (confirm("End session and show summary?")) {
+            const finalXP = document.getElementById("sessionXP").textContent;
+            const finalWins = document.getElementById("sessionWins").textContent;
+            const finalTime = document.getElementById("sessionTime").textContent;
+            const finalXPH = document.getElementById("sessionXPH").textContent;
+            const elSXP = document.getElementById("summaryXP"); if(elSXP) elSXP.textContent = finalXP;
+            const elSW = document.getElementById("summaryWins"); if(elSW) elSW.textContent = finalWins;
+            const elST = document.getElementById("summaryTime"); if(elST) elST.textContent = finalTime;
+            const elSXPH = document.getElementById("summaryXPH"); if(elSXPH) elSXPH.textContent = finalXPH;
+            const modal = document.getElementById("summaryModal"); if(modal) modal.style.display = "flex";
+            localStorage.removeItem("hiveSession"); sessionData = null;
+            document.getElementById("sessionActiveContent").style.display = "none";
+            document.getElementById("sessionInactiveContent").style.display = "block";
+            document.getElementById("startSessionBtn").textContent = "Start Session";
+            const toggle = document.getElementById("autoRefreshToggle"); if(toggle) toggle.checked = false;
+            clearInterval(refreshInterval); refreshInterval = null;
+        }
+    });
+}
+
+const closeSummaryBtn = document.getElementById("closeSummaryBtn");
+if(closeSummaryBtn) { closeSummaryBtn.addEventListener("click", () => { const modal = document.getElementById("summaryModal"); if(modal) modal.style.display = "none"; }); }
 
 function updateSessionUI(currentData) {
-    if (!sessionData) return;
+    const activeCont = document.getElementById("sessionActiveContent"); if(!activeCont || !sessionData) return;
     let curXP = 0, curWins = 0;
     for (const mode in currentData) { if (XP_MODE_MAP[mode]) { curXP += currentData[mode].xp || 0; curWins += currentData[mode].victories || 0; } }
     const xpG = curXP - sessionData.startXp, winG = curWins - sessionData.startWins;
     const hrs = (Date.now() - sessionData.startTime) / 3600000;
-    document.getElementById("sessionActiveContent").style.display = "block";
-    document.getElementById("sessionInactiveContent").style.display = "none";
+    activeCont.style.display = "block"; document.getElementById("sessionInactiveContent").style.display = "none";
     document.getElementById("sessionXP").textContent = xpG.toLocaleString();
     document.getElementById("sessionWins").textContent = winG.toLocaleString();
     document.getElementById("sessionTime").textContent = Math.floor(hrs * 60) + "m";
     document.getElementById("sessionXPH").textContent = hrs > 0 ? Math.floor(xpG / hrs).toLocaleString() : 0;
     document.getElementById("sessionStartTime").textContent = `Started: ${new Date(sessionData.startTime).toLocaleTimeString()}`;
+}
+
+const autoRefreshToggle = document.getElementById("autoRefreshToggle");
+if (autoRefreshToggle) {
+    autoRefreshToggle.addEventListener("change", (e) => {
+        if (e.target.checked) {
+            refreshInterval = setInterval(() => {
+                const status = document.getElementById("loadStatus");
+                if (status && status.textContent !== "Loading stats...") { const btn = document.getElementById("loadStatsBtn"); if(btn) btn.click(); }
+            }, 120000);
+            alert("Auto-refresh enabled (2 mins)");
+        } else { clearInterval(refreshInterval); refreshInterval = null; }
+    });
 }
 
 // ⭐ TABS & SORTING
@@ -343,78 +315,16 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
         document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         document.querySelectorAll(".tab-content").forEach(sec => sec.style.display = "none");
-        document.getElementById(`tab-${btn.dataset.tab}`).style.display = "block";
+        const target = document.getElementById(`tab-${btn.dataset.tab}`); if(target) target.style.display = "block";
     });
 });
 
-document.getElementById("sortSelect").addEventListener("change", () => { if (window.lastLoadedStats) generateOverviewCards(window.lastLoadedStats); });
-document.getElementById("hideUnplayed").addEventListener("change", e => { hideUnplayed = e.target.checked; if (window.lastLoadedStats) generateOverviewCards(window.lastLoadedStats); });
-document.getElementById("sortDirBtn").addEventListener("click", () => {
-    sortDirection = sortDirection === "desc" ? "asc" : "desc";
-    document.getElementById("sortDirBtn").textContent = sortDirection === "desc" ? "▼" : "▲";
-    if (window.lastLoadedStats) generateOverviewCards(window.lastLoadedStats);
-});
-
-// ⭐ END SESSION + SUMMARY LOGIC
-document.getElementById("endSessionBtn").addEventListener("click", () => {
-    if (!sessionData) return;
-
-    if (confirm("Are you sure you want to end this session?")) {
-        // 1. Capture final stats for the summary
-        const finalXP = document.getElementById("sessionXP").textContent;
-        const finalWins = document.getElementById("sessionWins").textContent;
-        const finalTime = document.getElementById("sessionTime").textContent;
-        const finalXPH = document.getElementById("sessionXPH").textContent;
-
-        // 2. Fill the modal
-        document.getElementById("summaryXP").textContent = finalXP;
-        document.getElementById("summaryWins").textContent = finalWins;
-        document.getElementById("summaryTime").textContent = finalTime;
-        document.getElementById("summaryXPH").textContent = finalXPH;
-
-        // 3. Show the modal
-        document.getElementById("summaryModal").style.display = "flex";
-
-        // 4. Wipe session data
-        localStorage.removeItem("hiveSession");
-        sessionData = null;
-        
-        document.getElementById("sessionActiveContent").style.display = "none";
-        document.getElementById("sessionInactiveContent").style.display = "block";
-        document.getElementById("startSessionBtn").textContent = "Start Session";
-
-        // Stop auto-refresh if running
-        const toggle = document.getElementById("autoRefreshToggle");
-        if (toggle) toggle.checked = false;
-        clearInterval(refreshInterval);
-        refreshInterval = null;
-    }
-});
-
-// Close Modal logic
-document.getElementById("closeSummaryBtn").addEventListener("click", () => {
-    document.getElementById("summaryModal").style.display = "none";
-});
-
-// ⭐ AUTO-REFRESH LOGIC
-document.getElementById("autoRefreshToggle").addEventListener("change", (e) => {
-    if (e.target.checked) {
-        // Create an interval to click the load button every 120 seconds
-        refreshInterval = setInterval(() => {
-            const loadBtn = document.getElementById("loadStatsBtn");
-            const currentStatus = document.getElementById("loadStatus").textContent;
-            
-            // Only refresh if not already loading to avoid spam
-            if (currentStatus !== "Loading stats...") {
-                console.log("Auto-refreshing stats...");
-                loadBtn.click();
-            }
-        }, 120000); 
-        
-        alert("Auto-refresh enabled! Your stats will update every 2 minutes.");
-    } else {
-        // Stop the timer
-        clearInterval(refreshInterval);
-        refreshInterval = null;
-    }
-});
+const sortSel = document.getElementById("sortSelect"); if(sortSel) sortSel.addEventListener("change", () => { if (window.lastLoadedStats) generateOverviewCards(window.lastLoadedStats); });
+const hideUP = document.getElementById("hideUnplayed"); if(hideUP) hideUP.addEventListener("change", e => { hideUnplayed = e.target.checked; if (window.lastLoadedStats) generateOverviewCards(window.lastLoadedStats); });
+const sortDirBtn = document.getElementById("sortDirBtn"); if(sortDirBtn) {
+    sortDirBtn.addEventListener("click", () => {
+        sortDirection = sortDirection === "desc" ? "asc" : "desc";
+        sortDirBtn.textContent = sortDirection === "desc" ? "▼" : "▲";
+        if (window.lastLoadedStats) generateOverviewCards(window.lastLoadedStats);
+    });
+}
