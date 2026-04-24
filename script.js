@@ -18,8 +18,6 @@ const XP_MODE_MAP = {
     bridge: "bridge", grav: "gravity"
 };
 
-// ... (keep your loadHiveStats and XP_MODE_MAP at the top)
-
 const MODE_ICONS = {
     bed: "icons/bed-icon.webp", party: "icons/bp-icon.webp", bridge: "icons/bridge-icon.webp",
     build: "icons/build-icon.webp", ctf: "icons/ctf-icon.webp", dr: "icons/dr-icon.webp",
@@ -27,19 +25,14 @@ const MODE_ICONS = {
     hide: "icons/hide-icon.webp", murder: "icons/mm-icon.webp", sg: "icons/sg-icon.webp", sky: "icons/sky-icon.webp"
 };
 
-// ⭐ MOVE THIS HERE (Global scope)
 const modeNames = {
     bed: "BedWars", sky: "SkyWars", dr: "Deathrun", party: "Block Party", drop: "Block Drop",
     ctf: "Capture the Flag", murder: "Murder Mystery", sg: "Survival Games", hide: "Hide and Seek",
     ground: "Ground Wars", build: "Build Battle", bridge: "The Bridge", grav: "Gravity"
 };
 
-let globalXp = 0;
-let globalGames = 0;
-let globalWins = 0;
-let globalTable = [];
-let hideUnplayed = false;
-let sortDirection = "desc";
+let globalXp = 0; let globalGames = 0; let globalWins = 0; let globalTable = [];
+let hideUnplayed = false; let sortDirection = "desc";
 let sessionData = JSON.parse(localStorage.getItem("hiveSession")) || null;
 let refreshInterval = null;
 
@@ -59,7 +52,6 @@ const XP_TABLES = {
     survivalgames: [0, 150, 450, 900, 1500, 2250, 3150, 4200, 5400, 6750, 8250, 9900, 11700, 13650, 15750, 18000, 20400, 22950, 25650, 28500, 31500, 34650, 37950, 41400, 45000, 48750, 52650, 56700, 60900, 65250, 69750, 74400, 79200, 84150, 89250, 94500, 99900, 105450, 111150, 117000, 123000, 129150, 135450, 141900, 148500, 155250, 162150, 169200, 176400, 183750]
 };
 
-// ⭐ Sorting Function
 function sortModes(data, sortType) {
     const result = Object.entries(data).sort((a, b) => {
         const A = a[1]; const B = b[1];
@@ -83,7 +75,6 @@ function sortModes(data, sortType) {
     return sortDirection === "asc" ? result.reverse() : result;
 }
 
-// ⭐ Highlights Section
 function generateHighlights(data) {
     const container = document.getElementById("highlightsCard");
     const content = document.getElementById("highlightsContent");
@@ -125,28 +116,75 @@ function generateGlobalStats(data) {
     const card = document.getElementById("globalStatsCard"); if(card) card.style.display = "block";
 }
 
+// RESTORED FULL OVERVIEW CARDS
 function generateOverviewCards(data) {
-    generateGlobalStats(data); generateHighlights(data);
-    const container = document.getElementById("overviewContainer"); if(!container) return;
+    generateGlobalStats(data); 
+    generateHighlights(data);
+    const container = document.getElementById("overviewContainer"); 
+    if(!container) return;
     container.innerHTML = "";
     const sorted = sortModes(data, document.getElementById("sortSelect")?.value || "games");
+
     for (const [mode, s] of sorted) {
         if (!s || !XP_MODE_MAP[mode]) continue;
         if (hideUnplayed && (s.played ?? 0) === 0) continue;
-        const xp = s.xp ?? 0, played = s.played ?? 0, wins = s.victories ?? 0;
+
+        const xp = s.xp ?? 0;
+        const played = s.played ?? 0;
+        const wins = s.victories ?? 0;
+        const losses = played - wins;
         const winrate = played > 0 ? ((wins / played) * 100).toFixed(2) : "0.00";
-        const info = getLevelInfo(mode, xp); const percentToNext = (info.progressToNext * 100).toFixed(2);
-        const maxXp = XP_TABLES[XP_MODE_MAP[mode]].slice(-1)[0]; const percentComplete = ((xp / maxXp) * 100).toFixed(2);
-        const card = document.createElement("div"); card.className = "overview-card";
+
+        const info = getLevelInfo(mode, xp);
+        const percentToNext = (info.progressToNext * 100).toFixed(2);
+        const maxXp = XP_TABLES[XP_MODE_MAP[mode]].slice(-1)[0];
+        const percentComplete = ((xp / maxXp) * 100).toFixed(2);
+
+        const firstPlayed = s.first_played ? new Date(s.first_played * 1000).toDateString() : "Unknown";
+        const kd = (s.kills && s.deaths) ? (s.deaths === 0 ? s.kills : (s.kills / s.deaths).toFixed(2)) : null;
+        const fkdr = (s.final_kills && s.deaths) ? (s.deaths === 0 ? s.final_kills : (s.final_kills / s.deaths).toFixed(2)) : null;
+
+        // Build Rows for Table
+        const rows = [];
+        const add = (label, value) => { if (value !== null && value !== undefined) rows.push(`<div class="ov-row"><span>${label}:</span> <span>${value}</span></div>`); };
+
+        add("First Played", firstPlayed);
+        add("Experience", xp.toLocaleString());
+        add("Played", played.toLocaleString());
+        add("Victories", wins.toLocaleString());
+        add("Losses", losses.toLocaleString());
+        add("Win Percentage", winrate + "%");
+        add("Kills", s.kills);
+        add("Final Kills", s.final_kills);
+        add("Deaths", s.deaths);
+        if(kd) add("K/D Ratio", kd);
+        if(fkdr) add("Final K/D", fkdr);
+        
+        // Gamemode Specifics
+        add("Beds Destroyed", s.beds_destroyed);
+        add("Coins Collected", s.coins);
+        add("Murders", s.murders);
+        add("Murderer Eliminations", s.murderer_eliminations);
+        add("Flags Captured", s.flags_captured);
+        add("Flags Returned", s.flags_returned);
+        add("Maps Completed", s.maps_completed);
+        add("Checkpoints", s.checkpoints);
+        add("Hider Kills", s.hider_kills);
+        add("Seeker Kills", s.seeker_kills);
+
+        const card = document.createElement("div");
+        card.className = "overview-card";
         card.innerHTML = `
             <h3><img src="${MODE_ICONS[mode]}" class="gm-icon">${modeNames[mode]}</h3>
             <div class="overview-stats">
                 <div class="ov-row"><span>Total Complete:</span> <span>${percentComplete}%</span></div>
-                <div class="ov-row"><span>Win Percentage:</span> <span>${winrate}%</span></div>
-                <div class="ov-row"><span>Experience:</span> <span>${xp.toLocaleString()}</span></div>
+                ${rows.join("")}
             </div>
             <div class="mini-progress-label">Level ${info.level} → ${info.nextLevel}</div>
-            <div class="mini-progress"><div class="mini-progress-fill" style="width:${percentToNext}%"></div><div class="mini-progress-text">${percentToNext}%</div></div>
+            <div class="mini-progress">
+                <div class="mini-progress-fill" style="width:${percentToNext}%"></div>
+                <div class="mini-progress-text">${percentToNext}%</div>
+            </div>
         `;
         container.appendChild(card);
     }
@@ -167,7 +205,6 @@ function getLevelInfo(mode, xp) {
 function formatPercent(v) { return (v * 100).toFixed(2) + "%"; }
 function formatNumber(n) { return n.toLocaleString("en-US", { maximumFractionDigits: 2 }); }
 
-// ⭐ INITIAL LOAD & DEEP LINKING
 window.addEventListener("load", () => {
     const elMode = document.getElementById("modeSelect"); if(elMode && localStorage.getItem("mode")) elMode.value = localStorage.getItem("mode");
     const elXP = document.getElementById("xpInput"); if(elXP && localStorage.getItem("xp")) elXP.value = localStorage.getItem("xp");
@@ -183,7 +220,6 @@ window.addEventListener("load", () => {
     }
 });
 
-// ⭐ Load Stats Button
 const loadStatsBtn = document.getElementById("loadStatsBtn");
 if (loadStatsBtn) {
     loadStatsBtn.addEventListener("click", async () => {
@@ -215,7 +251,6 @@ if (loadStatsBtn) {
     });
 }
 
-// ⭐ CALCULATE BUTTON
 const calcBtn = document.getElementById("calcBtn");
 if (calcBtn) {
     calcBtn.addEventListener("click", () => {
@@ -241,7 +276,6 @@ if (calcBtn) {
     });
 }
 
-// ⭐ SHARE & SESSION LOGIC
 const shareBtn = document.getElementById("shareProfileBtn");
 if (shareBtn) {
     shareBtn.addEventListener("click", async () => {
@@ -318,7 +352,6 @@ if (autoRefreshToggle) {
     });
 }
 
-// ⭐ TABS & SORTING
 document.querySelectorAll(".tab-btn").forEach(btn => {
     btn.addEventListener("click", () => {
         document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
