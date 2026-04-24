@@ -652,3 +652,36 @@ button:hover {
   padding: 10px 25px;
   font-weight: bold;
 }
+
+.auto-refresh-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center; /* Centers the whole group */
+  width: 100%;
+}
+
+.refresh-label {
+  display: flex;
+  align-items: center; /* Vertically aligns checkbox with text */
+  gap: 10px;           /* Space between checkbox and text */
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: opacity 0.2s;
+}
+
+.refresh-label:hover {
+  opacity: 0.8;
+}
+
+#autoRefreshToggle {
+  width: 18px;  /* Makes the checkbox a bit bigger */
+  height: 18px;
+  cursor: pointer;
+  accent-color: #4fd1c5; /* Colors the checkbox to match your theme */
+}
+
+.refresh-text {
+  font-family: "MinecraftTen", sans-serif; /* Keeps the theme consistent */
+  font-size: 14px;
+  color: #a0aec0; /* Slightly dimmed so it doesn't distract from stats */
+}
