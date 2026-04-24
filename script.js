@@ -35,6 +35,7 @@ let globalXp = 0; let globalGames = 0; let globalWins = 0; let globalTable = [];
 let hideUnplayed = false; let sortDirection = "desc";
 let sessionData = JSON.parse(localStorage.getItem("hiveSession")) || null;
 let refreshInterval = null;
+let xpChartInstance = null;
 
 const XP_TABLES = {
     bedwars: [0, 150, 450, 900, 1500, 2250, 3150, 4200, 5400, 6750, 8250, 9900, 11700, 13650, 15750, 18000, 20400, 22950, 25650, 28500, 31500, 34650, 37950, 41400, 45000, 48750, 52650, 56700, 60900, 65250, 69750, 74400, 79200, 84150, 89250, 94500, 99900, 105450, 111150, 117000, 123000, 129150, 135450, 141900, 148500, 155250, 162150, 169200, 176400, 183750, 191250, 198900, 206550, 214200, 221850, 229500, 237150, 244800, 252450, 260100, 267750, 275400, 283050, 290700, 298350, 306000, 313650, 321300, 328950, 336600, 344250, 351900, 359550, 367200, 374850, 382500, 390150, 397800, 405450, 413100, 420750, 428400, 436050, 443700, 451350, 459000, 466650, 474300, 481950, 489600, 497250, 504900, 512550, 520200, 527850, 535500, 543150, 550800, 558450, 566100],
@@ -381,5 +382,62 @@ const sortDirBtn = document.getElementById("sortDirBtn"); if(sortDirBtn) {
         sortDirection = sortDirection === "desc" ? "asc" : "desc";
         sortDirBtn.textContent = sortDirection === "desc" ? "▼" : "▲";
         if (window.lastLoadedStats) generateOverviewCards(window.lastLoadedStats);
+    });
+}
+
+// ⭐ GENERATE XP PIE CHART
+function generateXPChart(data) {
+    const ctx = document.getElementById('xpPieChart');
+    const chartCard = document.getElementById('chartCard');
+    if (!ctx || !chartCard) return;
+
+    // 1. Prepare Data
+    const labels = [];
+    const xpValues = [];
+    
+    for (const mode in data) {
+        if (XP_MODE_MAP[mode] && data[mode].xp > 0) {
+            labels.push(modeNames[mode]);
+            xpValues.push(data[mode].xp);
+        }
+    }
+
+    if (labels.length === 0) {
+        chartCard.style.display = "none";
+        return;
+    }
+
+    chartCard.style.display = "block";
+
+    // 2. Destroy old chart if it exists
+    if (xpChartInstance) {
+        xpChartInstance.destroy();
+    }
+
+    // 3. Create New Chart
+    xpChartInstance = new Chart(ctx, {
+        type: 'doughnut', // 'doughnut' looks cleaner than 'pie'
+        data: {
+            labels: labels,
+            datasets: [{
+                data: xpValues,
+                backgroundColor: [
+                    '#4fd1c5', '#63b3ed', '#f6ad55', '#fc8181', 
+                    '#b794f4', '#f687b3', '#68d391', '#4a5568',
+                    '#ecc94b', '#ed64a6', '#9f7aea', '#667eea'
+                ],
+                borderWidth: 2,
+                borderColor: '#1a1a2e' // Matches card background
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { color: '#ffffff', font: { family: 'MinecraftTen' } }
+                }
+            }
+        }
     });
 }
