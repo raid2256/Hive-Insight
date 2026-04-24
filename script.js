@@ -412,21 +412,25 @@ function generateCharts(data) {
     if (xpChartInstance) xpChartInstance.destroy();
     if (gamesChartInstance) gamesChartInstance.destroy();
 
-    const commonOptions = {
-        responsive: true,
-        plugins: {
-            legend: { display: false }, 
-            datalabels: {
-                color: '#fff',
-                font: { weight: 'bold', family: 'MinecraftTen', size: 12 },
-                formatter: (value, ctx) => {
-                    let sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
-                    let percentage = (value * 100 / sum).toFixed(0) + "%";
-                    return value > (sum * 0.05) ? percentage : ''; 
-                }
+   const commonOptions = {
+    responsive: true,
+    maintainAspectRatio: true,
+    cutout: '65%', // Thinner doughnut looks more modern when small
+    plugins: {
+        legend: { display: false }, 
+        datalabels: {
+            color: '#fff',
+            // Smaller font for smaller charts
+            font: { weight: 'bold', family: 'MinecraftTen', size: 10 }, 
+            formatter: (value, ctx) => {
+                let sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                let percentage = (value * 100 / sum).toFixed(0) + "%";
+                // Only show if it's at least 8% of the total to prevent overlap
+                return value > (sum * 0.08) ? percentage : ''; 
             }
         }
-    };
+    }
+};
 
     xpChartInstance = new Chart(xpCtx, {
         type: 'doughnut',
