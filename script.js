@@ -861,3 +861,28 @@ document.getElementById("sortDirBtn").addEventListener("click", () => {
 
   if (window.lastLoadedStats) generateOverviewCards(window.lastLoadedStats);
 });
+
+document.getElementById("shareProfileBtn").addEventListener("click", async () => {
+  const username = document.getElementById("pcName").textContent;
+  const shareUrl = `${window.location.origin}${window.location.pathname}?player=${encodeURIComponent(username)}`;
+
+  if (navigator.share) {
+    // Mobile/Modern Browsers
+    try {
+      await navigator.share({
+        title: `Hive Insight - ${username}`,
+        text: `Check out ${username}'s Hive stats and XP progress on Hive Insight!`,
+        url: shareUrl,
+      });
+    } catch (err) {
+      console.log("Share cancelled");
+    }
+  } else {
+    // Desktop Fallback: Copy to Clipboard
+    navigator.clipboard.writeText(shareUrl);
+    const btn = document.getElementById("shareProfileBtn");
+    const originalText = btn.textContent;
+    btn.textContent = "Link Copied!";
+    setTimeout(() => { btn.textContent = originalText; }, 2000);
+  }
+});
