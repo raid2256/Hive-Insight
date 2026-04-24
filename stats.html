@@ -73,28 +73,34 @@
       </section>
 
       <section class="card" id="sessionCard" style="margin-top:15px; border: 1px solid #4fd1c5;">
-<div class="session-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-  <h3 style="margin: 0;">Live Session Tracker</h3>
-  <div class="session-controls">
-    <button id="startSessionBtn" class="session-btn">Start Session</button>
-    <button id="endSessionBtn" class="session-btn end">End Session</button>
-  </div>
-</div>
-  
-  <div id="sessionActiveContent" style="display:none;">
-    <div class="global-grid">
-      <div class="result-item"><h3>XP Gained</h3><p id="sessionXP">0</p></div>
-      <div class="result-item"><h3>Wins</h3><p id="sessionWins">0</p></div>
-      <div class="result-item"><h3>Time</h3><p id="sessionTime">0m</p></div>
-      <div class="result-item"><h3>XP / Hour</h3><p id="sessionXPH">0</p></div>
-    </div>
-    <p class="small" id="sessionStartTime" style="margin-top: 10px;"></p>
-  </div>
-  
-  <div id="sessionInactiveContent">
-    <p class="small">No active session. Load your stats and click "Start Session" to track your progress!</p>
-  </div>
-</section>
+        <div class="session-header">
+          <h3 style="margin: 0;">Live Session Tracker</h3>
+          <div class="session-controls">
+            <button id="startSessionBtn" class="session-btn">Start Session</button>
+            <button id="endSessionBtn" class="session-btn end">End Session</button>
+          </div>
+        </div>
+        
+        <div id="sessionActiveContent" style="display:none;">
+          <div class="global-grid">
+            <div class="result-item"><h3>XP Gained</h3><p id="sessionXP">0</p></div>
+            <div class="result-item"><h3>Wins</h3><p id="sessionWins">0</p></div>
+            <div class="result-item"><h3>Time</h3><p id="sessionTime">0m</p></div>
+            <div class="result-item"><h3>XP / Hour</h3><p id="sessionXPH">0</p></div>
+          </div>
+          <p class="small" id="sessionStartTime" style="margin-top: 10px;"></p>
+          
+          <label class="hide-toggle" style="margin-top: 15px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+            <input type="checkbox" id="autoRefreshToggle">
+            <span class="small">Auto-refresh stats (every 2 mins)</span>
+          </label>
+        </div>
+        
+        <div id="sessionInactiveContent">
+          <p class="small">No active session. Load your stats and click "Start Session" to track your progress!</p>
+        </div>
+      </section>
+
       <section class="card" id="globalStatsCard" style="display:none; margin-top:15px;">
         <h3>Global Profile</h3>
         <div class="global-grid">
@@ -108,12 +114,10 @@
 
       <section class="card">
         <h2>Your Gamemode Stats</h2>
-
         <div class="stats-controls">
           <label class="hide-toggle">
             <input type="checkbox" id="hideUnplayed"> Hide unplayed modes
           </label>
-
           <div class="sort-controls">
             <label for="sortSelect">Sort by:</label>
             <select id="sortSelect">
@@ -126,76 +130,15 @@
             <button id="sortDirBtn" class="sort-dir">▼</button>
           </div>
         </div>
-
         <section class="card highlights-card" id="highlightsCard" style="display:none;">
           <h3>Personal Highlights</h3>
           <div id="highlightsContent" class="highlights-grid"></div>
         </section>
-
         <div id="overviewContainer" class="overview-grid"></div>
       </section>
     </section>
 
-    <section class="tab-content" id="tab-level" style="display:none;">
-      <section class="card">
-        <h2>Level Calculator</h2>
-        <label>Gamemode
-          <select id="modeSelect">
-            <option value="bed">BedWars</option>
-            <option value="sky">SkyWars</option>
-            <option value="dr">Deathrun</option>
-            <option value="party">Block Party</option>
-            <option value="drop">Block Drop</option>
-            <option value="ctf">Capture the Flag</option>
-            <option value="murder">Murder Mystery</option>
-            <option value="sg">Survival Games</option>
-            <option value="hide">Hide and Seek</option>
-            <option value="ground">Ground Wars</option>
-            <option value="build">Build Battle</option>
-            <option value="bridge">The Bridge</option>
-            <option value="grav">Gravity</option>
-          </select>
-        </label>
-
-        <label>Total XP <input type="number" id="xpInput" min="0" value="0" /></label>
-        <label>Games Played <input type="number" id="gamesInput" min="0" value="0" /></label>
-        <label>Games Won <input type="number" id="winsInput" min="0" value="0" /></label>
-        <label>Target Level <input type="number" id="targetLevelInput" min="1" /></label>
-
-        <button id="calcBtn">Calculate</button>
-
-        <div id="results" style="margin-top:15px;">
-          <p>Fill in your stats and click Calculate.</p>
-        </div>
-
-        <div id="progressBarContainer" class="progress-container" style="display:none;">
-          <div id="progressBar" class="progress-bar"></div>
-          <div id="progressText" class="progress-text"></div>
-        </div>
-      </section>
-    </section>
-
-    <section class="tab-content" id="tab-grind" style="display:none;">
-      <section class="card">
-        <h2>Grind Calculator</h2>
-        <label>Avg Game Length (mins) <input type="number" id="avgGameLength" min="1" value="4"></label>
-        <label>Games Per Day <input type="number" id="gamesPerDay" min="1" value="10"></label>
-        <button id="grindCalcBtn">Calculate Grind Time</button>
-        <div id="grindResults" style="margin-top:15px;"></div>
-      </section>
-    </section>
-
-    <section class="tab-content" id="tab-goals" style="display:none;">
-      <section class="card">
-        <h2>Goal Planner</h2>
-        <label>Target Level <input type="number" id="goalLevel" min="1" placeholder="e.g. 50"></label>
-        <label>Reach By (date) <input type="date" id="goalDate"></label>
-        <button id="goalCalcBtn">Calculate Goal Plan</button>
-        <div id="goalResults" style="margin-top:15px;"></div>
-      </section>
-    </section>
-
-  </div>
+    </div>
 
   <footer class="site-footer">
     <div>Hive Insight is an unofficial tool and is not affiliated with The Hive.</div>
