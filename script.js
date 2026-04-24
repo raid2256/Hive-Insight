@@ -122,7 +122,7 @@ function generateGlobalStats(data) {
 // RESTORED FULL OVERVIEW CARDS
 function generateOverviewCards(data) {
     // Find this inside your loadStatsBtn.addEventListener
-generateXPChart(data); // ⭐ Add this line here
+generateCharts(data); // ⭐ Add this line here
     generateGlobalStats(data); 
     generateHighlights(data);
     const container = document.getElementById("overviewContainer"); 
@@ -389,20 +389,24 @@ const sortDirBtn = document.getElementById("sortDirBtn"); if(sortDirBtn) {
     });
 }
 
-// ⭐ GENERATE XP PIE CHART
-function generateXPChart(data) {
-    const ctx = document.getElementById('xpPieChart');
+function generateCharts(data) {
+    const xpCtx = document.getElementById('xpPieChart');
+    const gamesCtx = document.getElementById('gamesPieChart');
     const chartCard = document.getElementById('chartCard');
-    if (!ctx || !chartCard) return;
+    if (!xpCtx || !gamesCtx || !chartCard) return;
 
-    // 1. Prepare Data
+    // Register the plugin globally for these charts
+    Chart.register(ChartDataLabels);
+
     const labels = [];
     const xpValues = [];
+    const gamesValues = [];
     
     for (const mode in data) {
-        if (XP_MODE_MAP[mode] && data[mode].xp > 0) {
+        if (XP_MODE_MAP[mode] && (data[mode].xp > 0 || data[mode].played > 0)) {
             labels.push(modeNames[mode]);
-            xpValues.push(data[mode].xp);
+            xpValues.push(data[mode].xp || 0);
+            gamesValues.push(data[mode].played || 0);
         }
     }
 
@@ -410,38 +414,53 @@ function generateXPChart(data) {
         chartCard.style.display = "none";
         return;
     }
-
     chartCard.style.display = "block";
 
-    // 2. Destroy old chart if it exists
-    if (xpChartInstance) {
-        xpChartInstance.destroy();
-    }
+    // Cleanup old charts
+    if (xpChartInstance) xpChartInstance.destroy();
+    if (gamesChartInstance) gamesChartInstance.destroy();
 
-    // 3. Create New Chart
-    xpChartInstance = new Chart(ctx, {
-        type: 'doughnut', // 'doughnut' looks cleaner than 'pie'
+    const commonOptions = {
+        responsive: true,
+        plugins: {
+            legend: { display: false }, // Hiding legend to save space since labels are on chart
+            datalabels: {
+                color: '#fff',
+                font: { weight: 'bold', family: 'MinecraftTen', size: 12 },
+                formatter: (value, ctx) => {
+                    let sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                    let percentage = (value * 100 / sum).toFixed(0) + "%";
+                    return value > (sum * 0.05) ? percentage : ''; // Only show if > 5% to avoid clutter
+                }
+            }
+        }
+    };
+
+    // Create XP Chart
+    xpChartInstance = new Chart(xpCtx, {
+        type: 'doughnut',
         data: {
             labels: labels,
             datasets: [{
                 data: xpValues,
-                backgroundColor: [
-                    '#4fd1c5', '#63b3ed', '#f6ad55', '#fc8181', 
-                    '#b794f4', '#f687b3', '#68d391', '#4a5568',
-                    '#ecc94b', '#ed64a6', '#9f7aea', '#667eea'
-                ],
-                borderWidth: 2,
-                borderColor: '#1a1a2e' // Matches card background
+                backgroundColor: ['#4fd1c5', '#63b3ed', '#f6ad55', '#fc8181', '#b794f4', '#f687b3', '#68d391', '#ecc94b'],
+                borderWidth: 2, borderColor: '#1a1a2e'
             }]
         },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: { color: '#ffffff', font: { family: 'MinecraftTen' } }
-                }
-            }
-        }
+        options: commonOptions
+    });
+
+    // Create Games Chart
+    gamesChartInstance = new Chart(gamesCtx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: gamesValues,
+                backgroundColor: ['#4fd1c5', '#63b3ed', '#f6ad55', '#fc8181', '#b794f4', '#f687b3', '#68d391', '#ecc94b'],
+                borderWidth: 2, borderColor: '#1a1a2e'
+            }]
+        },
+        options: commonOptions
     });
 }
