@@ -51,6 +51,7 @@ let globalTable = [];
 let hideUnplayed = false;
 let sortDirection = "desc";
 let sessionData = JSON.parse(localStorage.getItem("hiveSession")) || null;
+let refreshInterval = null;
 
 // ⭐ XP TABLES
 const XP_TABLES = {
@@ -364,7 +365,35 @@ document.getElementById("endSessionBtn").addEventListener("click", () => {
         document.getElementById("sessionActiveContent").style.display = "none";
         document.getElementById("sessionInactiveContent").style.display = "block";
         document.getElementById("startSessionBtn").textContent = "Start Session";
+
+        // ⭐ ADD THIS: Stop auto-refresh if it's running
+        const toggle = document.getElementById("autoRefreshToggle");
+        if (toggle) toggle.checked = false;
+        clearInterval(refreshInterval);
+        refreshInterval = null;
         
         alert("Session ended.");
+    }
+});
+// ⭐ AUTO-REFRESH LOGIC
+document.getElementById("autoRefreshToggle").addEventListener("change", (e) => {
+    if (e.target.checked) {
+        // Create an interval to click the load button every 120 seconds
+        refreshInterval = setInterval(() => {
+            const loadBtn = document.getElementById("loadStatsBtn");
+            const currentStatus = document.getElementById("loadStatus").textContent;
+            
+            // Only refresh if not already loading to avoid spam
+            if (currentStatus !== "Loading stats...") {
+                console.log("Auto-refreshing stats...");
+                loadBtn.click();
+            }
+        }, 120000); 
+        
+        alert("Auto-refresh enabled! Your stats will update every 2 minutes.");
+    } else {
+        // Stop the timer
+        clearInterval(refreshInterval);
+        refreshInterval = null;
     }
 });
