@@ -8,6 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="hiveinsightlogo.png">
   <link rel="stylesheet" href="style.css" />
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 
 <body>
@@ -99,6 +101,13 @@
         </div>
       </section>
 
+      <section class="card" id="chartCard" style="display:none; margin-top:15px;">
+        <h3>XP Distribution</h3>
+        <div style="max-width: 320px; margin: 0 auto;">
+          <canvas id="xpPieChart"></canvas>
+        </div>
+      </section>
+
       <section class="card" id="globalStatsCard" style="display:none; margin-top:15px;">
         <h3>Global Profile</h3>
         <div class="global-grid">
@@ -151,14 +160,12 @@
     <div class="card modal-content">
       <h2 style="color: #4fd1c5;">Session Summary</h2>
       <hr style="border: 0; border-top: 1px solid #333; margin-bottom: 15px;">
-      
       <div class="result-grid">
         <div class="result-item"><h3>Total XP Gained</h3><p id="summaryXP">0</p></div>
         <div class="result-item"><h3>Total Wins</h3><p id="summaryWins">0</p></div>
         <div class="result-item"><h3>Total Time</h3><p id="summaryTime">0m</p></div>
         <div class="result-item"><h3>Final XP/Hour</h3><p id="summaryXPH">0</p></div>
       </div>
-
       <div style="margin-top: 20px; text-align: center;">
         <button id="closeSummaryBtn">Awesome!</button>
       </div>
