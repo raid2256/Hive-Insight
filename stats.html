@@ -73,29 +73,28 @@
       </section>
 
       <section class="card" id="sessionCard" style="margin-top:15px; border: 1px solid #4fd1c5;">
-        <div class="session-header">
-          <h3 style="margin: 0;">Live Session Tracker</h3>
-          <div class="session-controls">
-            <button id="startSessionBtn" class="session-btn">Start Session</button>
-            <button id="resetSessionBtn" class="session-btn reset">Reset</button>
-          </div>
-        </div>
-        
-        <div id="sessionActiveContent" style="display:none;">
-          <div class="global-grid">
-            <div class="result-item"><h3>XP Gained</h3><p id="sessionXP">0</p></div>
-            <div class="result-item"><h3>Wins</h3><p id="sessionWins">0</p></div>
-            <div class="result-item"><h3>Time</h3><p id="sessionTime">0m</p></div>
-            <div class="result-item"><h3>XP / Hour</h3><p id="sessionXPH">0</p></div>
-          </div>
-          <p class="small" id="sessionStartTime" style="margin-top: 10px;"></p>
-        </div>
-        
-        <div id="sessionInactiveContent">
-          <p class="small">No active session. Load your stats and click "Start Session" to track your progress!</p>
-        </div>
-      </section>
-
+  <div class="session-header">
+    <h3 style="margin: 0;">Live Session Tracker</h3>
+    <div class="session-controls">
+      <button id="startSessionBtn" class="session-btn">Start Session</button>
+      <button id="resetSessionBtn" class="session-btn reset">Reset</button>
+    </div>
+  </div>
+  
+  <div id="sessionActiveContent" style="display:none;">
+    <div class="global-grid">
+      <div class="result-item"><h3>XP Gained</h3><p id="sessionXP">0</p></div>
+      <div class="result-item"><h3>Wins</h3><p id="sessionWins">0</p></div>
+      <div class="result-item"><h3>Time</h3><p id="sessionTime">0m</p></div>
+      <div class="result-item"><h3>XP / Hour</h3><p id="sessionXPH">0</p></div>
+    </div>
+    <p class="small" id="sessionStartTime" style="margin-top: 10px;"></p>
+  </div>
+  
+  <div id="sessionInactiveContent">
+    <p class="small">No active session. Load your stats and click "Start Session" to track your progress!</p>
+  </div>
+</section>
       <section class="card" id="globalStatsCard" style="display:none; margin-top:15px;">
         <h3>Global Profile</h3>
         <div class="global-grid">
