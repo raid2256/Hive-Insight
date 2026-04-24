@@ -560,3 +560,20 @@ button:hover {
   background: #4fd1c5;
   color: #0b0c10;
 }
+
+.session-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+#startSessionBtn {
+  margin-top: 0;
+  font-size: 12px;
+  padding: 6px 12px;
+}
+
+#sessionCard {
+  border: 1px solid #ffcc00; /* Give it a "Gold" border to show it's a special feature */
+}
