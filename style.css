@@ -685,3 +685,22 @@ button:hover {
   font-size: 14px;
   color: #a0aec0; /* Slightly dimmed so it doesn't distract from stats */
 }
+
+.charts-row {
+  display: flex;
+  gap: 20px;
+  justify-content: space-around;
+  flex-wrap: wrap; /* Stacks them on mobile */
+}
+
+.chart-container {
+  flex: 1;
+  min-width: 280px; /* Prevents them from getting too squished */
+  max-width: 400px;
+}
+
+/* Optional: Center the titles above the charts */
+.chart-container h3 {
+  text-align: center;
+  margin-bottom: 15px;
+}
