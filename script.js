@@ -211,6 +211,12 @@ window.addEventListener("load", () => {
     const elG = document.getElementById("gamesInput"); if(elG && localStorage.getItem("games")) elG.value = localStorage.getItem("games");
     const elW = document.getElementById("winsInput"); if(elW && localStorage.getItem("wins")) elW.value = localStorage.getItem("wins");
 
+    // ⭐ ADD THIS: Check for existing session on reload
+    if (sessionData) {
+        console.log("Existing session found for:", sessionData.username);
+        // We can't update the UI yet because stats haven't been fetched,
+        // but we can make sure the UI is ready for when they are.
+    }
     const params = new URLSearchParams(window.location.search);
     const playerParam = params.get("player") || params.get("user");
     const usernameInput = document.getElementById("usernameInput");
