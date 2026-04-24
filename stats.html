@@ -57,10 +57,7 @@
       <section class="card player-card-wide" id="playerCard" style="display:none;">
         <div class="pc-left">
           <canvas id="skinCanvas" width="350" height="450"></canvas>
-
-          <div id="skinFallback" class="skin-fallback" style="display:none;">
-            Skin not found
-          </div>
+          <div id="skinFallback" class="skin-fallback" style="display:none;">Skin not found</div>
         </div>
 
         <div class="pc-right">
@@ -76,23 +73,26 @@
       </section>
 
       <section class="card" id="sessionCard" style="margin-top:15px; border: 1px solid #4fd1c5;">
-        <div class="session-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <div class="session-header">
           <h3 style="margin: 0;">Live Session Tracker</h3>
-          <button id="startSessionBtn" style="margin: 0; padding: 6px 12px; font-size: 14px;">Start Session</button>
+          <div class="session-controls">
+            <button id="startSessionBtn" class="session-btn">Start Session</button>
+            <button id="resetSessionBtn" class="session-btn reset">Reset</button>
+          </div>
         </div>
         
         <div id="sessionActiveContent" style="display:none;">
           <div class="global-grid">
-            <div><strong>XP Gained:</strong> <span id="sessionXP">0</span></div>
-            <div><strong>Wins Gained:</strong> <span id="sessionWins">0</span></div>
-            <div><strong>Time:</strong> <span id="sessionTime">0m</span></div>
-            <div><strong>XP/Hour:</strong> <span id="sessionXPH">0</span></div>
+            <div class="result-item"><h3>XP Gained</h3><p id="sessionXP">0</p></div>
+            <div class="result-item"><h3>Wins</h3><p id="sessionWins">0</p></div>
+            <div class="result-item"><h3>Time</h3><p id="sessionTime">0m</p></div>
+            <div class="result-item"><h3>XP / Hour</h3><p id="sessionXPH">0</p></div>
           </div>
           <p class="small" id="sessionStartTime" style="margin-top: 10px;"></p>
         </div>
         
         <div id="sessionInactiveContent">
-          <p class="small">No active session. Load stats and click "Start Session" to track your progress!</p>
+          <p class="small">No active session. Load your stats and click "Start Session" to track your progress!</p>
         </div>
       </section>
 
@@ -102,8 +102,8 @@
           <div><strong>Total XP:</strong> <span id="globalXP">0</span></div>
           <div><strong>Total Games:</strong> <span id="globalTotalGames">0</span></div>
           <div><strong>Total Wins:</strong> <span id="globalTotalWins">0</span></div>
-          <div><strong>Average Winrate:</strong> <span id="globalAvgWinrate">0%</span></div>
-          <div><strong>Average K/D:</strong> <span id="globalAvgKD">0</span></div>
+          <div><strong>Avg Winrate:</strong> <span id="globalAvgWinrate">0%</span></div>
+          <div><strong>Avg K/D:</strong> <span id="globalAvgKD">0</span></div>
         </div>
       </section>
 
@@ -112,12 +112,11 @@
 
         <div class="stats-controls">
           <label class="hide-toggle">
-            <input type="checkbox" id="hideUnplayed">
-            Hide unplayed modes
+            <input type="checkbox" id="hideUnplayed"> Hide unplayed modes
           </label>
 
           <div class="sort-controls">
-            <label for="sortSelect"><strong>Sort by:</strong></label>
+            <label for="sortSelect">Sort by:</label>
             <select id="sortSelect">
               <option value="games" selected>Games Played</option>
               <option value="xp">XP</option>
@@ -125,7 +124,6 @@
               <option value="kd">K/D</option>
               <option value="complete">Completion %</option>
             </select>
-
             <button id="sortDirBtn" class="sort-dir">▼</button>
           </div>
         </div>
@@ -142,9 +140,7 @@
     <section class="tab-content" id="tab-level" style="display:none;">
       <section class="card">
         <h2>Level Calculator</h2>
-
-        <label>
-          Gamemode
+        <label>Gamemode
           <select id="modeSelect">
             <option value="bed">BedWars</option>
             <option value="sky">SkyWars</option>
@@ -162,25 +158,10 @@
           </select>
         </label>
 
-        <label>
-          Total XP
-          <input type="number" id="xpInput" min="0" value="0" />
-        </label>
-
-        <label>
-          Games Played
-          <input type="number" id="gamesInput" min="0" value="0" />
-        </label>
-
-        <label>
-          Games Won
-          <input type="number" id="winsInput" min="0" value="0" />
-        </label>
-
-        <label>
-          Target Level (optional)
-          <input type="number" id="targetLevelInput" min="1" />
-        </label>
+        <label>Total XP <input type="number" id="xpInput" min="0" value="0" /></label>
+        <label>Games Played <input type="number" id="gamesInput" min="0" value="0" /></label>
+        <label>Games Won <input type="number" id="winsInput" min="0" value="0" /></label>
+        <label>Target Level <input type="number" id="targetLevelInput" min="1" /></label>
 
         <button id="calcBtn">Calculate</button>
 
@@ -192,26 +173,15 @@
           <div id="progressBar" class="progress-bar"></div>
           <div id="progressText" class="progress-text"></div>
         </div>
-
       </section>
     </section>
 
     <section class="tab-content" id="tab-grind" style="display:none;">
       <section class="card">
         <h2>Grind Calculator</h2>
-
-        <label>
-          Average Game Length (minutes)
-          <input type="number" id="avgGameLength" min="1" value="4">
-        </label>
-
-        <label>
-          Games Per Day
-          <input type="number" id="gamesPerDay" min="1" value="10">
-        </label>
-
+        <label>Avg Game Length (mins) <input type="number" id="avgGameLength" min="1" value="4"></label>
+        <label>Games Per Day <input type="number" id="gamesPerDay" min="1" value="10"></label>
         <button id="grindCalcBtn">Calculate Grind Time</button>
-
         <div id="grindResults" style="margin-top:15px;"></div>
       </section>
     </section>
@@ -219,19 +189,9 @@
     <section class="tab-content" id="tab-goals" style="display:none;">
       <section class="card">
         <h2>Goal Planner</h2>
-
-        <label>
-          Target Level
-          <input type="number" id="goalLevel" min="1" placeholder="e.g. 50">
-        </label>
-
-        <label>
-          Reach By (date)
-          <input type="date" id="goalDate">
-        </label>
-
+        <label>Target Level <input type="number" id="goalLevel" min="1" placeholder="e.g. 50"></label>
+        <label>Reach By (date) <input type="date" id="goalDate"></label>
         <button id="goalCalcBtn">Calculate Goal Plan</button>
-
         <div id="goalResults" style="margin-top:15px;"></div>
       </section>
     </section>
