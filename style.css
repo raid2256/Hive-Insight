@@ -577,3 +577,43 @@ button:hover {
 #sessionCard {
   border: 1px solid #ffcc00; /* Give it a "Gold" border to show it's a special feature */
 }
+
+/* Layout for the header */
+.session-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.session-controls {
+  display: flex;
+  gap: 10px;
+}
+
+/* Base style for both buttons (ensures same size) */
+.session-btn {
+  padding: 8px 16px; /* Controls the height and width */
+  font-size: 14px;
+  margin: 0;         /* Removes default top-margins from your global button styles */
+  cursor: pointer;
+  border-radius: 6px;
+  border: none;
+  font-family: "MinecraftTen", sans-serif;
+  transition: opacity 0.2s;
+}
+
+.session-btn:hover {
+  opacity: 0.9;
+}
+
+/* Specific colors for "Start Session" (matches your theme) */
+#startSessionBtn {
+  background: #4fd1c5;
+  color: #0b0c10;
+}
+
+/* Specific colors for "Reset" */
+.session-btn.reset {
+  background: #e53e3e;
+  color: white;
+}
