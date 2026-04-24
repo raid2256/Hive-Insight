@@ -119,6 +119,8 @@ function generateGlobalStats(data) {
 
 // RESTORED FULL OVERVIEW CARDS
 function generateOverviewCards(data) {
+    // Find this inside your loadStatsBtn.addEventListener
+generateXPChart(data); // ⭐ Add this line here
     generateGlobalStats(data); 
     generateHighlights(data);
     const container = document.getElementById("overviewContainer"); 
