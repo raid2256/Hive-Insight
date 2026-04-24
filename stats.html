@@ -33,15 +33,12 @@
 
     <section class="card">
       <h2>Load Hive Stats</h2>
-
       <label>
         Hive Username
         <input type="text" id="usernameInput" placeholder="Enter IGN">
         <div id="autocompleteList" class="autocomplete-list"></div>
       </label>
-
       <button id="loadStatsBtn">Load Stats</button>
-
       <div id="loadStatus" style="margin-top:10px; opacity:0.8;"></div>
     </section>
 
@@ -65,7 +62,6 @@
             <h2 id="pcName">Player</h2>
             <button id="shareProfileBtn" class="share-btn">Share Profile</button>
           </div>
-
           <div class="pc-stat">Total Hive Level: <span id="pcLevel">0</span></div>
           <div class="pc-stat">Games Played: <span id="pcGames">0</span></div>
           <div class="pc-stat">Games Won: <span id="pcWins">0</span></div>
@@ -90,10 +86,12 @@
           </div>
           <p class="small" id="sessionStartTime" style="margin-top: 10px;"></p>
           
-          <label class="hide-toggle" style="margin-top: 15px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
-            <input type="checkbox" id="autoRefreshToggle">
-            <span class="small">Auto-refresh stats (every 2 mins)</span>
-          </label>
+          <div class="auto-refresh-container">
+            <label for="autoRefreshToggle" class="refresh-label">
+              <input type="checkbox" id="autoRefreshToggle">
+              <span class="refresh-text">Auto-refresh stats (every 2 mins)</span>
+            </label>
+          </div>
         </div>
         
         <div id="sessionInactiveContent">
@@ -138,7 +136,11 @@
       </section>
     </section>
 
-    </div>
+    <section class="tab-content" id="tab-level" style="display:none;"></section>
+    <section class="tab-content" id="tab-grind" style="display:none;"></section>
+    <section class="tab-content" id="tab-goals" style="display:none;"></section>
+
+  </div>
 
   <footer class="site-footer">
     <div>Hive Insight is an unofficial tool and is not affiliated with The Hive.</div>
@@ -146,22 +148,22 @@
   </footer>
 
   <div id="summaryModal" class="modal-overlay" style="display:none;">
-  <div class="card modal-content">
-    <h2 style="color: #4fd1c5;">Session Summary</h2>
-    <hr style="border: 0; border-top: 1px solid #333; margin-bottom: 15px;">
-    
-    <div class="result-grid">
-      <div class="result-item"><h3>Total XP Gained</h3><p id="summaryXP">0</p></div>
-      <div class="result-item"><h3>Total Wins</h3><p id="summaryWins">0</p></div>
-      <div class="result-item"><h3>Total Time</h3><p id="summaryTime">0m</p></div>
-      <div class="result-item"><h3>Final XP/Hour</h3><p id="summaryXPH">0</p></div>
-    </div>
+    <div class="card modal-content">
+      <h2 style="color: #4fd1c5;">Session Summary</h2>
+      <hr style="border: 0; border-top: 1px solid #333; margin-bottom: 15px;">
+      
+      <div class="result-grid">
+        <div class="result-item"><h3>Total XP Gained</h3><p id="summaryXP">0</p></div>
+        <div class="result-item"><h3>Total Wins</h3><p id="summaryWins">0</p></div>
+        <div class="result-item"><h3>Total Time</h3><p id="summaryTime">0m</p></div>
+        <div class="result-item"><h3>Final XP/Hour</h3><p id="summaryXPH">0</p></div>
+      </div>
 
-    <div style="margin-top: 20px; text-align: center;">
-      <button id="closeSummaryBtn">Awesome!</button>
+      <div style="margin-top: 20px; text-align: center;">
+        <button id="closeSummaryBtn">Awesome!</button>
+      </div>
     </div>
   </div>
-</div>
   
   <script src="script.js"></script>
   <script src="https://unpkg.com/skinview3d/bundles/skinview3d.bundle.js"></script>
