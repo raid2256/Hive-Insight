@@ -142,8 +142,8 @@ function generateOverviewCards(data) {
 
         const firstPlayed = s.first_played ? new Date(s.first_played * 1000).toDateString() : "Unknown";
         const kd = (s.kills && s.deaths) ? (s.deaths === 0 ? s.kills : (s.kills / s.deaths).toFixed(2)) : null;
-        const fkdr = (s.final_kills && s.deaths) ? (s.deaths === 0 ? s.final_kills : (s.final_kills / s.deaths).toFixed(2)) : null;
-
+       // ⭐ FKDR is now Final Kills / Losses
+const fkdr = (s.final_kills !== undefined && losses > 0) ? (s.final_kills / losses).toFixed(2) : (s.final_kills || null);
         // Build Rows for Table
         const rows = [];
         const add = (label, value) => { if (value !== null && value !== undefined) rows.push(`<div class="ov-row"><span>${label}:</span> <span>${value}</span></div>`); };
