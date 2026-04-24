@@ -18,11 +18,20 @@ const XP_MODE_MAP = {
     bridge: "bridge", grav: "gravity"
 };
 
+// ... (keep your loadHiveStats and XP_MODE_MAP at the top)
+
 const MODE_ICONS = {
     bed: "icons/bed-icon.webp", party: "icons/bp-icon.webp", bridge: "icons/bridge-icon.webp",
     build: "icons/build-icon.webp", ctf: "icons/ctf-icon.webp", dr: "icons/dr-icon.webp",
     drop: "icons/drop-icon.webp", grav: "icons/grav-icon.webp", ground: "icons/ground-icon.webp",
     hide: "icons/hide-icon.webp", murder: "icons/mm-icon.webp", sg: "icons/sg-icon.webp", sky: "icons/sky-icon.webp"
+};
+
+// ⭐ MOVE THIS HERE (Global scope)
+const modeNames = {
+    bed: "BedWars", sky: "SkyWars", dr: "Deathrun", party: "Block Party", drop: "Block Drop",
+    ctf: "Capture the Flag", murder: "Murder Mystery", sg: "Survival Games", hide: "Hide and Seek",
+    ground: "Ground Wars", build: "Build Battle", bridge: "The Bridge", grav: "Gravity"
 };
 
 let globalXp = 0;
