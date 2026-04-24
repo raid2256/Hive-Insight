@@ -35,9 +35,8 @@ let globalXp = 0; let globalGames = 0; let globalWins = 0; let globalTable = [];
 let hideUnplayed = false; let sortDirection = "desc";
 let sessionData = JSON.parse(localStorage.getItem("hiveSession")) || null;
 let refreshInterval = null;
-let xpChartInstance = null;
-let xpChartInstance = null;
-let gamesChartInstance = null; // New
+let xpChartInstance = null; // FIXED: Only declared once
+let gamesChartInstance = null;
 
 const XP_TABLES = {
     bedwars: [0, 150, 450, 900, 1500, 2250, 3150, 4200, 5400, 6750, 8250, 9900, 11700, 13650, 15750, 18000, 20400, 22950, 25650, 28500, 31500, 34650, 37950, 41400, 45000, 48750, 52650, 56700, 60900, 65250, 69750, 74400, 79200, 84150, 89250, 94500, 99900, 105450, 111150, 117000, 123000, 129150, 135450, 141900, 148500, 155250, 162150, 169200, 176400, 183750, 191250, 198900, 206550, 214200, 221850, 229500, 237150, 244800, 252450, 260100, 267750, 275400, 283050, 290700, 298350, 306000, 313650, 321300, 328950, 336600, 344250, 351900, 359550, 367200, 374850, 382500, 390150, 397800, 405450, 413100, 420750, 428400, 436050, 443700, 451350, 459000, 466650, 474300, 481950, 489600, 497250, 504900, 512550, 520200, 527850, 535500, 543150, 550800, 558450, 566100],
@@ -121,8 +120,6 @@ function generateGlobalStats(data) {
 
 // RESTORED FULL OVERVIEW CARDS
 function generateOverviewCards(data) {
-    // Find this inside your loadStatsBtn.addEventListener
-generateCharts(data); // ⭐ Add this line here
     generateGlobalStats(data); 
     generateHighlights(data);
     const container = document.getElementById("overviewContainer"); 
@@ -147,9 +144,9 @@ generateCharts(data); // ⭐ Add this line here
 
         const firstPlayed = s.first_played ? new Date(s.first_played * 1000).toDateString() : "Unknown";
         const kd = (s.kills && s.deaths) ? (s.deaths === 0 ? s.kills : (s.kills / s.deaths).toFixed(2)) : null;
-       // ⭐ FKDR is now Final Kills / Losses
-const fkdr = (s.final_kills !== undefined && losses > 0) ? (s.final_kills / losses).toFixed(2) : (s.final_kills || null);
-        // Build Rows for Table
+        // ⭐ FKDR is now Final Kills / Losses
+        const fkdr = (s.final_kills !== undefined && losses > 0) ? (s.final_kills / losses).toFixed(2) : (s.final_kills || null);
+        
         const rows = [];
         const add = (label, value) => { if (value !== null && value !== undefined) rows.push(`<div class="ov-row"><span>${label}:</span> <span>${value}</span></div>`); };
 
@@ -163,9 +160,8 @@ const fkdr = (s.final_kills !== undefined && losses > 0) ? (s.final_kills / loss
         add("Final Kills", s.final_kills);
         add("Deaths", s.deaths);
         if(kd) add("K/D Ratio", kd);
-        if(fkdr) add("Final K/D", fkdr);
+        if(fkdr) add("Final K/L Ratio", fkdr);
         
-        // Gamemode Specifics
         add("Beds Destroyed", s.beds_destroyed);
         add("Coins Collected", s.coins);
         add("Murders", s.murders);
@@ -216,11 +212,8 @@ window.addEventListener("load", () => {
     const elG = document.getElementById("gamesInput"); if(elG && localStorage.getItem("games")) elG.value = localStorage.getItem("games");
     const elW = document.getElementById("winsInput"); if(elW && localStorage.getItem("wins")) elW.value = localStorage.getItem("wins");
 
-    // ⭐ ADD THIS: Check for existing session on reload
     if (sessionData) {
         console.log("Existing session found for:", sessionData.username);
-        // We can't update the UI yet because stats haven't been fetched,
-        // but we can make sure the UI is ready for when they are.
     }
     const params = new URLSearchParams(window.location.search);
     const playerParam = params.get("player") || params.get("user");
@@ -249,6 +242,7 @@ if (loadStatsBtn) {
         if(status) status.textContent = "Stats loaded!";
         window.lastLoadedStats = data;
         generateOverviewCards(data);
+        generateCharts(data); // ⭐ Charts updated here
         if (typeof loadPlayerCard === "function") await loadPlayerCard(username);
         if (sessionData) updateSessionUI(data);
 
@@ -338,7 +332,6 @@ if(closeSummaryBtn) { closeSummaryBtn.addEventListener("click", () => { const mo
 
 function updateSessionUI(currentData) {
     const activeCont = document.getElementById("sessionActiveContent"); if(!activeCont || !sessionData) return;
-    // ⭐ ADD THIS: Only update if the loaded player matches the session player
     const currentPlayer = document.getElementById("pcName").textContent;
     if (sessionData.username !== currentPlayer) {
         activeCont.style.display = "none";
@@ -395,7 +388,7 @@ function generateCharts(data) {
     const chartCard = document.getElementById('chartCard');
     if (!xpCtx || !gamesCtx || !chartCard) return;
 
-    // Register the plugin globally for these charts
+    // Register the plugin globally
     Chart.register(ChartDataLabels);
 
     const labels = [];
@@ -416,27 +409,25 @@ function generateCharts(data) {
     }
     chartCard.style.display = "block";
 
-    // Cleanup old charts
     if (xpChartInstance) xpChartInstance.destroy();
     if (gamesChartInstance) gamesChartInstance.destroy();
 
     const commonOptions = {
         responsive: true,
         plugins: {
-            legend: { display: false }, // Hiding legend to save space since labels are on chart
+            legend: { display: false }, 
             datalabels: {
                 color: '#fff',
                 font: { weight: 'bold', family: 'MinecraftTen', size: 12 },
                 formatter: (value, ctx) => {
                     let sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
                     let percentage = (value * 100 / sum).toFixed(0) + "%";
-                    return value > (sum * 0.05) ? percentage : ''; // Only show if > 5% to avoid clutter
+                    return value > (sum * 0.05) ? percentage : ''; 
                 }
             }
         }
     };
 
-    // Create XP Chart
     xpChartInstance = new Chart(xpCtx, {
         type: 'doughnut',
         data: {
@@ -450,7 +441,6 @@ function generateCharts(data) {
         options: commonOptions
     });
 
-    // Create Games Chart
     gamesChartInstance = new Chart(gamesCtx, {
         type: 'doughnut',
         data: {
