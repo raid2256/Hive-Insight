@@ -333,6 +333,13 @@ if(closeSummaryBtn) { closeSummaryBtn.addEventListener("click", () => { const mo
 
 function updateSessionUI(currentData) {
     const activeCont = document.getElementById("sessionActiveContent"); if(!activeCont || !sessionData) return;
+    // ⭐ ADD THIS: Only update if the loaded player matches the session player
+    const currentPlayer = document.getElementById("pcName").textContent;
+    if (sessionData.username !== currentPlayer) {
+        activeCont.style.display = "none";
+        document.getElementById("sessionInactiveContent").style.display = "block";
+        return;
+    }
     let curXP = 0, curWins = 0;
     for (const mode in currentData) { if (XP_MODE_MAP[mode]) { curXP += currentData[mode].xp || 0; curWins += currentData[mode].victories || 0; } }
     const xpG = curXP - sessionData.startXp, winG = curWins - sessionData.startWins;
