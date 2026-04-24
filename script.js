@@ -50,6 +50,7 @@ let globalWins = 0;
 let globalTable = [];
 let hideUnplayed = false;
 let sortDirection = "desc";
+let sessionData = JSON.parse(localStorage.getItem("hiveSession")) || null;
 
 // ⭐ XP TABLES
 const XP_TABLES = {
@@ -886,3 +887,67 @@ document.getElementById("shareProfileBtn").addEventListener("click", async () =>
     setTimeout(() => { btn.textContent = originalText; }, 2000);
   }
 });
+
+// ⭐ SESSION TRACKING LOGIC
+document.getElementById("startSessionBtn").addEventListener("click", () => {
+    if (!window.lastLoadedStats) {
+        alert("Please load your stats first!");
+        return;
+    }
+
+    const data = window.lastLoadedStats;
+    let totalXP = 0;
+    let totalWins = 0;
+
+    for (const mode in data) {
+        if (XP_MODE_MAP[mode]) {
+            totalXP += data[mode].xp || 0;
+            totalWins += data[mode].victories || 0;
+        }
+    }
+
+    sessionData = {
+        startXp: totalXP,
+        startWins: totalWins,
+        startTime: Date.now(),
+        username: document.getElementById("pcName").textContent
+    };
+
+    localStorage.setItem("hiveSession", JSON.stringify(sessionData));
+    updateSessionUI(data);
+    alert("Session started! Refresh your stats later to see your gains.");
+});
+
+function updateSessionUI(currentData) {
+    if (!sessionData) return;
+
+    let currentTotalXP = 0;
+    let currentTotalWins = 0;
+
+    for (const mode in currentData) {
+        if (XP_MODE_MAP[mode]) {
+            currentTotalXP += currentData[mode].xp || 0;
+            currentTotalWins += currentData[mode].victories || 0;
+        }
+    }
+
+    const xpGained = currentTotalXP - sessionData.startXp;
+    const winsGained = currentTotalWins - sessionData.startWins;
+    
+    const msElapsed = Date.now() - sessionData.startTime;
+    const hoursElapsed = msElapsed / (1000 * 60 * 60);
+    const minsElapsed = Math.floor(msElapsed / (1000 * 60));
+
+    const xpHour = hoursElapsed > 0 ? Math.floor(xpGained / hoursElapsed) : 0;
+
+    document.getElementById("sessionActiveContent").style.display = "block";
+    document.getElementById("sessionInactiveContent").style.display = "none";
+    
+    document.getElementById("sessionXP").textContent = xpGained.toLocaleString();
+    document.getElementById("sessionWins").textContent = winsGained.toLocaleString();
+    document.getElementById("sessionTime").textContent = `${minsElapsed}m`;
+    document.getElementById("sessionXPH").textContent = xpHour.toLocaleString();
+    document.getElementById("sessionStartTime").textContent = `Session started at ${new Date(sessionData.startTime).toLocaleTimeString()} for ${sessionData.username}`;
+    
+    document.getElementById("startSessionBtn").textContent = "Restart Session";
+}
