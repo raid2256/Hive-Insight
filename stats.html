@@ -145,6 +145,24 @@
     <div class="footer-sub">Hive Insight uses anonymous analytics to understand usage. No personal data is collected or stored.</div>
   </footer>
 
+  <div id="summaryModal" class="modal-overlay" style="display:none;">
+  <div class="card modal-content">
+    <h2 style="color: #4fd1c5;">Session Summary</h2>
+    <hr style="border: 0; border-top: 1px solid #333; margin-bottom: 15px;">
+    
+    <div class="result-grid">
+      <div class="result-item"><h3>Total XP Gained</h3><p id="summaryXP">0</p></div>
+      <div class="result-item"><h3>Total Wins</h3><p id="summaryWins">0</p></div>
+      <div class="result-item"><h3>Total Time</h3><p id="summaryTime">0m</p></div>
+      <div class="result-item"><h3>Final XP/Hour</h3><p id="summaryXPH">0</p></div>
+    </div>
+
+    <div style="margin-top: 20px; text-align: center;">
+      <button id="closeSummaryBtn">Awesome!</button>
+    </div>
+  </div>
+</div>
+  
   <script src="script.js"></script>
   <script src="https://unpkg.com/skinview3d/bundles/skinview3d.bundle.js"></script>
   <script src="playercard.js"></script>
