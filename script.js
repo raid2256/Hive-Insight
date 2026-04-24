@@ -355,26 +355,47 @@ document.getElementById("sortDirBtn").addEventListener("click", () => {
     if (window.lastLoadedStats) generateOverviewCards(window.lastLoadedStats);
 });
 
-// ⭐ END SESSION LOGIC
+// ⭐ END SESSION + SUMMARY LOGIC
 document.getElementById("endSessionBtn").addEventListener("click", () => {
-    if (confirm("Are you sure you want to end this session and clear your current gains?")) {
+    if (!sessionData) return;
+
+    if (confirm("Are you sure you want to end this session?")) {
+        // 1. Capture final stats for the summary
+        const finalXP = document.getElementById("sessionXP").textContent;
+        const finalWins = document.getElementById("sessionWins").textContent;
+        const finalTime = document.getElementById("sessionTime").textContent;
+        const finalXPH = document.getElementById("sessionXPH").textContent;
+
+        // 2. Fill the modal
+        document.getElementById("summaryXP").textContent = finalXP;
+        document.getElementById("summaryWins").textContent = finalWins;
+        document.getElementById("summaryTime").textContent = finalTime;
+        document.getElementById("summaryXPH").textContent = finalXPH;
+
+        // 3. Show the modal
+        document.getElementById("summaryModal").style.display = "flex";
+
+        // 4. Wipe session data
         localStorage.removeItem("hiveSession");
         sessionData = null;
         
-        // UI Updates
         document.getElementById("sessionActiveContent").style.display = "none";
         document.getElementById("sessionInactiveContent").style.display = "block";
         document.getElementById("startSessionBtn").textContent = "Start Session";
 
-        // ⭐ ADD THIS: Stop auto-refresh if it's running
+        // Stop auto-refresh if running
         const toggle = document.getElementById("autoRefreshToggle");
         if (toggle) toggle.checked = false;
         clearInterval(refreshInterval);
         refreshInterval = null;
-        
-        alert("Session ended.");
     }
 });
+
+// Close Modal logic
+document.getElementById("closeSummaryBtn").addEventListener("click", () => {
+    document.getElementById("summaryModal").style.display = "none";
+});
+
 // ⭐ AUTO-REFRESH LOGIC
 document.getElementById("autoRefreshToggle").addEventListener("change", (e) => {
     if (e.target.checked) {
