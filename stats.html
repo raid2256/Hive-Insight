@@ -75,6 +75,27 @@
         </div>
       </section>
 
+      <section class="card" id="sessionCard" style="margin-top:15px; border: 1px solid #4fd1c5;">
+        <div class="session-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <h3 style="margin: 0;">Live Session Tracker</h3>
+          <button id="startSessionBtn" style="margin: 0; padding: 6px 12px; font-size: 14px;">Start Session</button>
+        </div>
+        
+        <div id="sessionActiveContent" style="display:none;">
+          <div class="global-grid">
+            <div><strong>XP Gained:</strong> <span id="sessionXP">0</span></div>
+            <div><strong>Wins Gained:</strong> <span id="sessionWins">0</span></div>
+            <div><strong>Time:</strong> <span id="sessionTime">0m</span></div>
+            <div><strong>XP/Hour:</strong> <span id="sessionXPH">0</span></div>
+          </div>
+          <p class="small" id="sessionStartTime" style="margin-top: 10px;"></p>
+        </div>
+        
+        <div id="sessionInactiveContent">
+          <p class="small">No active session. Load stats and click "Start Session" to track your progress!</p>
+        </div>
+      </section>
+
       <section class="card" id="globalStatsCard" style="display:none; margin-top:15px;">
         <h3>Global Profile</h3>
         <div class="global-grid">
