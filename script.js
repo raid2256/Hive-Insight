@@ -952,3 +952,23 @@ if (autoRefreshToggle) {
     }
   });
 }
+
+// ================================
+// ⭐ TAB SWITCHING
+// ================================
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const tab = btn.dataset.tab;
+
+    // Remove active class from all buttons
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    // Hide all tab contents
+    document.querySelectorAll(".tab-content").forEach(sec => sec.style.display = "none");
+
+    // Show selected tab
+    document.getElementById(`tab-${tab}`).style.display = "block";
+  });
+});
+
