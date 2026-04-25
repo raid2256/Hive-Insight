@@ -385,6 +385,7 @@ if (loadStatsBtn) {
     if (status) status.textContent = "Stats loaded!";
     window.lastLoadedStats = data;
     generateOverviewCards(data);
+    generateCharts(data);
 
     if (typeof loadPlayerCard === "function") {
       await loadPlayerCard(username);
