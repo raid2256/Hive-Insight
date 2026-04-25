@@ -162,6 +162,12 @@ button:hover {
   border-radius: 10px;
   padding: 14px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.overview-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.45);
 }
 
 .overview-card h3 {
@@ -177,21 +183,6 @@ button:hover {
 }
 
 /* ⭐ MINI PROGRESS BAR */
-.mini-progress {
-  margin-top: 10px;
-  height: 8px;
-  background: #1a1c24;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.mini-progress-fill {
-  height: 100%;
-  background: #4fd1c5;
-  width: 0%;
-  transition: width 0.4s ease;
-}
-
 .mini-progress {
   position: relative;
   height: 14px;
@@ -230,179 +221,7 @@ button:hover {
   opacity: 0.9;
 }
 
-.progress-bar {
-  height: 8px;
-  width: 0%;
-  background: linear-gradient(90deg, #ffcc00, #ff9900);
-  border-radius: 4px;
-  transition: width 0.8s ease-in-out;
-}
-
-.progress-container {
-  width: 100%;
-  background: #222;
-  border-radius: 4px;
-  overflow: hidden;
-  height: 8px;
-  margin-top: 6px;
-}
-
-.overview-card {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.overview-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.45);
-}
-
-.home-links {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.home-link {
-  display: block;
-  padding: 12px;
-  background: #1f2330;
-  border-radius: 8px;
-  text-align: center;
-  color: #4fd1c5;
-  font-size: 18px;
-  text-decoration: none;
-  transition: 0.2s;
-}
-
-.home-link:hover {
-  background: #2a2f3f;
-}
-
-.site-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-
-.main-nav {
-  display: flex;
-  gap: 12px;
-}
-
-.nav-link {
-  color: #f5f5f5;
-  text-decoration: none;
-  padding: 6px 10px;
-  border-radius: 6px;
-  background: #1f2330;
-  font-size: 14px;
-}
-
-.nav-link:hover {
-  background: #2a2f3f;
-}
-
-.nav-link.active {
-  background: #4fd1c5;
-  color: #0b0c10;
-}
-
-.site-footer {
-  text-align: center;
-  opacity: 0.6;
-  font-size: 12px;
-  margin: 40px 0 20px;
-  line-height: 1.6;
-  color: #d0d0d0;
-}
-
-.footer-sub {
-  font-size: 11px;
-  opacity: 0.5;
-  margin-top: 4px;
-}
-
-.site-logo {
-  height: 3.6em; /* 1.2em × 3 */
-  width: auto;
-  opacity: 0.9;
-}
-
-
-
-
-.site-title-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
-}
-
-.lb-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-.lb-table th, .lb-table td {
-  padding: 8px;
-  border-bottom: 1px solid #2a2d36;
-  text-align: left;
-}
-
-/* Dropdown Cards */
-.dropdown-card {
-  border: 1px solid #2a2d36;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  overflow: hidden;
-  background: #1e2230;
-}
-
-.dropdown-header {
-  padding: 14px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  background: #242837;
-  transition: background 0.15s;
-}
-
-.dropdown-header:hover {
-  background: #2b3042;
-}
-
-.dropdown-content {
-  display: none;
-  padding: 14px;
-  border-top: 1px solid #2a2d36;
-}
-
-.dropdown-card.active .dropdown-content {
-  display: block;
-}
-
-.lb-table tr:hover {
-  background: #1f2330;
-}
-.grid-3col {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 8px 16px;
-  padding-left: 0;
-  list-style: none;
-}
-
-.grid-3col li {
-  background: #1f2330;
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #2a2d36;
-}
-
-/* Clean Wide Player Card */
+/* ⭐ PLAYER CARD */
 .player-card-wide {
   display: flex;
   flex-direction: row;
@@ -430,6 +249,7 @@ button:hover {
   color: #d0d0d0;
 }
 
+/* ⭐ AUTOCOMPLETE */
 .autocomplete-list {
   position: absolute;
   background: #1a1a1a;
@@ -450,135 +270,7 @@ button:hover {
   background: #333;
 }
 
-.skin-fallback {
-  width: 350px;
-  height: 450px;
-  background: #222;
-  border: 1px solid #444;
-  color: #fff;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.gm-icon {
-  width: 32px;
-  height: 32px;
-  vertical-align: middle;
-  margin-right: 8px;
-  border-radius: 6px;
-}
-
-.sort-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.sort-row select {
-  padding: 6px 10px;
-  border-radius: 6px;
-  background: #1a1a1a;
-  color: white;
-  border: 1px solid #333;
-}
-
-.stats-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.hide-toggle {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-}
-
-.sort-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.sort-dir {
-  padding: 5px 10px;
-  background: #1a1a1a;
-  border: 1px solid #333;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.highlights-card {
-  margin-top: 15px;
-}
-
-.highlights-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px 20px;
-  margin-top: 10px;
-}
-
-.highlights-grid div {
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-.global-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 8px 15px;
-  margin-top: 10px;
-}
-
-.pc-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.share-btn {
-  background: #1a1c24;
-  border: 1px solid #4fd1c5;
-  color: #4fd1c5;
-  padding: 6px 12px;
-  font-size: 12px;
-  margin-top: 0; /* Override your global button margin */
-  transition: 0.2s;
-}
-
-.share-btn:hover {
-  background: #4fd1c5;
-  color: #0b0c10;
-}
-
-.session-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-#startSessionBtn {
-  margin-top: 0;
-  font-size: 12px;
-  padding: 6px 12px;
-}
-
-#sessionCard {
-  border: 1px solid #ffcc00; /* Give it a "Gold" border to show it's a special feature */
-}
-
-/* Layout for the header */
+/* ⭐ SESSION TRACKER */
 .session-header {
   display: flex;
   justify-content: space-between;
@@ -590,11 +282,10 @@ button:hover {
   gap: 10px;
 }
 
-/* Base style for both buttons (ensures same size) */
 .session-btn {
-  padding: 8px 16px; /* Controls the height and width */
+  padding: 8px 16px;
   font-size: 14px;
-  margin: 0;         /* Removes default top-margins from your global button styles */
+  margin: 0;
   cursor: pointer;
   border-radius: 6px;
   border: none;
@@ -606,26 +297,24 @@ button:hover {
   opacity: 0.9;
 }
 
-/* Specific colors for "Start Session" (matches your theme) */
 #startSessionBtn {
   background: #4fd1c5;
   color: #0b0c10;
 }
 
-/* Specific colors for "Reset" */
 .session-btn.reset {
   background: #e53e3e;
   color: white;
 }
 
-/* Modal Overlay */
+/* ⭐ MODAL */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.85); /* Dims the rest of the site */
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -633,7 +322,6 @@ button:hover {
   padding: 20px;
 }
 
-/* Modal Box */
 .modal-content {
   max-width: 500px;
   width: 100%;
@@ -653,17 +341,18 @@ button:hover {
   font-weight: bold;
 }
 
+/* ⭐ AUTO REFRESH */
 .auto-refresh-container {
   margin-top: 20px;
   display: flex;
-  justify-content: center; /* Centers the whole group */
+  justify-content: center;
   width: 100%;
 }
 
 .refresh-label {
   display: flex;
-  align-items: center; /* Vertically aligns checkbox with text */
-  gap: 10px;           /* Space between checkbox and text */
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
   padding: 5px 10px;
   transition: opacity 0.2s;
@@ -674,88 +363,44 @@ button:hover {
 }
 
 #autoRefreshToggle {
-  width: 18px;  /* Makes the checkbox a bit bigger */
+  width: 18px;
   height: 18px;
   cursor: pointer;
-  accent-color: #4fd1c5; /* Colors the checkbox to match your theme */
+  accent-color: #4fd1c5;
 }
 
 .refresh-text {
-  font-family: "MinecraftTen", sans-serif; /* Keeps the theme consistent */
   font-size: 14px;
-  color: #a0aec0; /* Slightly dimmed so it doesn't distract from stats */
+  color: #a0aec0;
 }
 
+/* ⭐ CHARTS — FINAL AUTO‑SCALING VERSION */
 .charts-row {
   display: flex;
-  gap: 20px;
-  justify-content: space-around;
-  flex-wrap: wrap; /* Stacks them on mobile */
-}
-
-.chart-container {
-  flex: 1;
-  min-width: 280px; /* Prevents them from getting too squished */
-  max-width: 400px;
-}
-
-/* Optional: Center the titles above the charts */
-.chart-container h3 {
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-.charts-row {
-  display: flex;
-  gap: 15px;
   justify-content: center;
+  gap: 20px;
   flex-wrap: wrap;
-  margin-bottom: 10px;
+  margin: 0;
+  padding: 0;
 }
 
 .chart-container {
-  flex: 1;
-  /* Reduced size */
-  min-width: 200px; 
-  max-width: 260px; 
-  background: rgba(0, 0, 0, 0.2); /* Slight contrast to pop from card */
-  padding: 15px;
+  width: min(90vw, 360px);   /* auto-scale to screen */
+  aspect-ratio: 1 / 1;       /* perfect circle */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* title stays on top */
+  padding: 10px 0;
+  background: rgba(0, 0, 0, 0.15);
   border-radius: 12px;
 }
 
 .chart-container h3 {
-  text-align: center;
-  font-size: 14px; /* Smaller title */
-  margin-bottom: 10px;
+  margin: 0 0 12px 0;
+  font-size: 16px;
   color: #4fd1c5;
-}
-
-/* Ensure the canvas doesn't overflow */
-canvas {
-  max-width: 100% !important;
-  max-height: 100% !important;
-}
-
-#chartCard.card {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-
-.charts-row {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.chart-container canvas {
-  height: 180px !important;
-}
-
-.chart-container {
-  width: 100%;
-  max-width: 350px;   /* prevents stretching */
-  aspect-ratio: 1 / 1; /* forces a perfect square */
-  margin: 0 auto;      /* centers them */
+  text-align: center;
 }
 
 .chart-container canvas {
@@ -763,23 +408,18 @@ canvas {
   height: 100% !important;
 }
 
-.charts-row {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap; /* allows them to wrap on smaller screens */
+/* Footer */
+.site-footer {
+  text-align: center;
+  opacity: 0.6;
+  font-size: 12px;
+  margin: 40px 0 20px;
+  line-height: 1.6;
+  color: #d0d0d0;
 }
 
-.chart-container {
-  flex: 0 0 auto; /* STOP flex from stretching it */
-  width: 300px;   /* fixed width */
-  height: 300px;  /* fixed height */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.chart-container canvas {
-  width: 100% !important;
-  height: 100% !important;
+.footer-sub {
+  font-size: 11px;
+  opacity: 0.5;
+  margin-top: 4px;
 }
