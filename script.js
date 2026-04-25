@@ -689,23 +689,27 @@ function generateCharts(data) {
     "#b794f4", "#f687b3", "#68d391", "#ecc94b"
   ];
 
-  const commonOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    cutout: "60%",
-    plugins: {
-      legend: { display: false },
-      datalabels: {
-        color: "#fff",
-        font: { weight: "bold", size: 11 },
-        formatter: (value, ctx) => {
-          const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
-          const pct = (value / total) * 100;
-          return pct >= 8 ? pct.toFixed(0) + "%" : "";
-        }
+const commonOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  cutout: "60%",
+  layout: {
+    padding: 0
+  },
+  plugins: {
+    legend: { display: false },
+    datalabels: {
+      color: "#fff",
+      font: { weight: "bold", size: 11 },
+      formatter: (value, ctx) => {
+        const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+        const pct = (value / total) * 100;
+        return pct >= 8 ? pct.toFixed(0) + "%" : "";
       }
     }
-  };
+  }
+};
+
 
   xpChartInstance = new Chart(xpCtx, {
     type: "doughnut",
