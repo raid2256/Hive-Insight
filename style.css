@@ -762,3 +762,24 @@ canvas {
   width: 100% !important;
   height: 100% !important;
 }
+
+.charts-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap; /* allows them to wrap on smaller screens */
+}
+
+.chart-container {
+  flex: 0 0 auto; /* STOP flex from stretching it */
+  width: 300px;   /* fixed width */
+  height: 300px;  /* fixed height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
