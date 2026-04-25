@@ -694,7 +694,12 @@ const commonOptions = {
   maintainAspectRatio: false,
   cutout: "60%",
   layout: {
-    padding: 0
+    padding: {
+      top: -20,
+      bottom: 0,
+      left: 0,
+      right: 0
+    }
   },
   plugins: {
     legend: { display: false },
@@ -709,6 +714,7 @@ const commonOptions = {
     }
   }
 };
+
 
 
   xpChartInstance = new Chart(xpCtx, {
