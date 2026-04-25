@@ -8,7 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="hiveinsightlogo.png">
   <link rel="stylesheet" href="style.css" />
-  
+
+  <!-- Charts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
 </head>
@@ -16,6 +17,7 @@
 <body>
   <div class="app">
 
+    <!-- Header -->
     <header class="site-header">
       <div class="site-title-row">
         <h1>Hive Insight</h1>
@@ -34,6 +36,7 @@
       A complete XP, level, and grind calculator for Hive minigames.
     </p>
 
+    <!-- Load Stats -->
     <section class="card">
       <h2>Load Hive Stats</h2>
       <label>
@@ -45,6 +48,7 @@
       <div id="loadStatus" style="margin-top:10px; opacity:0.8;"></div>
     </section>
 
+    <!-- Tabs -->
     <div class="tabs">
       <button class="tab-btn active" data-tab="stats">Stats</button>
       <button class="tab-btn" data-tab="level">Level</button>
@@ -52,8 +56,12 @@
       <button class="tab-btn" data-tab="goals">Goals</button>
     </div>
 
+    <!-- ============================
+         ⭐ TAB: STATS
+         ============================ -->
     <section class="tab-content" id="tab-stats">
 
+      <!-- Player Card -->
       <section class="card player-card-wide" id="playerCard" style="display:none;">
         <div class="pc-left">
           <canvas id="skinCanvas" width="350" height="450"></canvas>
@@ -71,15 +79,16 @@
         </div>
       </section>
 
+      <!-- Session Tracker -->
       <section class="card" id="sessionCard" style="margin-top:15px; border: 1px solid #4fd1c5;">
         <div class="session-header">
           <h3 style="margin: 0;">Live Session Tracker</h3>
           <div class="session-controls">
             <button id="startSessionBtn" class="session-btn">Start Session</button>
-            <button id="endSessionBtn" class="session-btn end">End Session</button>
+            <button id="endSessionBtn" class="session-btn reset">End Session</button>
           </div>
         </div>
-        
+
         <div id="sessionActiveContent" style="display:none;">
           <div class="global-grid">
             <div class="result-item"><h3>XP Gained</h3><p id="sessionXP">0</p></div>
@@ -88,7 +97,7 @@
             <div class="result-item"><h3>XP / Hour</h3><p id="sessionXPH">0</p></div>
           </div>
           <p class="small" id="sessionStartTime" style="margin-top: 10px;"></p>
-          
+
           <div class="auto-refresh-container">
             <label for="autoRefreshToggle" class="refresh-label">
               <input type="checkbox" id="autoRefreshToggle">
@@ -96,25 +105,27 @@
             </label>
           </div>
         </div>
-        
+
         <div id="sessionInactiveContent">
           <p class="small">No active session. Load your stats and click "Start Session" to track your progress!</p>
         </div>
       </section>
 
-    <section class="card" id="chartCard" style="display:none; margin-top:15px;">
-  <div class="charts-row">
-    <div class="chart-container">
-      <h3>XP Distribution</h3>
-      <canvas id="xpPieChart"></canvas>
-    </div>
-    <div class="chart-container">
-      <h3>Games Distribution</h3>
-      <canvas id="gamesPieChart"></canvas>
-    </div>
-  </div>
-</section>
+      <!-- Charts -->
+      <section class="card" id="chartCard" style="display:none; margin-top:15px;">
+        <div class="charts-row">
+          <div class="chart-container">
+            <h3>XP Distribution</h3>
+            <canvas id="xpPieChart"></canvas>
+          </div>
+          <div class="chart-container">
+            <h3>Games Distribution</h3>
+            <canvas id="gamesPieChart"></canvas>
+          </div>
+        </div>
+      </section>
 
+      <!-- Global Stats -->
       <section class="card" id="globalStatsCard" style="display:none; margin-top:15px;">
         <h3>Global Profile</h3>
         <div class="global-grid">
@@ -126,12 +137,15 @@
         </div>
       </section>
 
+      <!-- Gamemode Stats -->
       <section class="card">
         <h2>Your Gamemode Stats</h2>
+
         <div class="stats-controls">
           <label class="hide-toggle">
             <input type="checkbox" id="hideUnplayed"> Hide unplayed modes
           </label>
+
           <div class="sort-controls">
             <label for="sortSelect">Sort by:</label>
             <select id="sortSelect">
@@ -144,25 +158,119 @@
             <button id="sortDirBtn" class="sort-dir">▼</button>
           </div>
         </div>
+
         <section class="card highlights-card" id="highlightsCard" style="display:none;">
           <h3>Personal Highlights</h3>
           <div id="highlightsContent" class="highlights-grid"></div>
         </section>
+
         <div id="overviewContainer" class="overview-grid"></div>
       </section>
     </section>
 
-    <section class="tab-content" id="tab-level" style="display:none;"></section>
-    <section class="tab-content" id="tab-grind" style="display:none;"></section>
-    <section class="tab-content" id="tab-goals" style="display:none;"></section>
+    <!-- ============================
+         ⭐ TAB: LEVEL CALCULATOR
+         ============================ -->
+    <section class="tab-content" id="tab-level" style="display:none;">
+      <section class="card">
+        <h2>Level Calculator</h2>
+
+        <label>Gamemode
+          <select id="modeSelect">
+            <option value="bed">BedWars</option>
+            <option value="sky">SkyWars</option>
+            <option value="dr">Deathrun</option>
+            <option value="party">Block Party</option>
+            <option value="drop">Block Drop</option>
+            <option value="ctf">Capture the Flag</option>
+            <option value="murder">Murder Mystery</option>
+            <option value="sg">Survival Games</option>
+            <option value="hide">Hide and Seek</option>
+            <option value="ground">Ground Wars</option>
+            <option value="build">Build Battle</option>
+            <option value="bridge">The Bridge</option>
+            <option value="grav">Gravity</option>
+          </select>
+        </label>
+
+        <label>Current XP
+          <input type="number" id="xpInput" placeholder="0">
+        </label>
+
+        <label>Games Played
+          <input type="number" id="gamesInput" placeholder="0">
+        </label>
+
+        <label>Wins
+          <input type="number" id="winsInput" placeholder="0">
+        </label>
+
+        <label>Target Level (optional)
+          <input type="number" id="targetLevelInput" placeholder="Next level">
+        </label>
+
+        <button id="calcBtn">Calculate</button>
+
+        <div id="results" style="margin-top:15px;"></div>
+
+        <div id="progressBarContainer" class="progress-container" style="display:none;">
+          <div id="progressBar" class="progress-bar"></div>
+          <div id="progressText" class="mini-progress-text"></div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ============================
+         ⭐ TAB: GRIND CALCULATOR
+         ============================ -->
+    <section class="tab-content" id="tab-grind" style="display:none;">
+      <section class="card">
+        <h2>Grind Calculator</h2>
+
+        <label>Average Game Length (minutes)
+          <input type="number" id="avgGameLength" placeholder="5">
+        </label>
+
+        <label>Games Per Day
+          <input type="number" id="gamesPerDay" placeholder="20">
+        </label>
+
+        <button id="grindCalcBtn">Calculate Grind</button>
+
+        <div id="grindResults" style="margin-top:15px;"></div>
+      </section>
+    </section>
+
+    <!-- ============================
+         ⭐ TAB: GOAL PLANNER
+         ============================ -->
+    <section class="tab-content" id="tab-goals" style="display:none;">
+      <section class="card">
+        <h2>Goal Planner</h2>
+
+        <label>Target Level
+          <input type="number" id="goalLevel" placeholder="50">
+        </label>
+
+        <label>Target Date
+          <input type="date" id="goalDate">
+        </label>
+
+        <button id="goalCalcBtn">Plan Goal</button>
+
+        <div id="goalResults" style="margin-top:15px;"></div>
+      </section>
+    </section>
 
   </div>
 
+  <!-- Footer -->
   <footer class="site-footer">
     <div>Hive Insight is an unofficial tool and is not affiliated with The Hive.</div>
     <div class="footer-sub">Hive Insight uses anonymous analytics to understand usage. No personal data is collected or stored.</div>
   </footer>
 
+  <!-- Modal -->
   <div id="summaryModal" class="modal-overlay" style="display:none;">
     <div class="card modal-content">
       <h2 style="color: #4fd1c5;">Session Summary</h2>
@@ -178,7 +286,8 @@
       </div>
     </div>
   </div>
-  
+
+  <!-- Scripts -->
   <script src="script.js"></script>
   <script src="https://unpkg.com/skinview3d/bundles/skinview3d.bundle.js"></script>
   <script src="playercard.js"></script>
