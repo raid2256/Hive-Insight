@@ -751,3 +751,14 @@ canvas {
   height: 180px !important;
 }
 
+.chart-container {
+  width: 100%;
+  max-width: 350px;   /* prevents stretching */
+  aspect-ratio: 1 / 1; /* forces a perfect square */
+  margin: 0 auto;      /* centers them */
+}
+
+.chart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
