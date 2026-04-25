@@ -737,8 +737,10 @@ canvas {
 }
 
 #chartCard.card {
-  padding: 5px 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
+
 
 .charts-row {
   margin-top: 0;
