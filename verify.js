@@ -114,13 +114,13 @@ generateTitleBtn.addEventListener("click", async () => {
 
   const data = await fetchHivePlayer(ign);
 
-  if (!data) {
+  if (!data || !data.main) {
     ignStatus.textContent = "Player not found.";
     ignStatus.style.color = "red";
     return;
   }
 
-  const titles = data.hub_title_unlocked;
+  const titles = data.main.hub_title_unlocked;
 
   if (!titles || titles.length === 0) {
     ignStatus.textContent = "This player has no hub titles.";
@@ -153,13 +153,13 @@ checkVerificationBtn.addEventListener("click", async () => {
 
   const data = await fetchHivePlayer(ign);
 
-  if (!data) {
+  if (!data || !data.main) {
     verificationStatus.textContent = "Player not found.";
     verificationStatus.style.color = "red";
     return;
   }
 
-  const equipped = data.equipped_hub_title;
+  const equipped = data.main.equipped_hub_title;
 
   if (equipped === chosen) {
     verificationStatus.textContent = "Verified ✔";
@@ -168,7 +168,7 @@ checkVerificationBtn.addEventListener("click", async () => {
     resultSection.style.display = "block";
     resultMessage.textContent = `${ign} is now linked to your account.`;
 
-    saveVerification(window._discord, ign, data.uuid, data.xuid);
+    saveVerification(window._discord, ign, data.main.UUID, data.main.xuid);
 
   } else {
     verificationStatus.textContent = "Not equipped yet. Try again.";
