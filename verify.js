@@ -82,13 +82,14 @@ async function fetchDiscordUser(token) {
 --------------------------------*/
 async function fetchHivePlayer(ign) {
   try {
-    const res = await fetch(`https://api.playhive.com/v0/player/${ign}`);
+    const res = await fetch(`https://api.playhive.com/game/all/main/${ign}`);
     if (!res.ok) return null;
     return await res.json();
   } catch (err) {
     return null;
   }
 }
+
 
 /* -------------------------------
    6. PICK RANDOM HUB TITLE
