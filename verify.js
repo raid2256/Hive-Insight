@@ -82,16 +82,13 @@ async function fetchDiscordUser(token) {
 --------------------------------*/
 async function fetchHivePlayer(ign) {
   try {
-    const res = await fetch(`/api/hive?ign=${ign}`);
+    const res = await fetch(`https://api.playhive.com/v0/game/all/all/${ign}`);
     if (!res.ok) return null;
     return await res.json();
   } catch (err) {
     return null;
   }
 }
-
-
-
 
 /* -------------------------------
    6. PICK RANDOM HUB TITLE
@@ -117,13 +114,13 @@ generateTitleBtn.addEventListener("click", async () => {
 
   const data = await fetchHivePlayer(ign);
 
-  if (!data || !data.main) {
+  if (!data) {
     ignStatus.textContent = "Player not found.";
     ignStatus.style.color = "red";
     return;
   }
 
-  const titles = data.hub_title_unlocked
+  const titles = data.hub_title_unlocked;
 
   if (!titles || titles.length === 0) {
     ignStatus.textContent = "This player has no hub titles.";
@@ -139,7 +136,6 @@ generateTitleBtn.addEventListener("click", async () => {
   ignStatus.textContent = "Hub title generated ✔";
   ignStatus.style.color = "limegreen";
 
-  // Save for later check
   window._verification = {
     ign,
     chosen
@@ -157,13 +153,13 @@ checkVerificationBtn.addEventListener("click", async () => {
 
   const data = await fetchHivePlayer(ign);
 
-  if (!data || !data.main) {
+  if (!data) {
     verificationStatus.textContent = "Player not found.";
     verificationStatus.style.color = "red";
     return;
   }
 
-  const equipped = data.equipped_hub_title
+  const equipped = data.equipped_hub_title;
 
   if (equipped === chosen) {
     verificationStatus.textContent = "Verified ✔";
@@ -172,8 +168,7 @@ checkVerificationBtn.addEventListener("click", async () => {
     resultSection.style.display = "block";
     resultMessage.textContent = `${ign} is now linked to your account.`;
 
-    // Save to Firebase
-    saveVerification(window._discord, ign, data.UUID, data.xuid);
+    saveVerification(window._discord, ign, data.uuid, data.xuid);
 
   } else {
     verificationStatus.textContent = "Not equipped yet. Try again.";
