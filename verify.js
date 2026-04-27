@@ -31,14 +31,14 @@ const resultSection = document.getElementById("resultSection");
 const resultMessage = document.getElementById("resultMessage");
 
 /* -------------------------------
-   CLEAN COLOR CODES
+   CLEAN COLOR CODES (DISPLAY ONLY)
 --------------------------------*/
 function cleanTitle(title) {
   return title.replace(/&[0-9a-fklmnor]/gi, "");
 }
 
 /* -------------------------------
-   2. DISCORD LOGIN (Implicit Flow)
+   2. DISCORD LOGIN
 --------------------------------*/
 discordBtn.addEventListener("click", () => {
   const discordAuthURL =
@@ -135,10 +135,13 @@ generateTitleBtn.addEventListener("click", async () => {
     return;
   }
 
-  const raw = pickRandomHubTitle(titles);
-  const chosen = cleanTitle(raw);
+  // RAW title for comparison
+  const chosenRaw = pickRandomHubTitle(titles);
 
-  verificationTitle.textContent = chosen;
+  // CLEAN title for display
+  const chosenClean = cleanTitle(chosenRaw);
+
+  verificationTitle.textContent = chosenClean;
   titleSection.style.display = "block";
 
   ignStatus.textContent = "Hub title generated ✔";
@@ -146,7 +149,8 @@ generateTitleBtn.addEventListener("click", async () => {
 
   window._verification = {
     ign,
-    chosen
+    chosenRaw,   // compare RAW
+    chosenClean  // display CLEAN
   };
 });
 
@@ -154,7 +158,7 @@ generateTitleBtn.addEventListener("click", async () => {
    8. CHECK VERIFICATION
 --------------------------------*/
 checkVerificationBtn.addEventListener("click", async () => {
-  const { ign, chosen } = window._verification;
+  const { ign, chosenRaw } = window._verification;
 
   verificationStatus.textContent = "Checking Hive...";
   verificationStatus.style.color = "white";
@@ -167,9 +171,10 @@ checkVerificationBtn.addEventListener("click", async () => {
     return;
   }
 
-  const equipped = cleanTitle(data.main.equipped_hub_title);
+  // RAW equipped title from API
+  const equippedRaw = data.main.equipped_hub_title;
 
-  if (equipped === chosen) {
+  if (equippedRaw === chosenRaw) {
     verificationStatus.textContent = "Verified ✔";
     verificationStatus.style.color = "limegreen";
 
