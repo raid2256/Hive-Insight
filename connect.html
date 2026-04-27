@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://hive-insight.vercel.app/connect.html" />
 
   <!-- SEO -->
-  <meta name="description" content="Connect your Discord and Hive accounts to unlock personalized stats, goals, and session tracking on Hive Insight." />
+  <meta name="description" content="Connect your Discord and Hive accounts to unlock personalized stats, verification, and features on Hive Insight." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Styles -->
@@ -38,7 +38,7 @@
       <section class="card" style="max-width: 600px; margin: 0 auto;">
         <h2>Connect Your Account</h2>
         <p class="small">
-          Link your Discord and Hive accounts to unlock personalized features like goals, private sessions, and profile customization.
+          Link your Discord and Hive accounts to unlock personalized features like verification, goals, and profile syncing.
         </p>
 
         <!-- Step 1: Discord Login -->
@@ -51,7 +51,7 @@
         </div>
 
         <!-- Step 2: Enter IGN -->
-        <div id="ignSection" class="dropdown-card">
+        <div id="ignSection" class="dropdown-card" style="display:none;">
           <div class="dropdown-header">Step 2 – Enter your Hive IGN</div>
           <div class="dropdown-content">
             <label for="ignInput">
@@ -64,7 +64,7 @@
         </div>
 
         <!-- Step 3: Equip Hub Title -->
-        <div id="titleSection" class="dropdown-card">
+        <div id="titleSection" class="dropdown-card" style="display:none;">
           <div class="dropdown-header">Step 3 – Equip your verification hub title</div>
           <div class="dropdown-content">
             <p class="small">
@@ -96,7 +96,9 @@
     </footer>
   </div>
 
-  <!-- Scripts -->
-  <script src="verify.js"></script>
+  <!-- Scripts (MODULES!) -->
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="verify.js"></script>
+
 </body>
 </html>
