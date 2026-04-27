@@ -173,7 +173,7 @@ checkVerificationBtn.addEventListener("click", async () => {
     resultMessage.textContent = `${ign} is now linked to your account.`;
 
     // Save to Firebase
-    saveVerification(window._discord, ign, data.main.UUID, data.main.xuid);
+    saveVerification(window._discord, ign, data.UUID, data.xuid);
 
   } else {
     verificationStatus.textContent = "Not equipped yet. Try again.";
