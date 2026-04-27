@@ -82,7 +82,7 @@ async function fetchDiscordUser(token) {
 --------------------------------*/
 async function fetchHivePlayer(ign) {
   try {
-    const url = `https://api.allorigins.win/raw?url=${encodeURIComponent(
+    const url = `https://corsproxy.io/?${encodeURIComponent(
       `https://api.playhive.com/game/all/main/${ign}`
     )}`;
 
@@ -94,6 +94,7 @@ async function fetchHivePlayer(ign) {
     return null;
   }
 }
+
 
 
 
