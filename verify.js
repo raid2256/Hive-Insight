@@ -31,6 +31,13 @@ const resultSection = document.getElementById("resultSection");
 const resultMessage = document.getElementById("resultMessage");
 
 /* -------------------------------
+   CLEAN COLOR CODES
+--------------------------------*/
+function cleanTitle(title) {
+  return title.replace(/&[0-9a-fklmnor]/gi, "");
+}
+
+/* -------------------------------
    2. DISCORD LOGIN (Implicit Flow)
 --------------------------------*/
 discordBtn.addEventListener("click", () => {
@@ -128,7 +135,8 @@ generateTitleBtn.addEventListener("click", async () => {
     return;
   }
 
-  const chosen = pickRandomHubTitle(titles);
+  const raw = pickRandomHubTitle(titles);
+  const chosen = cleanTitle(raw);
 
   verificationTitle.textContent = chosen;
   titleSection.style.display = "block";
@@ -159,7 +167,7 @@ checkVerificationBtn.addEventListener("click", async () => {
     return;
   }
 
-  const equipped = data.main.equipped_hub_title;
+  const equipped = cleanTitle(data.main.equipped_hub_title);
 
   if (equipped === chosen) {
     verificationStatus.textContent = "Verified ✔";
