@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Connect Your Account – Hive Insight</title>
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://hive-insight.vercel.app/connect" />
+
+  <!-- SEO -->
+  <meta name="description" content="Connect your Discord and Hive accounts to unlock personalized stats, goals, and session tracking on Hive Insight." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="site-title-row">
+        <img src="/hiveinsightlogo.png" alt="Hive Insight Logo" class="site-logo" />
+        <h1>Hive Insight</h1>
+      </div>
+      <nav class="main-nav">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/stats" class="nav-link">Stats</a>
+        <a href="/leaderboards" class="nav-link">Leaderboards</a>
+        <a href="/games" class="nav-link">Games</a>
+        <a href="/connect" class="nav-link active">Connect</a>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <section class="card" style="max-width: 600px; margin: 0 auto;">
+        <h2>Connect Your Account</h2>
+        <p class="small">
+          Link your Discord and Hive accounts to unlock personalized features like goals, private sessions, and profile customization.
+        </p>
+
+        <!-- Step 1: Discord Login -->
+        <div id="authSection" class="dropdown-card active">
+          <div class="dropdown-header">Step 1 – Sign in with Discord</div>
+          <div class="dropdown-content" style="display:block;">
+            <button id="discordLoginBtn" class="primary-btn">Sign in with Discord</button>
+            <p id="authStatus" class="small"></p>
+          </div>
+        </div>
+
+        <!-- Step 2: Enter IGN -->
+        <div id="ignSection" class="dropdown-card">
+          <div class="dropdown-header">Step 2 – Enter your Hive IGN</div>
+          <div class="dropdown-content">
+            <label for="ignInput">
+              Hive IGN
+              <input type="text" id="ignInput" placeholder="e.g. AwtBear19" autocomplete="off" />
+            </label>
+            <button id="generateTitleBtn" class="primary-btn">Continue</button>
+            <p id="ignStatus" class="small"></p>
+          </div>
+        </div>
+
+        <!-- Step 3: Equip Hub Title -->
+        <div id="titleSection" class="dropdown-card">
+          <div class="dropdown-header">Step 3 – Equip your verification hub title</div>
+          <div class="dropdown-content">
+            <p class="small">
+              Equip this hub title on Hive to prove you own the IGN:
+            </p>
+
+            <div class="overview-card">
+              <h3>Verification Hub Title</h3>
+              <p id="verificationTitle">Not generated yet.</p>
+            </div>
+
+            <button id="checkVerificationBtn" class="primary-btn">Check Verification</button>
+            <p id="verificationStatus" class="small"></p>
+          </div>
+        </div>
+
+        <!-- Final Result -->
+        <div id="resultSection" class="card" style="display:none; margin-top:16px;">
+          <h2>You're all set!</h2>
+          <p id="resultMessage"></p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div>Hive Insight – Unofficial Hive stats & tools</div>
+      <div class="footer-sub">Not affiliated with Hive or Mojang.</div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/verify.js"></script>
+</body>
+</html>
