@@ -1,8 +1,19 @@
-export default async function handler(req, res) {
-  const { ign } = req.query;
+export const config = {
+  runtime: "edge"
+};
+
+export default async function handler(req) {
+  const { searchParams } = new URL(req.url);
+  const ign = searchParams.get("ign");
 
   if (!ign) {
-    return res.status(400).json({ error: "IGN missing" });
+    return new Response(
+      JSON.stringify({ error: "IGN missing" }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json" }
+      }
+    );
   }
 
   const hiveURL = `https://api.playhive.com/game/all/main/${ign}`;
@@ -10,25 +21,44 @@ export default async function handler(req, res) {
   try {
     const response = await fetch(hiveURL);
 
-    // If Hive blocks the request
     if (!response.ok) {
       const text = await response.text();
-      return res.status(500).json({
-        error: "Hive API returned an error",
-        status: response.status,
-        body: text
-      });
+      return new Response(
+        JSON.stringify({
+          error: "Hive API returned an error",
+          status: response.status,
+          body: text
+        }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" }
+        }
+      );
     }
 
     const data = await response.json();
 
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    return res.status(200).json(data);
+    return new Response(
+      JSON.stringify(data),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*"
+        }
+      }
+    );
 
   } catch (err) {
-    return res.status(500).json({
-      error: "Server error",
-      details: err.message
-    });
+    return new Response(
+      JSON.stringify({
+        error: "Server error",
+        details: err.message
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" }
+      }
+    );
   }
 }
