@@ -82,13 +82,19 @@ async function fetchDiscordUser(token) {
 --------------------------------*/
 async function fetchHivePlayer(ign) {
   try {
-    const res = await fetch(`https://api.playhive.com/game/all/main/${ign}`);
+    const url = `https://api.allorigins.win/raw?url=${encodeURIComponent(
+      `https://api.playhive.com/game/all/main/${ign}`
+    )}`;
+
+    const res = await fetch(url);
     if (!res.ok) return null;
+
     return await res.json();
   } catch (err) {
     return null;
   }
 }
+
 
 
 /* -------------------------------
