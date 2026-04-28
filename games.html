@@ -11,6 +11,7 @@
   <link rel="icon" type="image/png" href="hiveinsightlogo.png">
   <link rel="stylesheet" href="style.css" />
   <script defer src="games.js"></script>
+  <script defer src="script.js"></script>
 </head>
 
 <body>
@@ -29,6 +30,19 @@
         <a href="games.html" class="nav-link active">Games</a>
         <a href="leaderboards.html" class="nav-link">Leaderboards</a>
       </nav>
+
+      <!-- ⭐ ACCOUNT BUTTONS (GLOBAL) -->
+      <div id="accountButtons" class="account-buttons">
+        <a href="/connect.html" id="connectBtn">
+          <button>Connect Account</button>
+        </a>
+
+        <a href="/profile.html" id="profileBtn" style="display:none;">
+          <button>Profile</button>
+        </a>
+
+        <button id="logoutBtn" style="display:none;">Logout</button>
+      </div>
     </header>
 
     <!-- Intro -->
