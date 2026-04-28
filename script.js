@@ -983,7 +983,7 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
   });
 });
 
-// GLOBAL ACCOUNT BUTTON HANDLER FOR ALL PAGES
+// ⭐ GLOBAL ACCOUNT BUTTON HANDLER FOR ALL PAGES
 document.addEventListener("DOMContentLoaded", () => {
   const discordUser = localStorage.getItem("discordUser");
   const linked = localStorage.getItem("linkedAccount");
@@ -992,31 +992,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const profileBtn = document.getElementById("profileBtn");
   const logoutBtn = document.getElementById("logoutBtn");
 
-  // If the page doesn't have account buttons, stop
+  // If this page doesn't have account buttons, stop
   if (!connectBtn || !profileBtn || !logoutBtn) return;
 
-  // User fully verified (Discord + Hive)
+  // ⭐ User fully verified (Discord + Hive)
   if (linked) {
     connectBtn.style.display = "none";
     profileBtn.style.display = "inline-block";
     logoutBtn.style.display = "inline-block";
   }
 
-  // User logged in with Discord but not verified
+  // ⭐ User logged in with Discord but not verified
   else if (discordUser) {
     connectBtn.style.display = "inline-block";
     profileBtn.style.display = "none";
     logoutBtn.style.display = "inline-block";
   }
 
-  // User not logged in at all
+  // ⭐ User not logged in at all
   else {
     connectBtn.style.display = "inline-block";
     profileBtn.style.display = "none";
     logoutBtn.style.display = "none";
   }
 
-  // Logout button
+  // ⭐ Logout button
   logoutBtn.addEventListener("click", () => {
     localStorage.removeItem("discordUser");
     localStorage.removeItem("linkedAccount");
