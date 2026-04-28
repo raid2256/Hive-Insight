@@ -8,7 +8,8 @@
 import { app, db } from "./firebase.js";
 import {
   doc,
-  setDoc
+  setDoc,
+  getDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 /* -------------------------------
@@ -38,7 +39,28 @@ function cleanTitle(title) {
 }
 
 /* -------------------------------
-   2. DISCORD LOGIN
+   2. RESTORE SESSION (STAY SIGNED IN)
+--------------------------------*/
+const savedUser = localStorage.getItem("discordUser");
+const linked = localStorage.getItem("linkedAccount");
+
+// If already verified → go to profile
+if (linked) {
+  window.location.href = "/profile.html";
+}
+
+// If Discord login exists → auto-fill UI
+if (savedUser) {
+  window._discord = JSON.parse(savedUser);
+
+  authStatus.textContent = `Connected as ${window._discord.username} ✔`;
+  authStatus.style.color = "limegreen";
+
+  ignSection.style.display = "block";
+}
+
+/* -------------------------------
+   3. DISCORD LOGIN
 --------------------------------*/
 discordBtn.addEventListener("click", () => {
   const discordAuthURL =
@@ -48,7 +70,7 @@ discordBtn.addEventListener("click", () => {
 });
 
 /* -------------------------------
-   3. DETECT DISCORD REDIRECT
+   4. DETECT DISCORD REDIRECT
 --------------------------------*/
 function checkDiscordLogin() {
   const hash = window.location.hash;
@@ -63,7 +85,7 @@ function checkDiscordLogin() {
 checkDiscordLogin();
 
 /* -------------------------------
-   4. FETCH DISCORD USER
+   5. FETCH DISCORD USER
 --------------------------------*/
 async function fetchDiscordUser(token) {
   const res = await fetch("https://discord.com/api/users/@me", {
@@ -78,6 +100,9 @@ async function fetchDiscordUser(token) {
     avatar: user.avatar
   };
 
+  // Save session
+  localStorage.setItem("discordUser", JSON.stringify(window._discord));
+
   authStatus.textContent = `Connected as ${user.username} ✔`;
   authStatus.style.color = "limegreen";
 
@@ -85,7 +110,7 @@ async function fetchDiscordUser(token) {
 }
 
 /* -------------------------------
-   5. FETCH HIVE PLAYER DATA
+   6. FETCH HIVE PLAYER DATA
 --------------------------------*/
 async function fetchHivePlayer(ign) {
   try {
@@ -98,14 +123,14 @@ async function fetchHivePlayer(ign) {
 }
 
 /* -------------------------------
-   6. PICK RANDOM HUB TITLE
+   7. PICK RANDOM HUB TITLE
 --------------------------------*/
 function pickRandomHubTitle(titles) {
   return titles[Math.floor(Math.random() * titles.length)];
 }
 
 /* -------------------------------
-   7. GENERATE VERIFICATION TITLE
+   8. GENERATE VERIFICATION TITLE
 --------------------------------*/
 generateTitleBtn.addEventListener("click", async () => {
   const ign = ignInput.value.trim();
@@ -155,7 +180,7 @@ generateTitleBtn.addEventListener("click", async () => {
 });
 
 /* -------------------------------
-   8. CHECK VERIFICATION
+   9. CHECK VERIFICATION
 --------------------------------*/
 checkVerificationBtn.addEventListener("click", async () => {
   const { ign, chosenRaw } = window._verification;
@@ -190,7 +215,7 @@ checkVerificationBtn.addEventListener("click", async () => {
 });
 
 /* -------------------------------
-   9. SAVE TO FIRESTORE
+   10. SAVE TO FIRESTORE + LOCALSTORAGE
 --------------------------------*/
 async function saveVerification(discord, ign, uuid, xuid) {
   await setDoc(doc(db, "users", discord.id), {
@@ -203,4 +228,15 @@ async function saveVerification(discord, ign, uuid, xuid) {
     verified: true,
     timestamp: Date.now()
   });
+
+  // Save locally so user stays verified
+  localStorage.setItem("linkedAccount", JSON.stringify({
+    ign,
+    uuid,
+    xuid,
+    discordId: discord.id
+  }));
+
+  // Redirect to profile
+  window.location.href = "/profile.html";
 }
