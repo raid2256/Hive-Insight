@@ -1,19 +1,12 @@
 /* ---------------------------------------------------------
    verify.js – Hive Insight account linking logic
-   --------------------------------------------------------- */
+--------------------------------------------------------- */
 
-/* -------------------------------
-   0. FIREBASE IMPORTS
---------------------------------*/
 import { app, db } from "./firebase.js";
-import {
-  doc,
-  setDoc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 /* -------------------------------
-   1. DOM ELEMENTS
+   DOM ELEMENTS
 --------------------------------*/
 const discordBtn = document.getElementById("discordLoginBtn");
 const authStatus = document.getElementById("authStatus");
@@ -30,23 +23,26 @@ const verificationStatus = document.getElementById("verificationStatus");
 
 const resultSection = document.getElementById("resultSection");
 const resultMessage = document.getElementById("resultMessage");
+const goProfileBtn = document.getElementById("goProfileBtn");
 
 /* -------------------------------
-   CLEAN COLOR CODES (DISPLAY ONLY)
+   CLEAN COLOR CODES
 --------------------------------*/
 function cleanTitle(title) {
   return title.replace(/&[0-9a-fklmnor]/gi, "");
 }
 
 /* -------------------------------
-   2. RESTORE SESSION (STAY SIGNED IN)
+   RESTORE SESSION
 --------------------------------*/
 const savedUser = localStorage.getItem("discordUser");
 const linked = localStorage.getItem("linkedAccount");
 
-// If already verified → go to profile
+// If already verified → show button instead of redirect
 if (linked) {
-  window.location.href = "/profile.html";
+  resultSection.style.display = "block";
+  resultMessage.textContent = "Your account is already linked.";
+  goProfileBtn.style.display = "inline-block";
 }
 
 // If Discord login exists → auto-fill UI
@@ -60,7 +56,7 @@ if (savedUser) {
 }
 
 /* -------------------------------
-   3. DISCORD LOGIN
+   DISCORD LOGIN
 --------------------------------*/
 discordBtn.addEventListener("click", () => {
   const discordAuthURL =
@@ -70,7 +66,7 @@ discordBtn.addEventListener("click", () => {
 });
 
 /* -------------------------------
-   4. DETECT DISCORD REDIRECT
+   DETECT DISCORD REDIRECT
 --------------------------------*/
 function checkDiscordLogin() {
   const hash = window.location.hash;
@@ -85,7 +81,7 @@ function checkDiscordLogin() {
 checkDiscordLogin();
 
 /* -------------------------------
-   5. FETCH DISCORD USER
+   FETCH DISCORD USER
 --------------------------------*/
 async function fetchDiscordUser(token) {
   const res = await fetch("https://discord.com/api/users/@me", {
@@ -100,7 +96,6 @@ async function fetchDiscordUser(token) {
     avatar: user.avatar
   };
 
-  // Save session
   localStorage.setItem("discordUser", JSON.stringify(window._discord));
 
   authStatus.textContent = `Connected as ${user.username} ✔`;
@@ -110,27 +105,27 @@ async function fetchDiscordUser(token) {
 }
 
 /* -------------------------------
-   6. FETCH HIVE PLAYER DATA
+   FETCH HIVE PLAYER
 --------------------------------*/
 async function fetchHivePlayer(ign) {
   try {
     const res = await fetch(`https://api.playhive.com/v0/game/all/all/${ign}`);
     if (!res.ok) return null;
     return await res.json();
-  } catch (err) {
+  } catch {
     return null;
   }
 }
 
 /* -------------------------------
-   7. PICK RANDOM HUB TITLE
+   PICK RANDOM HUB TITLE
 --------------------------------*/
 function pickRandomHubTitle(titles) {
   return titles[Math.floor(Math.random() * titles.length)];
 }
 
 /* -------------------------------
-   8. GENERATE VERIFICATION TITLE
+   GENERATE VERIFICATION TITLE
 --------------------------------*/
 generateTitleBtn.addEventListener("click", async () => {
   const ign = ignInput.value.trim();
@@ -160,10 +155,7 @@ generateTitleBtn.addEventListener("click", async () => {
     return;
   }
 
-  // RAW title for comparison
   const chosenRaw = pickRandomHubTitle(titles);
-
-  // CLEAN title for display
   const chosenClean = cleanTitle(chosenRaw);
 
   verificationTitle.textContent = chosenClean;
@@ -172,15 +164,11 @@ generateTitleBtn.addEventListener("click", async () => {
   ignStatus.textContent = "Hub title generated ✔";
   ignStatus.style.color = "limegreen";
 
-  window._verification = {
-    ign,
-    chosenRaw,   // compare RAW
-    chosenClean  // display CLEAN
-  };
+  window._verification = { ign, chosenRaw, chosenClean };
 });
 
 /* -------------------------------
-   9. CHECK VERIFICATION
+   CHECK VERIFICATION
 --------------------------------*/
 checkVerificationBtn.addEventListener("click", async () => {
   const { ign, chosenRaw } = window._verification;
@@ -196,7 +184,6 @@ checkVerificationBtn.addEventListener("click", async () => {
     return;
   }
 
-  // RAW equipped title from API
   const equippedRaw = data.main.equipped_hub_title;
 
   if (equippedRaw === chosenRaw) {
@@ -215,7 +202,7 @@ checkVerificationBtn.addEventListener("click", async () => {
 });
 
 /* -------------------------------
-   10. SAVE TO FIRESTORE + LOCALSTORAGE
+   SAVE TO FIRESTORE + LOCALSTORAGE
 --------------------------------*/
 async function saveVerification(discord, ign, uuid, xuid) {
   await setDoc(doc(db, "users", discord.id), {
@@ -229,7 +216,6 @@ async function saveVerification(discord, ign, uuid, xuid) {
     timestamp: Date.now()
   });
 
-  // Save locally so user stays verified
   localStorage.setItem("linkedAccount", JSON.stringify({
     ign,
     uuid,
@@ -237,6 +223,6 @@ async function saveVerification(discord, ign, uuid, xuid) {
     discordId: discord.id
   }));
 
-  // Redirect to profile
-  window.location.href = "/profile.html";
+  // ⭐ Show button instead of redirecting
+  goProfileBtn.style.display = "inline-block";
 }
