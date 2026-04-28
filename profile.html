@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Hive Insight Profile</title>
+
+  <link rel="canonical" href="https://hive-insight.vercel.app/profile.html">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="hiveinsightlogo.png">
+  <link rel="stylesheet" href="style.css" />
+
+  <script defer src="script.js"></script>
+  <script defer src="profile.js"></script>
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="site-title-row">
+        <h1>Hive Insight</h1>
+        <img src="hiveinsightlogo.png" alt="Hive Insight Logo" class="site-logo">
+      </div>
+
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="stats.html" class="nav-link">Stats</a>
+        <a href="games.html" class="nav-link">Games</a>
+        <a href="leaderboards.html" class="nav-link">Leaderboards</a>
+      </nav>
+
+      <!-- ⭐ ACCOUNT BUTTONS (GLOBAL) -->
+      <div id="accountButtons" class="account-buttons">
+        <a href="/connect.html" id="connectBtn">
+          <button>Connect Account</button>
+        </a>
+
+        <a href="/profile.html" id="profileBtn" style="display:none;">
+          <button>Profile</button>
+        </a>
+
+        <button id="logoutBtn" style="display:none;">Logout</button>
+      </div>
+    </header>
+
+    <!-- ⭐ PROFILE CONTENT -->
+    <section class="card">
+      <h2>Your Linked Hive Account</h2>
+      <p id="profileStatus">Loading your profile...</p>
+
+      <div id="profileContent" style="display:none;">
+
+        <!-- Discord Info -->
+        <div class="profile-section">
+          <h3>Discord Account</h3>
+          <div class="profile-row">
+            <img id="discordAvatar" class="profile-avatar" />
+            <div>
+              <div><strong>Username:</strong> <span id="discordName"></span></div>
+              <div><strong>ID:</strong> <span id="discordId"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hive Info -->
+        <div class="profile-section">
+          <h3>Hive Account</h3>
+          <div class="profile-row">
+            <div>
+              <div><strong>IGN:</strong> <span id="hiveIgn"></span></div>
+              <div><strong>UUID:</strong> <span id="hiveUuid"></span></div>
+              <div><strong>XUID:</strong> <span id="hiveXuid"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="profile-buttons">
+          <a href="/connect.html">
+            <button class="secondary-btn">Change IGN</button>
+          </a>
+
+          <button id="disconnectBtn" class="danger-btn">Disconnect Account</button>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="site-footer">
+    <div>Hive Insight is an unofficial tool and is not affiliated with The Hive.</div>
+    <div class="footer-sub">Hive Insight uses anonymous analytics to understand usage. No personal data is collected or stored.</div>
+  </footer>
+
+</body>
+</html>
