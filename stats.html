@@ -12,6 +12,9 @@
   <!-- Charts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+
+  <!-- Global script for account buttons -->
+  <script defer src="script.js"></script>
 </head>
 
 <body>
@@ -30,6 +33,19 @@
         <a href="games.html" class="nav-link">Games</a>
         <a href="leaderboards.html" class="nav-link">Leaderboards</a>
       </nav>
+
+      <!-- ⭐ ACCOUNT BUTTONS (GLOBAL) -->
+      <div id="accountButtons" class="account-buttons">
+        <a href="/connect.html" id="connectBtn">
+          <button>Connect Account</button>
+        </a>
+
+        <a href="/profile.html" id="profileBtn" style="display:none;">
+          <button>Profile</button>
+        </a>
+
+        <button id="logoutBtn" style="display:none;">Logout</button>
+      </div>
     </header>
 
     <p class="page-subtitle">
@@ -55,6 +71,7 @@
       <button class="tab-btn" data-tab="grind">Grind</button>
       <button class="tab-btn" data-tab="goals">Goals</button>
     </div>
+
 
     <!-- ============================
          ⭐ TAB: STATS
