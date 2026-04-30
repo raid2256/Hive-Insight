@@ -73,6 +73,19 @@
         </div>
 
         <button id="checkVerificationBtn" class="primary-btn">Check Verification</button>
+
+        <!-- ⭐ API delay message -->
+        <p class="small" style="opacity:0.8; margin-top:8px;">
+          The Hive API may take <strong>10–60 seconds</strong> to update after you equip a hub title.
+          If it doesn’t verify immediately, that’s normal.
+        </p>
+
+        <!-- ⭐ Auto-check toggle -->
+        <label style="display:flex; align-items:center; gap:6px; margin-top:10px;">
+          <input type="checkbox" id="autoCheckToggle">
+          <span class="small">Automatically check every 15 seconds</span>
+        </label>
+
         <p id="verificationStatus" class="small"></p>
       </section>
 
@@ -81,7 +94,7 @@
         <h2>You're all set!</h2>
         <p id="resultMessage"></p>
 
-        <!-- ⭐ NEW BUTTON -->
+        <!-- ⭐ Go to Profile Button -->
         <button id="goProfileBtn" class="primary-btn" style="display:none; margin-top:15px;">
           Go to Profile
         </button>
