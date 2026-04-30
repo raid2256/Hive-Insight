@@ -202,6 +202,31 @@ checkVerificationBtn.addEventListener("click", async () => {
 });
 
 /* -------------------------------
+   AUTO-CHECK EVERY 15 SECONDS
+--------------------------------*/
+let autoCheckInterval = null;
+
+const autoToggle = document.getElementById("autoCheckToggle");
+
+if (autoToggle) {
+  autoToggle.addEventListener("change", () => {
+    if (autoToggle.checked) {
+      verificationStatus.textContent = "Auto-check enabled. Waiting...";
+      verificationStatus.style.color = "white";
+
+      autoCheckInterval = setInterval(() => {
+        checkVerificationBtn.click();
+      }, 15000); // 15 seconds
+    } else {
+      clearInterval(autoCheckInterval);
+      autoCheckInterval = null;
+      verificationStatus.textContent = "Auto-check disabled.";
+      verificationStatus.style.color = "white";
+    }
+  });
+}
+
+/* -------------------------------
    SAVE TO FIRESTORE + LOCALSTORAGE
 --------------------------------*/
 async function saveVerification(discord, ign, uuid, xuid) {
