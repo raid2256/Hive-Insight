@@ -25,6 +25,14 @@ const resultSection = document.getElementById("resultSection");
 const resultMessage = document.getElementById("resultMessage");
 const goProfileBtn = document.getElementById("goProfileBtn");
 
+const adminBtn = document.getElementById("adminForceBtn");
+
+/* -------------------------------
+   ADMIN SETTINGS
+--------------------------------*/
+const ADMIN_ID = "1179331543550935062";
+let adminForceTitle = false;
+
 /* -------------------------------
    CLEAN COLOR CODES
 --------------------------------*/
@@ -53,7 +61,22 @@ if (savedUser) {
   authStatus.style.color = "limegreen";
 
   ignSection.style.display = "block";
+
+  // Show admin button only for your Discord ID
+  if (window._discord.id === ADMIN_ID) {
+    adminBtn.style.display = "inline-block";
+  }
 }
+
+/* -------------------------------
+   ADMIN OVERRIDE BUTTON
+--------------------------------*/
+adminBtn?.addEventListener("click", () => {
+  adminForceTitle = !adminForceTitle;
+  adminBtn.textContent = adminForceTitle
+    ? "Disable Admin Forced Title"
+    : "Enable Admin Forced Title";
+});
 
 /* -------------------------------
    DISCORD LOGIN
@@ -102,6 +125,10 @@ async function fetchDiscordUser(token) {
   authStatus.style.color = "limegreen";
 
   ignSection.style.display = "block";
+
+  if (user.id === ADMIN_ID) {
+    adminBtn.style.display = "inline-block";
+  }
 }
 
 /* -------------------------------
@@ -155,7 +182,14 @@ generateTitleBtn.addEventListener("click", async () => {
     return;
   }
 
-  const chosenRaw = pickRandomHubTitle(titles);
+  let chosenRaw;
+
+  if (adminForceTitle) {
+    chosenRaw = "&2Be&aary &eco&6ol";
+  } else {
+    chosenRaw = pickRandomHubTitle(titles);
+  }
+
   const chosenClean = cleanTitle(chosenRaw);
 
   verificationTitle.textContent = chosenClean;
@@ -187,6 +221,11 @@ checkVerificationBtn.addEventListener("click", async () => {
   const equippedRaw = data.main.equipped_hub_title;
 
   if (equippedRaw === chosenRaw) {
+    if (autoCheckInterval) {
+      clearInterval(autoCheckInterval);
+      autoCheckInterval = null;
+    }
+
     verificationStatus.textContent = "Verified ✔";
     verificationStatus.style.color = "limegreen";
 
@@ -205,6 +244,8 @@ checkVerificationBtn.addEventListener("click", async () => {
    AUTO-CHECK EVERY 15 SECONDS
 --------------------------------*/
 let autoCheckInterval = null;
+let autoCheckAttempts = 0;
+const MAX_ATTEMPTS = 10;
 
 const autoToggle = document.getElementById("autoCheckToggle");
 
@@ -214,9 +255,23 @@ if (autoToggle) {
       verificationStatus.textContent = "Auto-check enabled. Waiting...";
       verificationStatus.style.color = "white";
 
+      autoCheckAttempts = 0;
+
       autoCheckInterval = setInterval(() => {
+        autoCheckAttempts++;
+
+        if (autoCheckAttempts >= MAX_ATTEMPTS) {
+          verificationStatus.textContent =
+            "The Hive API is taking longer than usual to update. Try re-equipping the hub title or returning to the hub.";
+          verificationStatus.style.color = "orange";
+
+          clearInterval(autoCheckInterval);
+          autoCheckInterval = null;
+          return;
+        }
+
         checkVerificationBtn.click();
-      }, 15000); // 15 seconds
+      }, 15000);
     } else {
       clearInterval(autoCheckInterval);
       autoCheckInterval = null;
@@ -248,6 +303,5 @@ async function saveVerification(discord, ign, uuid, xuid) {
     discordId: discord.id
   }));
 
-  // ⭐ Show button instead of redirecting
   goProfileBtn.style.display = "inline-block";
 }
