@@ -16,6 +16,15 @@
 <body>
   <div class="app">
 
+    <!-- ⭐ Development Notice -->
+    <div class="card" style="margin-bottom:20px; border-left:4px solid #ffcc00;">
+      <p class="small">
+        <strong>Notice:</strong> Hive Insight is currently in active development.  
+        You may encounter bugs or issues during account linking or profile creation.  
+        We’re working hard to improve stability and fix problems quickly.
+      </p>
+    </div>
+
     <!-- ⭐ Header -->
     <header class="site-header">
       <div class="site-title-row">
@@ -59,6 +68,12 @@
           <input type="text" id="ignInput" placeholder="e.g. AwtBear19" autocomplete="off" />
         </label>
         <button id="generateTitleBtn" class="primary-btn">Continue</button>
+
+        <!-- ⭐ Admin override button (hidden unless your Discord ID matches) -->
+        <button id="adminForceBtn" class="secondary-btn" style="display:none; margin-top:10px;">
+          Enable Admin Forced Title
+        </button>
+
         <p id="ignStatus" class="small"></p>
       </section>
 
