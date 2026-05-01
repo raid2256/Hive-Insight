@@ -1023,3 +1023,113 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.reload();
   });
 });
+
+// ================================
+// ⭐ SESSION TRACKER LOGIC ⭐
+// ================================
+
+// Check sign-in status (from localStorage)
+const discordUser = localStorage.getItem("discordUser");
+const linked = localStorage.getItem("linkedAccount");
+
+// Active session data
+let sessionData = JSON.parse(localStorage.getItem("hiveSession")) || null;
+
+// Helper to toggle session controls
+function setSessionControlsState(isEnabled) {
+  const startSessionBtn = document.getElementById("startSessionBtn");
+  const endSessionBtn = document.getElementById("endSessionBtn");
+
+  // Show/Hide buttons based on state
+  if (isEnabled) {
+    startSessionBtn.style.display = "inline-block";
+    endSessionBtn.style.display = "inline-block";
+  } else {
+    startSessionBtn.style.display = "none";
+    endSessionBtn.style.display = "none";
+  }
+}
+
+// Update the session tracker UI
+function updateSessionUI() {
+  const activeSection = document.getElementById("sessionActiveContent");
+  const inactiveSection = document.getElementById("sessionInactiveContent");
+
+  // Check if elements exist
+  if (!activeSection || !inactiveSection) return;
+
+  if (!sessionData) {
+    // Handle no session
+    inactiveSection.style.display = "block";
+    activeSection.style.display = "none";
+
+    // Display custom messages for users
+    if (discordUser && linked) {
+      inactiveSection.innerHTML =
+        "No active session. Click 'Start Session' to begin tracking your stats!";
+      setSessionControlsState(true); // Enable 'Start' button
+    } else {
+      inactiveSection.innerHTML =
+        "Sign in to start tracking your gaming sessions!";
+      setSessionControlsState(false); // Disable controls
+    }
+
+    return;
+  }
+
+  // Active session logic
+  activeSection.style.display = "block";
+  inactiveSection.style.display = "none";
+
+  // Update stats dynamically
+  document.getElementById("sessionXP").textContent =
+    sessionData.startXp.toLocaleString();
+  document.getElementById("sessionWins").textContent =
+    sessionData.startWins.toLocaleString();
+  document.getElementById("sessionTime").textContent = "Tracking...";
+  setSessionControlsState(true); // Enable controls
+}
+
+// Start session (allowed only if signed in)
+const startSessionBtn = document.getElementById("startSessionBtn");
+if (startSessionBtn) {
+  startSessionBtn.addEventListener("click", () => {
+    if (!discordUser || !linked) {
+      alert("Please sign in to start a session!");
+      return;
+    }
+
+    // Start session
+    sessionData = {
+      startXp: 0,
+      startWins: 0,
+      startTime: Date.now(),
+    };
+
+    localStorage.setItem("hiveSession", JSON.stringify(sessionData));
+    alert("Session started!");
+    updateSessionUI();
+  });
+}
+
+// End session (allowed only if signed in)
+const endSessionBtn = document.getElementById("endSessionBtn");
+if (endSessionBtn) {
+  endSessionBtn.addEventListener("click", () => {
+    if (!discordUser || !linked) {
+      alert("Please sign in to end a session!");
+      return;
+    }
+
+    // End session
+    localStorage.removeItem("hiveSession");
+    sessionData = null;
+    alert("Session ended!");
+    updateSessionUI();
+  });
+}
+
+// Initialize session tracker
+document.addEventListener("DOMContentLoaded", () => {
+  updateSessionUI();
+});
