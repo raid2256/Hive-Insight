@@ -9,8 +9,9 @@
   <link rel="icon" type="image/png" href="hiveinsightlogo.png">
   <link rel="stylesheet" href="style.css" />
 
-  <script defer src="script.js"></script>
-  <script defer src="profile.js"></script>
+  <!-- MUST be modules -->
+  <script type="module" src="script.js"></script>
+  <script type="module" src="profile.js"></script>
 </head>
 
 <body>
@@ -28,6 +29,7 @@
         <a href="stats.html" class="nav-link">Stats</a>
         <a href="games.html" class="nav-link">Games</a>
         <a href="leaderboards.html" class="nav-link">Leaderboards</a>
+        <a href="profile.html" class="nav-link active">Profile</a>
       </nav>
 
       <div id="accountButtons" class="account-buttons">
@@ -80,22 +82,22 @@
 
           <div class="profile-row">
             <div><strong>Hive Account:</strong></div>
-            <div id="statusHive">✔ Linked</div>
+            <div id="statusHive">Loading...</div>
           </div>
 
           <div class="profile-row">
             <div><strong>Discord Account:</strong></div>
-            <div id="statusDiscord">✔ Linked</div>
+            <div id="statusDiscord">Loading...</div>
           </div>
 
           <div class="profile-row">
             <div><strong>Verification:</strong></div>
-            <div id="statusVerified">✔ Completed</div>
+            <div id="statusVerified">Loading...</div>
           </div>
 
           <div class="profile-row">
             <div><strong>Linked On:</strong></div>
-            <div id="statusLinkedOn"></div>
+            <div id="statusLinkedOn">Loading...</div>
           </div>
         </div>
 
