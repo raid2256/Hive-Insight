@@ -1036,8 +1036,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const discordUser = localStorage.getItem("discordUser");
 const linked = localStorage.getItem("linkedAccount");
 
-// Active session data
-let sessionData = JSON.parse(localStorage.getItem("hiveSession")) || null;
+
 
 // Helper to toggle session controls
 function setSessionControlsState(isEnabled) {
