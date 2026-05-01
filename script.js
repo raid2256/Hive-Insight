@@ -383,13 +383,17 @@ if (loadStatsBtn) {
     }
 
     if (status) status.textContent = "Stats loaded!";
-    window.lastLoadedStats = data;
-    generateOverviewCards(data);
-    generateCharts(data);
+window.lastLoadedStats = data;
+generateOverviewCards(data);
+generateCharts(data);
 
-    if (typeof loadPlayerCard === "function") {
-      await loadPlayerCard(username);
-    }
+if (typeof loadPlayerCard === "function") {
+  await loadPlayerCard(username);
+}
+
+// 🔹 enforce session rules
+enforceSessionAccess(username);
+
 
     const elMode = document.getElementById("modeSelect");
     if (elMode && data[elMode.value]) {
@@ -1133,3 +1137,36 @@ if (endSessionBtn) {
 document.addEventListener("DOMContentLoaded", () => {
   updateSessionUI();
 });
+
+function enforceSessionAccess(loadedIGN) {
+  const linked = localStorage.getItem("linkedAccount");
+  const sessionCard = document.getElementById("sessionCard");
+  const controls = document.querySelector(".session-controls");
+
+  // Always show the card
+  if (sessionCard) sessionCard.style.display = "block";
+
+  if (!linked) {
+    // Not signed in → read-only
+    if (controls) controls.style.display = "none";
+    const inactiveContent = document.getElementById("sessionInactiveContent");
+    if (inactiveContent) {
+      inactiveContent.innerHTML = "<p class='small'>Sign in to start sessions. You can still view active sessions if this player has one.</p>";
+    }
+    return;
+  }
+
+  const account = JSON.parse(linked);
+
+  if (account.ign === loadedIGN) {
+    // Owner → full controls
+    if (controls) controls.style.display = "flex";
+  } else {
+    // Signed in but not owner → read-only
+    if (controls) controls.style.display = "none";
+    const inactiveContent = document.getElementById("sessionInactiveContent");
+    if (inactiveContent) {
+      inactiveContent.innerHTML = "<p class='small'>You can only start sessions for your own IGN. If this player has an active session, you’ll see their stats here.</p>";
+    }
+  }
+}
