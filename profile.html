@@ -30,7 +30,6 @@
         <a href="leaderboards.html" class="nav-link">Leaderboards</a>
       </nav>
 
-      <!-- ⭐ ACCOUNT BUTTONS (GLOBAL) -->
       <div id="accountButtons" class="account-buttons">
         <a href="/connect.html" id="connectBtn">
           <button>Connect Account</button>
@@ -44,7 +43,7 @@
       </div>
     </header>
 
-    <!-- ⭐ PROFILE CONTENT -->
+    <!-- PROFILE CONTENT -->
     <section class="card">
       <h2>Your Linked Hive Account</h2>
       <p id="profileStatus">Loading your profile...</p>
@@ -75,6 +74,31 @@
           </div>
         </div>
 
+        <!-- Linked Account Status -->
+        <div class="profile-section">
+          <h3>Linked Account Status</h3>
+
+          <div class="profile-row">
+            <div><strong>Hive Account:</strong></div>
+            <div id="statusHive">✔ Linked</div>
+          </div>
+
+          <div class="profile-row">
+            <div><strong>Discord Account:</strong></div>
+            <div id="statusDiscord">✔ Linked</div>
+          </div>
+
+          <div class="profile-row">
+            <div><strong>Verification:</strong></div>
+            <div id="statusVerified">✔ Completed</div>
+          </div>
+
+          <div class="profile-row">
+            <div><strong>Linked On:</strong></div>
+            <div id="statusLinkedOn"></div>
+          </div>
+        </div>
+
         <!-- Buttons -->
         <div class="profile-buttons">
           <a href="/connect.html">
@@ -82,6 +106,14 @@
           </a>
 
           <button id="disconnectBtn" class="danger-btn">Disconnect Account</button>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="profile-section" style="border-top:1px solid #ff4444; margin-top:20px; padding-top:20px;">
+          <h3 style="color:#ff4444;">Danger Zone</h3>
+          <p class="small">Deleting your Hive Insight account will remove all linked data. This action cannot be undone.</p>
+
+          <button id="deleteAccountBtn" class="danger-btn">Delete Account</button>
         </div>
 
       </div>
