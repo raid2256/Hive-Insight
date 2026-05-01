@@ -305,3 +305,7 @@ async function saveVerification(discord, ign, uuid, xuid) {
 
   goProfileBtn.style.display = "inline-block";
 }
+
+goProfileBtn.addEventListener("click", () => {
+  window.location.href = "/profile.html";
+});
