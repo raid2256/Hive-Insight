@@ -352,7 +352,7 @@ window.addEventListener("load", () => {
   if (elG && localStorage.getItem("games")) elG.value = localStorage.getItem("games");
   if (elW && localStorage.getItem("wins")) elW.value = localStorage.getItem("wins");
 
-  const params = new
+ 
 
     /* ================================
    ⭐ QUARTER 2 — CALCULATORS
