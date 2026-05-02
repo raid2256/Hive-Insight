@@ -380,6 +380,7 @@ function formatNumber(n) {
 const calcBtn = document.getElementById("calcBtn");
 if (calcBtn) {
   calcBtn.addEventListener("click", () => {
+    console.log("CALC CLICKED");   // ⭐ Add this line
     const mode = document.getElementById("modeSelect").value;
     const xp = Number(document.getElementById("xpInput").value) || 0;
     const games = Number(document.getElementById("gamesInput").value) || 0;
