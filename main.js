@@ -350,7 +350,12 @@ window.addEventListener("load", () => {
   if (elMode && localStorage.getItem("mode")) elMode.value = localStorage.getItem("mode");
   if (elXP && localStorage.getItem("xp")) elXP.value = localStorage.getItem("xp");
   if (elG && localStorage.getItem("games")) elG.value = localStorage.getItem("games");
-  if (elW && localStorage.getItem("wins")) elW.value = localStorage.getItem("wins");
+if (elW && localStorage.getItem("wins")) elW.value = localStorage.getItem("wins");
+}); // ⭐ THIS LINE WAS MISSING
+
+/* ================================
+   ⭐ QUARTER 2 — CALCULATORS
+   ================================ */
 
  
 
