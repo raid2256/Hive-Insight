@@ -1,3 +1,5 @@
+console.log("MAIN JS LOADED");
+
 // ⭐ HIVE STATS CORE – QUARTER 1
 
 // Load Hive stats
