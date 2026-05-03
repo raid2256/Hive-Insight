@@ -377,6 +377,9 @@ function formatNumber(n) {
 /* ================================
    ⭐ LEVEL CALCULATOR
    ================================ */
+
+console.log("ABOUT TO ATTACH CALCULATOR LISTENER");
+
 const calcBtn = document.getElementById("calcBtn");
 if (calcBtn) {
   calcBtn.addEventListener("click", () => {
