@@ -620,6 +620,13 @@ if (loadStatsBtn) {
     window.lastLoadedStats = data;
 
     document.getElementById("pcName").textContent = username;
+// ⭐ Switch to Stats tab after loading
+document.querySelectorAll(".tab-content").forEach(sec => sec.style.display = "none");
+document.getElementById("tab-stats").style.display = "block";
+
+// ⭐ Update tab button highlight
+document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+document.querySelector('.tab-btn[data-tab="stats"]').classList.add("active");
 
 
     generateOverviewCards(data);
