@@ -621,6 +621,7 @@ if (loadStatsBtn) {
 
     generateOverviewCards(data);
     generateCharts(data);
+enforceSessionAccess(username);
 
     if (status) status.textContent = "Stats loaded!";
   });
