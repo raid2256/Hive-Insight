@@ -352,25 +352,11 @@ window.addEventListener("load", () => {
   const elW = document.getElementById("winsInput");
 
   // Safely check and populate localStorage values into the inputs
-  if (elMode) {
-    const mode = localStorage.getItem("mode");
-    if (mode) elMode.value = mode;
-  }
+if (elMode) elMode.value = "";
+if (elXP) elXP.value = "";
+if (elG) elG.value = "";
+if (elW) elW.value = "";
 
-  if (elXP) {
-    const xp = localStorage.getItem("xp");
-    if (xp) elXP.value = xp;
-  }
-
-  if (elG) {
-    const games = localStorage.getItem("games");
-    if (games) elG.value = games;
-  }
-
-  if (elW) {
-    const wins = localStorage.getItem("wins");
-    if (wins) elW.value = wins;
-  }
 });
 
 /* ================================
@@ -912,7 +898,8 @@ if (startSessionBtn) {
       username: document.getElementById("pcName").textContent
     };
 
-    sessionData = {
+    // just keep it in memory
+sessionData = {
   startXp: totalXP,
   startWins: totalWins,
   startTime: Date.now(),
@@ -1059,7 +1046,7 @@ function enforceSessionAccess(loadedIGN) {
     return;
   }
 
-  const account = JSON.parse(linked);
+ const account = linked;
 
   // ⭐ Case-insensitive comparison
   if (account.ign.toLowerCase() === loadedIGN.toLowerCase()) {
