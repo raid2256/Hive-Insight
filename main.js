@@ -1048,7 +1048,8 @@ function enforceSessionAccess(loadedIGN) {
 
   const account = JSON.parse(linked);
 
-  if (account.ign === loadedIGN) {
+  if (account.ign.toLowerCase() === loadedIGN.toLowerCase())
+
     if (controls) controls.style.display = "flex";
   } else {
     if (controls) controls.style.display = "none";
