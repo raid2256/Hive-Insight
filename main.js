@@ -1,7 +1,5 @@
 // ⭐ HIVE STATS CORE – QUARTER 1
-let sessionData = null;
-let discordUser = null;
-let linkedAccount = null;
+
 
 // Load Hive stats
 async function loadHiveStats(username) {
