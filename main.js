@@ -619,6 +619,9 @@ if (loadStatsBtn) {
 
     window.lastLoadedStats = data;
 
+    document.getElementById("pcName").textContent = username;
+
+
     generateOverviewCards(data);
     generateCharts(data);
 enforceSessionAccess(username);
