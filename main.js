@@ -382,50 +382,51 @@ console.log("ABOUT TO ATTACH CALCULATOR LISTENER");
 
 document.addEventListener("DOMContentLoaded", () => {
   const calcBtn = document.getElementById("calcBtn");
-  console.log("calcBtn is:", calcBtn);
 
   if (calcBtn) {
     calcBtn.addEventListener("click", () => {
       console.log("CALC CLICKED");
-    const mode = document.getElementById("modeSelect").value;
-    const xp = Number(document.getElementById("xpInput").value) || 0;
-    const games = Number(document.getElementById("gamesInput").value) || 0;
-    const wins = Number(document.getElementById("winsInput").value) || 0;
-    const targetLvlInput = document.getElementById("targetLevelInput").value;
 
-    const resultsDiv = document.getElementById("results");
-    const table = XP_TABLES[XP_MODE_MAP[mode]];
-    if (!table) return;
+      const mode = document.getElementById("modeSelect").value;
+      const xp = Number(document.getElementById("xpInput").value) || 0;
+      const games = Number(document.getElementById("gamesInput").value) || 0;
+      const wins = Number(document.getElementById("winsInput").value) || 0;
+      const targetLvlInput = document.getElementById("targetLevelInput").value;
 
-    const info = getLevelInfo(mode, xp);
+      const resultsDiv = document.getElementById("results");
+      const table = XP_TABLES[XP_MODE_MAP[mode]];
+      if (!table) return;
 
-    let targetLvl = targetLvlInput ? Number(targetLvlInput) : info.nextLevel;
-    if (targetLvl > table.length) targetLvl = table.length;
+      const info = getLevelInfo(mode, xp);
 
-    const xpRemaining = Math.max(0, table[targetLvl - 1] - xp);
-    const winrate = games > 0 ? wins / games : 0;
-    const xpPerGame = games > 0 ? xp / games : 0;
+      let targetLvl = targetLvlInput ? Number(targetLvlInput) : info.nextLevel;
+      if (targetLvl > table.length) targetLvl = table.length;
 
-    const gamesNeeded = xpPerGame > 0 ? xpRemaining / xpPerGame : 0;
-    const winsNeeded = gamesNeeded * winrate;
+      const xpRemaining = Math.max(0, table[targetLvl - 1] - xp);
+      const winrate = games > 0 ? wins / games : 0;
+      const xpPerGame = games > 0 ? xp / games : 0;
+      const gamesNeeded = xpPerGame > 0 ? xpRemaining / xpPerGame : 0;
+      const winsNeeded = gamesNeeded * winrate;
 
-    resultsDiv.innerHTML = `
-      <div class="result-grid">
-        <div class="result-item"><h3>Current Level</h3><p>${info.level} / ${table.length}</p></div>
-        <div class="result-item"><h3>XP</h3><p>${formatNumber(xp)} XP</p></div>
-        <div class="result-item"><h3>Progress</h3><p>${formatPercent(info.progressToNext)}</p></div>
-        <div class="result-item"><h3>Winrate</h3><p>${formatPercent(winrate)}</p></div>
-        <div class="result-item"><h3>XP/Game</h3><p>${formatNumber(xpPerGame)}</p></div>
-        <div class="result-item"><h3>Target Level</h3><p>${targetLvl}</p></div>
-        <div class="result-item"><h3>XP Needed</h3><p>${formatNumber(xpRemaining)}</p></div>
-        <div class="result-item"><h3>Games Needed</h3><p>${formatNumber(gamesNeeded)}</p></div>
-        <div class="result-item"><h3>Wins Needed</h3><p>${formatNumber(winsNeeded)}</p></div>
-      </div>
-    `;
+      resultsDiv.innerHTML = `
+        <div class="result-grid">
+          <div class="result-item"><h3>Current Level</h3><p>${info.level} / ${table.length}</p></div>
+          <div class="result-item"><h3>XP</h3><p>${xp.toLocaleString()} XP</p></div>
+          <div class="result-item"><h3>Progress</h3><p>${(info.progressToNext * 100).toFixed(2)}%</p></div>
+          <div class="result-item"><h3>Winrate</h3><p>${(winrate * 100).toFixed(2)}%</p></div>
+          <div class="result-item"><h3>XP/Game</h3><p>${xpPerGame.toFixed(2)}</p></div>
+          <div class="result-item"><h3>Target Level</h3><p>${targetLvl}</p></div>
+          <div class="result-item"><h3>XP Needed</h3><p>${xpRemaining.toLocaleString()}</p></div>
+          <div class="result-item"><h3>Games Needed</h3><p>${gamesNeeded.toFixed(2)}</p></div>
+          <div class="result-item"><h3>Wins Needed</h3><p>${winsNeeded.toFixed(2)}</p></div>
+        </div>
+      `;
 
-    updateProgressBar(xp, table);
-  });
-}
+      updateProgressBar(xp, table);
+    });
+  }
+});   // ⭐ THIS LINE FIXES YOUR ERROR
+
 
 /* ================================
    ⭐ PROGRESS BAR ANIMATION
