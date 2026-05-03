@@ -380,10 +380,13 @@ function formatNumber(n) {
 
 console.log("ABOUT TO ATTACH CALCULATOR LISTENER");
 
-const calcBtn = document.getElementById("calcBtn");
-if (calcBtn) {
-  calcBtn.addEventListener("click", () => {
-    console.log("CALC CLICKED");   // ⭐ Add this line
+document.addEventListener("DOMContentLoaded", () => {
+  const calcBtn = document.getElementById("calcBtn");
+  console.log("calcBtn is:", calcBtn);
+
+  if (calcBtn) {
+    calcBtn.addEventListener("click", () => {
+      console.log("CALC CLICKED");
     const mode = document.getElementById("modeSelect").value;
     const xp = Number(document.getElementById("xpInput").value) || 0;
     const games = Number(document.getElementById("gamesInput").value) || 0;
