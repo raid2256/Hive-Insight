@@ -1023,7 +1023,7 @@ window.location.reload();
 // ⭐ ENFORCE SESSION ACCESS
 // ================================
 function enforceSessionAccess(loadedIGN) {
-  const linked = linkedAccount;
+  const linked = localStorage.getItem("linkedAccount");
   const sessionCard = document.getElementById("sessionCard");
   const controls = document.querySelector(".session-controls");
 
@@ -1038,7 +1038,7 @@ function enforceSessionAccess(loadedIGN) {
     return;
   }
 
- const account = linked;
+  const account = JSON.parse(linked);
 
   // ⭐ Case-insensitive comparison
   if (account.ign.toLowerCase() === loadedIGN.toLowerCase()) {
