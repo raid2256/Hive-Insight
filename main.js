@@ -898,17 +898,11 @@ if (startSessionBtn) {
       username: document.getElementById("pcName").textContent
     };
 
-    // just keep it in memory
-sessionData = {
-  startXp: totalXP,
-  startWins: totalWins,
-  startTime: Date.now(),
-  username: document.getElementById("pcName").textContent
-};
-updateSessionUI(window.lastLoadedStats);
+    updateSessionUI(window.lastLoadedStats);
     alert("Session started!");
   });
 }
+
 
 // End session
 if (endSessionBtn) {
