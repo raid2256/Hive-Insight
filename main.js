@@ -1,5 +1,3 @@
-console.log("MAIN JS LOADED");
-
 // ⭐ HIVE STATS CORE – QUARTER 1
 
 // Load Hive stats
@@ -394,8 +392,6 @@ function formatNumber(n) {
 /* ================================
    ⭐ LEVEL CALCULATOR
    ================================ */
-
-console.log("ABOUT TO ATTACH CALCULATOR LISTENER");
 
 document.querySelectorAll(".tab-btn").forEach(btn => {
   btn.addEventListener("click", () => {
