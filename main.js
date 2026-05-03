@@ -592,6 +592,41 @@ if (goalBtn) {
 }
 
 /* ================================
+   ⭐ LOAD STATS BUTTON HANDLER
+   ================================ */
+
+const loadStatsBtn = document.getElementById("loadStatsBtn");
+
+if (loadStatsBtn) {
+  loadStatsBtn.addEventListener("click", async () => {
+    console.log("LOAD STATS CLICKED");
+
+    const username = document.getElementById("usernameInput").value.trim();
+    if (!username) {
+      alert("Please enter a username");
+      return;
+    }
+
+    const status = document.getElementById("loadStatus");
+    if (status) status.textContent = "Loading stats...";
+
+    const data = await loadHiveStats(username);
+
+    if (!data) {
+      if (status) status.textContent = "User not found";
+      return;
+    }
+
+    window.lastLoadedStats = data;
+
+    generateOverviewCards(data);
+    generateCharts(data);
+
+    if (status) status.textContent = "Stats loaded!";
+  });
+}
+
+/* ================================
    ⭐ QUARTER 3 — CHARTS
    XP & Games Doughnut Charts
    ================================ */
