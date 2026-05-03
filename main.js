@@ -341,6 +341,15 @@ function generateOverviewCards(data) {
   }
 }
 
+const sortSelect = document.getElementById("sortSelect");
+if (sortSelect) {
+  sortSelect.addEventListener("change", () => {
+    if (window.lastLoadedStats) {
+      generateOverviewCards(window.lastLoadedStats);
+    }
+  });
+}
+
 // Load saved values + URL param
 window.addEventListener("load", () => {
   // Retrieve DOM elements
