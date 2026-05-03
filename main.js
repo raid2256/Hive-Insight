@@ -344,16 +344,33 @@ function generateOverviewCards(data) {
 
 // Load saved values + URL param
 window.addEventListener("load", () => {
+  // Retrieve DOM elements
   const elMode = document.getElementById("modeSelect");
   const elXP = document.getElementById("xpInput");
   const elG = document.getElementById("gamesInput");
   const elW = document.getElementById("winsInput");
 
-  if (elMode && localStorage.getItem("mode")) elMode.value = localStorage.getItem("mode");
-  if (elXP && localStorage.getItem("xp")) elXP.value = localStorage.getItem("xp");
-  if (elG && localStorage.getItem("games")) elG.value = localStorage.getItem("games");
-if (elW && localStorage.getItem("wins")) elW.value = localStorage.getItem("wins");
-}); // ⭐ THIS LINE WAS MISSING
+  // Safely check and populate localStorage values into the inputs
+  if (elMode) {
+    const mode = localStorage.getItem("mode");
+    if (mode) elMode.value = mode;
+  }
+
+  if (elXP) {
+    const xp = localStorage.getItem("xp");
+    if (xp) elXP.value = xp;
+  }
+
+  if (elG) {
+    const games = localStorage.getItem("games");
+    if (games) elG.value = games;
+  }
+
+  if (elW) {
+    const wins = localStorage.getItem("wins");
+    if (wins) elW.value = wins;
+  }
+});
 
 /* ================================
    ⭐ QUARTER 2 — CALCULATORS
