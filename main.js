@@ -1,4 +1,7 @@
 // ⭐ HIVE STATS CORE – QUARTER 1
+let sessionData = null;
+let discordUser = null;
+let linkedAccount = null;
 
 // Load Hive stats
 async function loadHiveStats(username) {
@@ -826,7 +829,9 @@ if (shareBtn) {
    ================================ */
 
 // Active session data
-let sessionData = JSON.parse(localStorage.getItem("hiveSession")) || null;
+let sessionData = null;
+let discordUser = null;
+let linkedAccount = null;
 let refreshInterval = null;
 
 // Buttons
@@ -907,8 +912,13 @@ if (startSessionBtn) {
       username: document.getElementById("pcName").textContent
     };
 
-    localStorage.setItem("hiveSession", JSON.stringify(sessionData));
-    updateSessionUI(window.lastLoadedStats);
+    sessionData = {
+  startXp: totalXP,
+  startWins: totalWins,
+  startTime: Date.now(),
+  username: document.getElementById("pcName").textContent
+};
+updateSessionUI(window.lastLoadedStats);
     alert("Session started!");
   });
 }
@@ -932,8 +942,10 @@ if (endSessionBtn) {
 
       modal.style.display = "flex";
 
-      localStorage.removeItem("hiveSession");
       sessionData = null;
+discordUser = null;
+linkedAccount = null;
+
 
       document.getElementById("sessionActiveContent").style.display = "none";
       document.getElementById("sessionInactiveContent").style.display = "block";
@@ -997,8 +1009,9 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
 
 // ⭐ GLOBAL ACCOUNT BUTTON HANDLER
 document.addEventListener("DOMContentLoaded", () => {
-  const discordUser = localStorage.getItem("discordUser");
-  const linked = localStorage.getItem("linkedAccount");
+  // use the in-memory variables instead
+const linked = linkedAccount;
+
 
   const connectBtn = document.getElementById("connectBtn");
   const profileBtn = document.getElementById("profileBtn");
@@ -1021,9 +1034,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   logoutBtn.addEventListener("click", () => {
-    localStorage.removeItem("discordUser");
-    localStorage.removeItem("linkedAccount");
-    window.location.reload();
+    discordUser = null;
+linkedAccount = null;
+window.location.reload();
   });
 });
 
@@ -1031,7 +1044,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // ⭐ ENFORCE SESSION ACCESS
 // ================================
 function enforceSessionAccess(loadedIGN) {
-  const linked = localStorage.getItem("linkedAccount");
+  const linked = linkedAccount;
   const sessionCard = document.getElementById("sessionCard");
   const controls = document.querySelector(".session-controls");
 
