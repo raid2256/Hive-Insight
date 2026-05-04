@@ -1044,7 +1044,8 @@ function enforceSessionAccess(loadedIGN) {
   const account = JSON.parse(linked);
 
  // ⭐ Case-insensitive comparison
-if (account.ign.toLowerCase() === loadedIGN.toLowerCase()) {
+if (account.ign.trim().toLowerCase() === loadedIGN.trim().toLowerCase()) {
+
   if (controls) controls.style.display = "flex";
 
   // show Edit Profile button
