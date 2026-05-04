@@ -997,9 +997,8 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
 
 // ⭐ GLOBAL ACCOUNT BUTTON HANDLER
 document.addEventListener("DOMContentLoaded", () => {
-  // use the in-memory variables instead
-const linked = linkedAccount;
-
+  // read from localStorage instead of volatile variable
+  const linked = localStorage.getItem("linkedAccount");
 
   const connectBtn = document.getElementById("connectBtn");
   const profileBtn = document.getElementById("profileBtn");
@@ -1011,10 +1010,6 @@ const linked = linkedAccount;
     connectBtn.style.display = "none";
     profileBtn.style.display = "inline-block";
     logoutBtn.style.display = "inline-block";
-  } else if (discordUser) {
-    connectBtn.style.display = "inline-block";
-    profileBtn.style.display = "none";
-    logoutBtn.style.display = "inline-block";
   } else {
     connectBtn.style.display = "inline-block";
     profileBtn.style.display = "none";
@@ -1022,11 +1017,11 @@ const linked = linkedAccount;
   }
 
   logoutBtn.addEventListener("click", () => {
-    discordUser = null;
-linkedAccount = null;
-window.location.reload();
+    localStorage.removeItem("linkedAccount");
+    window.location.reload();
   });
 });
+
 
 // ================================
 // ⭐ ENFORCE SESSION ACCESS
@@ -1066,12 +1061,20 @@ function enforceEditProfileAccess(loadedIGN) {
   const editBtn = document.getElementById("editProfileBtn");
   if (!editBtn) return;
 
-  if (linkedAccount && linkedAccount.ign.toLowerCase() === loadedIGN.toLowerCase()) {
+  const linked = localStorage.getItem("linkedAccount");
+  if (!linked) {
+    editBtn.style.display = "none";
+    return;
+  }
+
+  const account = JSON.parse(linked);
+  if (account.ign.toLowerCase() === loadedIGN.toLowerCase()) {
     editBtn.style.display = "inline-block";
   } else {
     editBtn.style.display = "none";
   }
 }
+
 
 // Open modal
 document.getElementById("editProfileBtn").addEventListener("click", () => {
