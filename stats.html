@@ -95,10 +95,11 @@
         </div>
 
         <div class="pc-right">
-          <div class="pc-header">
-            <h2 id="pcName">Player</h2>
-            <button id="shareProfileBtn" class="share-btn">Share Profile</button>
-          </div>
+        <div class="pc-header">
+  <h2 id="pcName">Player</h2>
+  <button id="shareProfileBtn" class="share-btn">Share Profile</button>
+  <button id="editProfileBtn" style="display:none;">Edit Profile</button>
+</div>
           <div class="pc-stat">Total Hive Level: <span id="pcLevel">0</span></div>
           <div class="pc-stat">Games Played: <span id="pcGames">0</span></div>
           <div class="pc-stat">Games Won: <span id="pcWins">0</span></div>
@@ -312,6 +313,33 @@
       </div>
     </div>
   </div>
+
+  <!-- NEW: Edit Profile Modal -->
+<div id="editProfileModal" class="modal-overlay" style="display:none;">
+  <div class="card modal-content">
+    <h2 style="color: #4fd1c5;">Edit Profile</h2>
+    <hr style="border: 0; border-top: 1px solid #333; margin-bottom: 15px;">
+    <label>IGN Colour: <input type="color" id="ignColorPicker"></label><br>
+    <label>Background Theme:
+      <select id="themeSelect">
+        <option value="dark">Dark</option>
+        <option value="neon">Neon</option>
+        <option value="pastel">Pastel</option>
+        <option value="gradient">Gradient</option>
+      </select>
+    </label><br>
+    <label>Accent Colour: <input type="color" id="accentColorPicker"></label><br>
+    <label>Border Style:
+      <select id="borderSelect">
+        <option value="rounded">Rounded</option>
+        <option value="glowing">Glowing</option>
+        <option value="pixelated">Pixelated</option>
+      </select>
+    </label><br>
+    <button id="saveProfileBtn">Save</button>
+    <button id="closeProfileBtn">Cancel</button>
+  </div>
+</div>
 
   <!-- Scripts -->
   <script src="main.js"></script>
