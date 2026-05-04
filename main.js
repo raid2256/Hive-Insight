@@ -931,8 +931,6 @@ if (endSessionBtn) {
       modal.style.display = "flex";
 
       sessionData = null;
-discordUser = null;
-linkedAccount = null;
 
 
       document.getElementById("sessionActiveContent").style.display = "none";
@@ -1049,7 +1047,7 @@ function enforceSessionAccess(loadedIGN) {
 if (account.ign.toLowerCase() === loadedIGN.toLowerCase()) {
   if (controls) controls.style.display = "flex";
 
-  // also show Edit Profile button
+  // show Edit Profile button
   const editBtn = document.getElementById("editProfileBtn");
   if (editBtn) editBtn.style.display = "inline-block";
 
@@ -1057,13 +1055,14 @@ if (account.ign.toLowerCase() === loadedIGN.toLowerCase()) {
   if (controls) controls.style.display = "none";
   const inactiveContent = document.getElementById("sessionInactiveContent");
   if (inactiveContent) {
-    inactiveContent.innerHTML = "<p class='small'>You can only start sessions for your own IGN. If this player has an active session, you’ll see their stats here.</p>";
+    inactiveContent.innerHTML = "<p class='small'>You can only start sessions for your own IGN...</p>";
   }
 
   // hide Edit Profile button
   const editBtn = document.getElementById("editProfileBtn");
   if (editBtn) editBtn.style.display = "none";
 }
+
 
 
 // Show Edit Profile button only for own IGN
@@ -1097,19 +1096,36 @@ document.getElementById("closeProfileBtn").addEventListener("click", () => {
 });
 
 // Save changes
-document.getElementById("saveProfileBtn").addEventListener("click", () => {
-  const ignColor = document.getElementById("ignColorPicker").value;
-  const theme = document.getElementById("themeSelect").value;
-  const accentColor = document.getElementById("accentColorPicker").value;
-  const borderStyle = document.getElementById("borderSelect").value;
+const editBtn = document.getElementById("editProfileBtn");
+if (editBtn) {
+  editBtn.addEventListener("click", () => {
+    document.getElementById("editProfileModal").style.display = "flex";
+  });
+}
 
-  // Apply styles
-  const ignDisplay = document.getElementById("pcName");
-  ignDisplay.style.color = ignColor;
+const closeBtn = document.getElementById("closeProfileBtn");
+if (closeBtn) {
+  closeBtn.addEventListener("click", () => {
+    document.getElementById("editProfileModal").style.display = "none";
+  });
+}
 
-  const profileCard = document.getElementById("playerCard");
-  profileCard.className = `card player-card-wide theme-${theme} border-${borderStyle}`;
-  profileCard.style.setProperty("--accent-color", accentColor);
+const saveBtn = document.getElementById("saveProfileBtn");
+if (saveBtn) {
+  saveBtn.addEventListener("click", () => {
+    const ignColor = document.getElementById("ignColorPicker").value;
+    const theme = document.getElementById("themeSelect").value;
+    const accentColor = document.getElementById("accentColorPicker").value;
+    const borderStyle = document.getElementById("borderSelect").value;
 
-  document.getElementById("editProfileModal").style.display = "none";
-});
+    const ignDisplay = document.getElementById("pcName");
+    ignDisplay.style.color = ignColor;
+
+    const profileCard = document.getElementById("playerCard");
+    profileCard.className = `card player-card-wide theme-${theme} border-${borderStyle}`;
+    profileCard.style.setProperty("--accent-color", accentColor);
+
+    document.getElementById("editProfileModal").style.display = "none";
+  });
+}
+
