@@ -604,37 +604,40 @@ if (loadStatsBtn) {
 
     const data = await loadHiveStats(username);
 
-if (!data) {
-  if (status) status.textContent = "User not found";
-  return;
-}
+    if (!data) {
+      if (status) status.textContent = "User not found";
+      return;
+    }
 
-window.lastLoadedStats = data;
+    window.lastLoadedStats = data;
 
-// ⭐ FIX: show the player card
-document.getElementById("playerCard").style.display = "block";
+    // ⭐ FIX: show the player card (use flex, not block)
+    document.getElementById("playerCard").style.display = "flex";
 
-// ⭐ Now enforce access
-const realIGN = document.getElementById("pcName").textContent;
-enforceSessionAccess(realIGN);
+    // ⭐ Update stats
+    document.getElementById("pcName").textContent = data.name;
+    document.getElementById("pcLevel").textContent = data.level;
+    document.getElementById("pcGames").textContent = data.games;
+    document.getElementById("pcWins").textContent = data.wins;
 
+    // ⭐ Now enforce access (controls Edit button visibility)
+    enforceSessionAccess(data.name);
 
-// ⭐ Switch to Stats tab after loading
-document.querySelectorAll(".tab-content").forEach(sec => sec.style.display = "none");
-document.getElementById("tab-stats").style.display = "block";
+    // ⭐ Switch to Stats tab after loading
+    document.querySelectorAll(".tab-content").forEach(sec => sec.style.display = "none");
+    document.getElementById("tab-stats").style.display = "block";
 
-// ⭐ Update tab button highlight
-document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
-document.querySelector('.tab-btn[data-tab="stats"]').classList.add("active");
-
+    // ⭐ Update tab button highlight
+    document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+    document.querySelector('.tab-btn[data-tab="stats"]').classList.add("active");
 
     generateOverviewCards(data);
     generateCharts(data);
 
-
     if (status) status.textContent = "Stats loaded!";
   });
 }
+
 
 /* ================================
    ⭐ QUARTER 3 — CHARTS
