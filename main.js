@@ -1053,27 +1053,29 @@ function enforceSessionAccess(loadedIGN) {
 
   const account = JSON.parse(linked);
 
- // ⭐ Case-insensitive comparison
-if (account.ign.trim().toLowerCase() === loadedIGN.trim().toLowerCase()) {
+  // ⭐ Case-insensitive comparison with safety checks
+  const accountIGN = (account.ign || "").trim().toLowerCase();
+  const targetIGN = (loadedIGN || "").trim().toLowerCase();
 
-  if (controls) controls.style.display = "flex";
+  if (accountIGN && accountIGN === targetIGN) {
+    if (controls) controls.style.display = "flex";
 
-  // show Edit Profile button
-  const editBtn = document.getElementById("editProfileBtn");
-  if (editBtn) editBtn.style.display = "inline-block";
+    // show Edit Profile button
+    const editBtn = document.getElementById("editProfileBtn");
+    if (editBtn) editBtn.style.display = "inline-block";
+  } else {
+    if (controls) controls.style.display = "none";
+    const inactiveContent = document.getElementById("sessionInactiveContent");
+    if (inactiveContent) {
+      inactiveContent.innerHTML = "<p class='small'>You can only start sessions for your own IGN. If this player has an active session, you’ll see their stats here.</p>";
+    }
 
-} else {
-  if (controls) controls.style.display = "none";
-  const inactiveContent = document.getElementById("sessionInactiveContent");
-  if (inactiveContent) {
-    inactiveContent.innerHTML = "<p class='small'>You can only start sessions for your own IGN. If this player has an active session, you’ll see their stats here.</p>";
+    // hide Edit Profile button
+    const editBtn = document.getElementById("editProfileBtn");
+    if (editBtn) editBtn.style.display = "none";
   }
-
-  // hide Edit Profile button
-  const editBtn = document.getElementById("editProfileBtn");
-  if (editBtn) editBtn.style.display = "none";
 }
-} // <-- this now properly closes enforceSessionAccess
+
 
 
 
