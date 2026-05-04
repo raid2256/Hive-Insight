@@ -1060,3 +1060,43 @@ function enforceSessionAccess(loadedIGN) {
     }
   }
 }
+
+// Show Edit Profile button only for own IGN
+function enforceEditProfileAccess(loadedIGN) {
+  const editBtn = document.getElementById("editProfileBtn");
+  if (!editBtn) return;
+
+  if (linkedAccount && linkedAccount.ign.toLowerCase() === loadedIGN.toLowerCase()) {
+    editBtn.style.display = "inline-block";
+  } else {
+    editBtn.style.display = "none";
+  }
+}
+
+// Open modal
+document.getElementById("editProfileBtn").addEventListener("click", () => {
+  document.getElementById("editProfileModal").style.display = "flex";
+});
+
+// Close modal
+document.getElementById("closeProfileBtn").addEventListener("click", () => {
+  document.getElementById("editProfileModal").style.display = "none";
+});
+
+// Save changes
+document.getElementById("saveProfileBtn").addEventListener("click", () => {
+  const ignColor = document.getElementById("ignColorPicker").value;
+  const theme = document.getElementById("themeSelect").value;
+  const accentColor = document.getElementById("accentColorPicker").value;
+  const borderStyle = document.getElementById("borderSelect").value;
+
+  // Apply styles
+  const ignDisplay = document.getElementById("pcName");
+  ignDisplay.style.color = ignColor;
+
+  const profileCard = document.getElementById("playerCard");
+  profileCard.className = `card player-card-wide theme-${theme} border-${borderStyle}`;
+  profileCard.style.setProperty("--accent-color", accentColor);
+
+  document.getElementById("editProfileModal").style.display = "none";
+});
