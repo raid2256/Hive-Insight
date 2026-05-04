@@ -604,15 +604,20 @@ if (loadStatsBtn) {
 
     const data = await loadHiveStats(username);
 
-    if (!data) {
-      if (status) status.textContent = "User not found";
-      return;
-    }
+if (!data) {
+  if (status) status.textContent = "User not found";
+  return;
+}
 
-    window.lastLoadedStats = data;
+window.lastLoadedStats = data;
 
-    const realIGN = document.getElementById("pcName").textContent;
+// ⭐ FIX: show the player card
+document.getElementById("playerCard").style.display = "block";
+
+// ⭐ Now enforce access
+const realIGN = document.getElementById("pcName").textContent;
 enforceSessionAccess(realIGN);
+
 
 // ⭐ Switch to Stats tab after loading
 document.querySelectorAll(".tab-content").forEach(sec => sec.style.display = "none");
