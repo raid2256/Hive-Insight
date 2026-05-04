@@ -1055,13 +1055,15 @@ if (account.ign.toLowerCase() === loadedIGN.toLowerCase()) {
   if (controls) controls.style.display = "none";
   const inactiveContent = document.getElementById("sessionInactiveContent");
   if (inactiveContent) {
-    inactiveContent.innerHTML = "<p class='small'>You can only start sessions for your own IGN...</p>";
+    inactiveContent.innerHTML = "<p class='small'>You can only start sessions for your own IGN. If this player has an active session, you’ll see their stats here.</p>";
   }
 
   // hide Edit Profile button
   const editBtn = document.getElementById("editProfileBtn");
   if (editBtn) editBtn.style.display = "none";
 }
+} // <-- this now properly closes enforceSessionAccess
+
 
 
 
