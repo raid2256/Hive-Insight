@@ -1016,9 +1016,10 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutBtn.style.display = "none";
   }
 
-  logoutBtn.addEventListener("click", () => {
-    localStorage.removeItem("linkedAccount");
-    window.location.reload();
+ logoutBtn.addEventListener("click", () => {
+  localStorage.removeItem("discordUser");
+  localStorage.removeItem("linkedAccount");
+  window.location.reload();
   });
 });
 
@@ -1044,17 +1045,26 @@ function enforceSessionAccess(loadedIGN) {
 
   const account = JSON.parse(linked);
 
-  // ⭐ Case-insensitive comparison
-  if (account.ign.toLowerCase() === loadedIGN.toLowerCase()) {
-    if (controls) controls.style.display = "flex";
-  } else {
-    if (controls) controls.style.display = "none";
-    const inactiveContent = document.getElementById("sessionInactiveContent");
-    if (inactiveContent) {
-      inactiveContent.innerHTML = "<p class='small'>You can only start sessions for your own IGN. If this player has an active session, you’ll see their stats here.</p>";
-    }
+ // ⭐ Case-insensitive comparison
+if (account.ign.toLowerCase() === loadedIGN.toLowerCase()) {
+  if (controls) controls.style.display = "flex";
+
+  // also show Edit Profile button
+  const editBtn = document.getElementById("editProfileBtn");
+  if (editBtn) editBtn.style.display = "inline-block";
+
+} else {
+  if (controls) controls.style.display = "none";
+  const inactiveContent = document.getElementById("sessionInactiveContent");
+  if (inactiveContent) {
+    inactiveContent.innerHTML = "<p class='small'>You can only start sessions for your own IGN. If this player has an active session, you’ll see their stats here.</p>";
   }
+
+  // hide Edit Profile button
+  const editBtn = document.getElementById("editProfileBtn");
+  if (editBtn) editBtn.style.display = "none";
 }
+
 
 // Show Edit Profile button only for own IGN
 function enforceEditProfileAccess(loadedIGN) {
