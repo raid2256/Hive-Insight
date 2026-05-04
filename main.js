@@ -611,7 +611,9 @@ if (loadStatsBtn) {
 
     window.lastLoadedStats = data;
 
-    document.getElementById("pcName").textContent = username;
+    const realIGN = document.getElementById("pcName").textContent;
+enforceSessionAccess(realIGN);
+
 // ⭐ Switch to Stats tab after loading
 document.querySelectorAll(".tab-content").forEach(sec => sec.style.display = "none");
 document.getElementById("tab-stats").style.display = "block";
@@ -623,7 +625,7 @@ document.querySelector('.tab-btn[data-tab="stats"]').classList.add("active");
 
     generateOverviewCards(data);
     generateCharts(data);
-enforceSessionAccess(username);
+
 
     if (status) status.textContent = "Stats loaded!";
   });
