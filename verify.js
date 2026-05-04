@@ -296,6 +296,8 @@ async function saveVerification(discord, ign, uuid, xuid) {
     timestamp: Date.now()
   });
 
+  // ✅ Save both objects to localStorage
+  localStorage.setItem("discordUser", JSON.stringify(discord));
   localStorage.setItem("linkedAccount", JSON.stringify({
     ign,
     uuid,
@@ -305,6 +307,7 @@ async function saveVerification(discord, ign, uuid, xuid) {
 
   goProfileBtn.style.display = "inline-block";
 }
+
 
 goProfileBtn.addEventListener("click", () => {
   window.location.href = "/profile.html";
