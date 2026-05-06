@@ -1080,24 +1080,7 @@ function enforceSessionAccess(loadedIGN) {
 
 
 
-// Show Edit Profile button only for own IGN
-function enforceEditProfileAccess(loadedIGN) {
-  const editBtn = document.getElementById("editProfileBtn");
-  if (!editBtn) return;
 
-  const linked = localStorage.getItem("linkedAccount");
-  if (!linked) {
-    editBtn.style.display = "none";
-    return;
-  }
-
-  const account = JSON.parse(linked);
-  if (account.ign.toLowerCase() === loadedIGN.toLowerCase()) {
-    editBtn.style.display = "inline-block";
-  } else {
-    editBtn.style.display = "none";
-  }
-}
 
 
 // Open modal
@@ -1111,12 +1094,7 @@ document.getElementById("closeProfileBtn").addEventListener("click", () => {
 });
 
 // Save changes
-const editBtn = document.getElementById("editProfileBtn");
-if (editBtn) {
-  editBtn.addEventListener("click", () => {
-    document.getElementById("editProfileModal").style.display = "flex";
-  });
-}
+
 
 const closeBtn = document.getElementById("closeProfileBtn");
 if (closeBtn) {
